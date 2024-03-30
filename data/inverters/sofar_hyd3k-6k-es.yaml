@@ -218,10 +218,10 @@ parameters:
       rule: 1
       registers: [0x022C]
 
-    - name: "Alimentation par batterie"
+    - name: "Batterie SOH"
       widget: ""
-      uom: "kW"
-      scale: 0.01
+      uom: "%"
+      scale: 1
       rule: 2
       registers: [0x0237]
 

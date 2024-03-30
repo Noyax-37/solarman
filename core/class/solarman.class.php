@@ -173,6 +173,7 @@ class solarman extends eqLogic {
               }
             }
             log::add('solarman', 'debug', ' récupération des infos de la commande: ' . $name);
+            if ($rule > 4) {$isstr = 'string';}
             $cmd = (new solarmanCmd());
             $cmd->setEqLogic_id($this->id);
             $cmd->setname($name);
@@ -283,13 +284,25 @@ class solarman extends eqLogic {
   }
   */
 
-  /*
-   * Permet d'indiquer des éléments supplémentaires à remonter dans les informations de configuration
-   * lors de la création semi-automatique d'un post sur le forum community
+  
+  // * Permet d'indiquer des éléments supplémentaires à remonter dans les informations de configuration
+  // * lors de la création semi-automatique d'un post sur le forum community
    public static function getConfigForCommunity() {
-      return "les infos essentiel de mon plugin";
-   }
-   */
+    $hw = jeedom::getHardwareName();
+    if ($hw == 'diy')
+        $hw = trim(shell_exec('systemd-detect-virt'));
+    if ($hw == 'none')
+        $hw = 'diy';
+    $distrib = trim(shell_exec('. /etc/*-release && echo $ID $VERSION_ID'));
+    $res = 'OS: ' . $distrib . ' on ' . $hw;
+    $res .= ' ; PHP: ' . phpversion();
+    $res .= ' ; Python: ' . trim(shell_exec("python3 -V | cut -d ' ' -f 2"));
+//    $res .= ' ; Python venv: ' . trim(shell_exec("/var/www/html/plugins/solarman/ressources/venv/python3 -V | cut -d ' ' -f 2"));
+    $res .= '<br/>Solarman: v ' . config::byKey('version', 'solarman', 'unknown', true);
+    $res .= ' ; cmds: ' . count(cmd::searchConfiguration('', solarman::class));
+    return $res;
+  }
+   
 
   /*     * **********************Getteur Setteur*************************** */
 
@@ -412,8 +425,8 @@ class solarman extends eqLogic {
                 case 'rule':
                   $rule = $details;
                 break;
-                case 'widget':
-                  $widget = $details;
+                //case 'widget':
+                  //$widget = $details;
                 break;
                 default:
                   //toutes les autres valeurs
@@ -422,6 +435,7 @@ class solarman extends eqLogic {
             //$cmd = $cmd->getLogicalId($registers[0]);
             log::add('solarman', 'debug', ' récupération des infos item : ' . $name . ' logicalId: ' . $registers[0]);
             if ($registers[0] != ''){
+              if ($rule > 4) {$isstr = 'string';}
               $cmd = $eqLogic->getCmd('info', intval($registers[0]));
               //log::add('solarman', 'debug', ' blablabla : ' . var_dump($cmd->getName()));
               //log::add('solarman', 'debug', ' blablabla : ' . var_dump($cmd));

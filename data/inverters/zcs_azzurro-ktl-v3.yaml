@@ -187,7 +187,7 @@ parameters:
         state_class: ''
         uom: ''
         scale: 1
-        rule: 6
+        rule: 3
         registers:
           [
             0x0405,

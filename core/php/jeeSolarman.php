@@ -42,8 +42,7 @@ if (isset($result['device'])) {
         log::add('solarman','debug',"Message du programme solarman. Id de l'équipement : " . $key);
         $eqlogic = eqLogic::byId(intval($key), 'solarman');
         //if (is_object($eqlogic)) {
-            $flattenResults = array_flatten($data);
-            foreach ($flattenResults as $key2 => $value) {
+            foreach ($data as $key2 => $value) {
                 log::add('solarman','debug','Registre décodé en hexa : ' . $key2 . ' en décimal : ' . intval($key2,0) . ' valeur = ' . strval($value));
                 if ($key2 == 'PID'){
                     log::add('solarman','debug',"Message du programme solarman. PId de l'équipement : " . $value);
@@ -59,17 +58,3 @@ if (isset($result['device'])) {
     }
 }
 
-
-function array_flatten($array) {
-    global $var_to_log;
-    $return = array();
-    foreach ($array as $key => $value) {
-        $var_to_log = $var_to_log . $key . '=' . $value . '|';
-        if (is_array($value))
-            $return = array_merge($return, array_flatten($value));
-        else
-            $return[$key] = $value;
-    }
-    return $return;
-}
- 

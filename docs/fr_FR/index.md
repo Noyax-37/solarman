@@ -160,28 +160,28 @@ parameters:
  - group: blablabla  
    items: blablablabla  
     - name: "Le nom du registre"
-      widget: "Le nom de la partie du widget (voir l'aide ci dessous)"
+      widget: "Le nom de la partie du widget (voir l'aide ci dessous)"  => n'est plus nécessaire à partir de la version 1.0.8
       uom: "Wh"  
       scale: 0.01  
       rule: 1  
       registers: [0x0200]  
   
     - name: "Total Production"  
-      widget: "Le nom de la partie du widget (voir l'aide ci dessous)"
+      widget: "Le nom de la partie du widget (voir l'aide ci dessous)"  => n'est plus nécessaire à partir de la version 1.0.8
       uom: "kWh"  
       scale: 1  
       rule: 3  
       registers: [0x0255,0x0254]  
   
     - name: "Grid Current"  
-      widget: "Le nom de la partie du widget (voir l'aide ci dessous)"
+      widget: "Le nom de la partie du widget (voir l'aide ci dessous)"  => n'est plus nécessaire à partir de la version 1.0.8
       uom: "A"  
       scale: 0.01  
       rule: 2  
       registers: [0x10B0]  
   
     - name: "Inverter status"  
-      widget: "" (mettre cette commande si cette information n'est pas utilisée par le widget)
+      widget: "" (mettre cette commande si cette information n'est pas utilisée par le widget)  => n'est plus nécessaire à partir de la version 1.0.8
       uom: ""  
       scale: 1  
       rule: 1  
@@ -212,7 +212,7 @@ instructions clés:
    group: ne sert pas dans le plugin mais à conserver, le texte mis ensuite ne sert à rien. Il est nécessaire malgé tout de le conserver!  
    items: idem group. Sous cette instruction vous allez regrouper les différents registres que vous allez demander au plugin d'interroger.  
       name: nom qui sera affiché pour votre commande dans jeedom  
-      widget: nom de la partie du widget à alimenter par cette commande (voir l'aide ci dessous)
+      widget: nom de la partie du widget à alimenter par cette commande (voir l'aide ci dessous)  => n'est plus nécessaire à partir de la version 1.0.8
       uom: ici on indique entre guillemets l'unité de mesure de ce qui est stocké dans le registre, va être utilisé dans jeedom  
       scale: facteur multiplicateur à utiliser. Un scale de 0.1 transforme par exemple la valeur 100 en 10  
       rule: règle que le plugin devra appliquer pour interpréter les valeurs stockées dans le registre:  
@@ -224,7 +224,11 @@ instructions clés:
          6: utilisation des bits  
          7: version (?)  
          8: date et heure  
-         9: heure  
+         9: heure
+         10: heure façon sofar (les 8 bits de poids forts convertis en décimal donnent les heures et les 8 bits de poids faibles donnent les minutes)
+         11: date façon sofar (les 8 bits de poids forts convertis en décimal donnent les mois et les 8 bits de poids faibles donnent les jours)
+         12: restitution en binaire jours de la semaine sofor (sur 7 bits, le bits de poids le plus faible étant le lundi)
+         13: resitution en binaire
       registers: le ou les registres stockant(s) les valeurs. Toujours à indiquer en héxadécimal et entre crochets (tableau). S'il y a plusieurs registres, les séparer par une virgule et à classer dans le sens du nombre le plus élevé vers le plus petit  
       isstr: optionnel si false. Indique si true que la valeur est en caractère et sera à traduire en utilisant la clé lookup ci dessous  
       lookup: liste de la signification du registre en fonction de sa valeur.  

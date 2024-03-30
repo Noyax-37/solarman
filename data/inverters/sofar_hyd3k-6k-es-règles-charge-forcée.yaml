@@ -31,28 +31,28 @@ parameters:
       widget: ""
       uom: ""
       scale: 1
-      rule: 1
+      rule: 10
       registers: [0x1201]
 
     - name: "horaire: charge heure fin"
       widget: ""
       uom: ""
       scale: 1
-      rule: 1
+      rule: 10
       registers: [0x1202]
 
     - name: "horaire: décharge heure début"
       widget: ""
       uom: ""
       scale: 1
-      rule: 1
+      rule: 10
       registers: [0x1203]
 
     - name: "horaire: décharge heure fin"
       widget: ""
       uom: ""
       scale: 1
-      rule: 1
+      rule: 10
       registers: [0x1204]
 
     - name: "horaire: puissance charge"
@@ -80,14 +80,14 @@ parameters:
       widget: ""
       uom: ""
       scale: 1
-      rule: 1
+      rule: 10
       registers: [0x1208]
 
     - name: "SOC: heure fin"
       widget: ""
       uom: ""
       scale: 1
-      rule: 1
+      rule: 10
       registers: [0x1209]
 
     - name: "SOC: SOC de fin"
@@ -108,21 +108,21 @@ parameters:
       widget: ""
       uom: ""
       scale: 1
-      rule: 1
+      rule: 11
       registers: [0x120C]
 
     - name: "SOC: date fin"
       widget: ""
       uom: ""
       scale: 1
-      rule: 1
+      rule: 11
       registers: [0x120D]
 
     - name: "SOC: jour(s) de la semaine"
       widget: ""
       uom: ""
       scale: 1
-      rule: 1
+      rule: 12
       registers: [0x120E]
 
     - name: "SOC: règle active"

@@ -4,11 +4,19 @@
 >
 >S'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte.
 
+# 1.0.8 (30/03/2024) => béta + stable
+
+   - ajout de règles de décodage propres à sofar solar (heure et date), voir rule 10 et 11 dans la doc
+   - ajout règle de décodage avec restitution en binaire
+   - ajout et ou modification de fichiers de configuration
+   - possibilité d'affecter les commandes au widget depuis l'équipement
+   - modification du nom du widget en solarman_distri_onduleur désolé @phpvarious de ne pas y avoir pensé
+
 # 1.0.7 (08/12/2023) => béta + stable
 
    - ajout fichier onduleur Sofar Solar xxx TL Génération 2
    - ajout de la commande refresh
-   - corresction bugs dans le template
+   - correction bugs dans le template
    - ajout fichiers doc des onduleurs lorsque je les ai
 
 # 1.0.6 (25/11/2023) => béta

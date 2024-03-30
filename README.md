@@ -16,7 +16,7 @@ Retrouvez le sur le Market Jeedom [ici](https://market.jeedom.com/index.php?v=d&
 
 Lien vers le forum [ici](https://community.jeedom.com/tag/plugin-solarman)
 
-## Documentation (à venir)
+## Documentation
 
 Version stable: [Cliquer ici](https://github.com/noyax/solarman/blob/master/docs/fr_FR/index.md)
 
