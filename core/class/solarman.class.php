@@ -201,7 +201,7 @@ class solarman extends eqLogic {
         $cmd->save();
         $cmd->refresh();
 
-        $refresh = new solcastCmd();
+        $refresh = new solarmanCmd();
         $refresh->setName(__('Rafraîchir', __FILE__));
         $refresh->setEqLogic_id($this->getId());
         $refresh->setLogicalId('refresh');
