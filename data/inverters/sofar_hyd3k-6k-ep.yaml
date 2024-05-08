@@ -409,14 +409,6 @@ parameters:
 
   - group: Alert
     items:
-      - name: "Alerte"
-        class: ""
-        state_class: ""
-        uom: ""
-        scale: 1
-        rule: 3
-        registers: [ 0x0405,0x0406,0x0407,0x0408,0x0409,0x040A,0x040B,0x040C,0x040D,0x040E,0x040F,0x0410 ]
-
       - name: "Erreur 1"
         class: ""
         state_class: ""
