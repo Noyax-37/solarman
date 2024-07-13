@@ -190,26 +190,27 @@ class solarman extends eqLogic {
             $cmd->refresh();
           }
         }
-        $displayParam = displayParams();
-        $cmd = (new solarmanCmd());
-        $cmd->setEqLogic_id($this->id);
-        $cmd->setname('01-Template');
-        $cmd->setLogicalId('Template');
-        $cmd->setType('info');
-        $cmd->setSubType('string');
-        $cmd->setTemplate('dashboard', 'solarman::distribution_onduleur');
-        $cmd->setDisplay('parameters', $displayParam);
-        $cmd->save();
-        $cmd->refresh();
-
-        $refresh = new solarmanCmd();
-        $refresh->setName(__('Rafraîchir', __FILE__));
-        $refresh->setEqLogic_id($this->getId());
-        $refresh->setLogicalId('refresh');
-        $refresh->setType('action');
-        $refresh->setSubType('other');
-        $refresh->save();
       }
+      $displayParam = displayParams();
+      $cmd = (new solarmanCmd());
+      $cmd->setEqLogic_id($this->id);
+      $cmd->setname('01-Template');
+      $cmd->setLogicalId('Template');
+      $cmd->setType('info');
+      $cmd->setSubType('string');
+      $cmd->setTemplate('dashboard', 'solarman::distribution_onduleur');
+      $cmd->setDisplay('parameters', $displayParam);
+      $cmd->save();
+      $cmd->refresh();
+
+      $refresh = new solarmanCmd();
+      $refresh->setName(__('Rafraîchir', __FILE__));
+      $refresh->setEqLogic_id($this->getId());
+      $refresh->setLogicalId('refresh');
+      $refresh->setType('action');
+      $refresh->setSubType('other');
+      $refresh->save();
+
            
       
     } catch (Exception $e) {
@@ -425,8 +426,8 @@ class solarman extends eqLogic {
                 case 'rule':
                   $rule = $details;
                 break;
-                //case 'widget':
-                  //$widget = $details;
+                case 'widget':
+                  $widget = $details;
                 break;
                 default:
                   //toutes les autres valeurs

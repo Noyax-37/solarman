@@ -11,5 +11,8 @@
   },
   "npm": {
     "js-yaml" : {}
+  },
+  "post-install" : {
+    "restart_apache" : true
   }
 }

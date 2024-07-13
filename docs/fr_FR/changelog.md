@@ -4,6 +4,11 @@
 >
 >S'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte.
 
+# 1.0.9 (13/07/2024) => béta + stable
+
+   - correction d'un bug lors de la création de certains équipements
+   - création d'un bouton pour poster directement sous community
+
 # 1.0.8 (30/03/2024) => béta + stable
 
    - ajout de règles de décodage propres à sofar solar (heure et date), voir rule 10 et 11 dans la doc
