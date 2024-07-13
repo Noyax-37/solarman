@@ -519,5 +519,5 @@ parameters:
       state_class: ""      
       uom: ""
       scale: 1
-      rule: 6
+      rule: 3
       registers: [0x0229,0x022A,0x22B,0x022C,0x022D,0x022E]

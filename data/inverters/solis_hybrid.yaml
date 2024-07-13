@@ -337,7 +337,7 @@ parameters:
 #      state_class: ""
 #      uom: ""
 #      scale: 1
-#      rule: 6
+#      rule: 3
 #      registers: [33000]
 #      isstr: true
 
@@ -346,7 +346,7 @@ parameters:
 #      state_class: ""
 #      uom: ""
 #      scale: 1
-#      rule: 6
+#      rule: 3
 #      registers: [33001]
 #      isstr: true
 
@@ -355,7 +355,7 @@ parameters:
 #      state_class: ""
 #      uom: ""
 #      scale: 1
-#      rule: 6
+#      rule: 3
 #      registers: [33002]
 #      isstr: true
 
@@ -364,7 +364,7 @@ parameters:
 #      state_class: ""
 #      uom: ""
 #      scale: 1
-#      rule: 6
+#      rule: 3
 #      registers: [33003]
 #      isstr: true
 

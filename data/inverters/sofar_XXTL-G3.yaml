@@ -1,9 +1,5 @@
 requests:
   - start: 0x0000
-    end:  0x0000
-    mb_functioncode: 0x03
-
-  - start: 0x0001
     end:  0x0005
     mb_functioncode: 0x03
 

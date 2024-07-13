@@ -36,6 +36,14 @@ class ParameterParser:
             self.try_parse_datetime(rawData,definition, start, length)
         elif rule == 9:
             self.try_parse_time(rawData,definition, start, length)
+        elif rule == 10:
+            self.try_parse_time_sofar(rawData,definition, start, length)
+        elif rule == 11:
+            self.try_parse_date_sofar(rawData,definition, start, length)
+        elif rule == 12:
+            self.try_parse_bin_sofar(rawData,definition, start, length)
+        elif rule == 13:
+            self.try_parse_bin(rawData,definition, start, length)
         return
     
     def do_validate(self, title, value, rule):
@@ -158,17 +166,17 @@ class ParameterParser:
         title = definition['name'] 
         registers = hex(definition['registers'][0])     
         found = True
-        value = []
+        value = 0
         for r in definition['registers']:
             index = r - start   # get the decimal value of the register'
             if (index >= 0) and (index < length):
                 temp = rawData[index]
-                value.append(hex(temp))
+                value = value * 65536 + temp
             else:
                 found = False
 
         if found:
-            self.result[registers] = value
+            self.result[registers] = hex(value)
         return 
     
     def try_parse_version (self, rawData, definition, start, length):
@@ -230,7 +238,82 @@ class ParameterParser:
         if found:
             self.result[registers] = value
         return
- 
+
+    def try_parse_time_sofar (self, rawData, definition, start, length):
+        title = definition['name']         
+        found = True
+        registers = hex(definition['registers'][0])
+        temp = ''
+        for r in definition['registers']:
+            index = r - start   # get the decimal value of the register'
+            if (index >= 0) and (index < length):
+                temp += str(rawData[index])
+            else:
+                found = False
+        value = ''
+        heure = int(int(temp) / 256)
+        minute = int(temp) - (heure * 256)
+        value = str("{:02d}".format(heure)) + ":" + str("{:02d}".format(minute))
+        if found:
+            self.result[registers] = value
+        return
+
+    def try_parse_date_sofar (self, rawData, definition, start, length):
+        title = definition['name']         
+        found = True
+        registers = hex(definition['registers'][0])
+        temp = ''
+        for r in definition['registers']:
+            index = r - start
+            if (index >= 0) and (index < length):
+                temp += str(rawData[index])
+            else:
+                found = False
+        value = ''
+        mois = int(int(temp) / 256)
+        jour = int(temp) - (mois * 256)
+        value = str("{:02d}".format(jour)) + "/" + str("{:02d}".format(mois))
+        if found:
+            self.result[registers] = value
+        return
+
+    def try_parse_bin_sofar (self, rawData, definition, start, length):
+        title = definition['name'] 
+        registers = hex(definition['registers'][0])     
+        found = True
+        value = 0
+        for r in definition['registers']:
+            index = r - start
+            if (index >= 0) and (index < length):
+                temp = rawData[index]
+                value = value * 65536 + temp
+            else:
+                found = False
+
+        if found:
+            self.result[registers] = format(value, '07b')
+        return 
+    
+
+    def try_parse_bin (self, rawData, definition, start, length):
+        title = definition['name'] 
+        registers = hex(definition['registers'][0])     
+        found = True
+        value = 0
+        valuestr = ''
+        for r in definition['registers']:
+            index = r - start
+            if (index >= 0) and (index < length):
+                temp = rawData[index]
+                value = value * 65536 + temp
+                valuestr += format(temp, '016b')
+            else:
+                found = False
+
+        if found:
+            self.result[registers] = valuestr
+        return 
+    
     def get_sensors (self):
         result = []
         for i in self._lookups['parameters']:

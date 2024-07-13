@@ -172,7 +172,7 @@ parameters:
 #     state_class: ""
 #     uom: ""
 #      scale: 1
-#      rule: 6
+#      rule: 3
 #      registers: [2999]
 #      isstr: true
 
@@ -181,7 +181,7 @@ parameters:
 #      state_class: ""
 #      uom: ""
 #      scale: 1
-#      rule: 6
+#      rule: 3
 #     registers: [3000]
 #      isstr: true
 
@@ -190,7 +190,7 @@ parameters:
 #      state_class: ""
 #      uom: ""
 #      scale: 1
-#      rule: 6
+#      rule: 3
 #      registers: [3001]
 #      isstr: true
 

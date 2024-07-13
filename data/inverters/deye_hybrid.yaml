@@ -13,6 +13,7 @@ parameters:
  - group: solar
    items: 
     - name: "Puissance du PV1"
+      widget: "pv1_power"
       class: "power"
       state_class: "measurement"
       uom: "W"
@@ -22,6 +23,7 @@ parameters:
       icon: 'mdi:solar-power'
 
     - name: "Puissance du PV2"
+      widget: "pv2_power"
       class: "power"
       state_class: "measurement"
       uom: "W"
@@ -31,6 +33,7 @@ parameters:
       icon: 'mdi:solar-power'
 
     - name: "Tension du PV1"
+      widget: "pv1_voltage"
       class: "voltage"
       state_class: "measurement"
       uom: "V"
@@ -40,6 +43,7 @@ parameters:
       icon: 'mdi:solar-power'
 
     - name: "Tension du PV2"
+      widget: "pv2_voltage"
       class: "voltage"
       state_class: "measurement"
       uom: "V"
@@ -49,6 +53,7 @@ parameters:
       icon: 'mdi:solar-power'
 
     - name: "Courant du PV1"
+      widget: "pv1_current"
       class: "current"
       uom: "A"
       scale: 0.1
@@ -57,6 +62,7 @@ parameters:
       icon: 'mdi:solar-power'
 
     - name: "Courant du PV2"
+      widget: "pv2_current"
       class: "current"
       state_class: "measurement"
       uom: "A"
@@ -66,6 +72,7 @@ parameters:
       icon: 'mdi:solar-power'
 
     - name: "Production Quotidienne"
+      widget: "daily_solar"
       class: "energy"
       state_class: "measurement"
       uom: "kWh"
@@ -113,6 +120,7 @@ parameters:
       icon: 'mdi:battery-minus'
 
     - name: "Charge quotidienne de la batterie"
+      widget: "daily_battery_charge"
       class: "energy"
       state_class: "total_increasing"      
       uom: "kWh"
@@ -122,6 +130,7 @@ parameters:
       icon: 'mdi:battery-plus'
       
     - name: "Décharge quotidienne de la batterie"
+      widget: "daily_battery_discharge"
       class: "energy"
       state_class: "total_increasing"      
       uom: "kWh"
@@ -148,6 +157,7 @@ parameters:
       icon: 'mdi:battery'
 
     - name: "Alimentation de la batterie"
+      widget: "battery_power"
       class: "power"
       state_class: "measurement"
       uom: "W"
@@ -157,6 +167,7 @@ parameters:
       icon: 'mdi:battery'
 
     - name: "Tension de la batterie"
+      widget: "battery_voltage"
       class: "voltage"
       state_class: "measurement"
       uom: "V"
@@ -166,6 +177,7 @@ parameters:
       icon: 'mdi:battery'
 
     - name: "Batterie SOC"
+      widget: "battery_state"
       class: "battery"
       state_class: "measurement"
       uom: "%"
@@ -175,6 +187,7 @@ parameters:
       icon: 'mdi:battery'
 
     - name: "Courant de la batterie"
+      widget: "battery_current"
       class: "current"
       state_class: "measurement"
       uom: "A"
@@ -184,6 +197,7 @@ parameters:
       icon: 'mdi:battery'
 
     - name: "Température de la batterie"
+      widget: "battery_temp"
       class: "temperature"
       state_class: "measurement"
       uom: "°C"
@@ -196,6 +210,7 @@ parameters:
  - group: Grid
    items: 
     - name: "Puissance totale du réseau"
+      widget: "grid_power"
       class: "power"
       state_class: "measurement"
       uom: "W"
@@ -221,6 +236,7 @@ parameters:
       rule: 1
       registers: [0x00A0]
       icon: 'mdi:current-ac'
+
     - name: "Tension du réseau L2"
       class: "voltage"
       state_class: "measurement"
@@ -276,6 +292,7 @@ parameters:
       icon: 'mdi:transmission-tower'
 
     - name: "Énergie quotidienne achetée"
+      widget: "daily_grid_buy"
       class: "energy"
       state_class: "total_increasing"
       uom: "kWh"
@@ -294,6 +311,7 @@ parameters:
       icon: 'mdi:transmission-tower-export'
       
     - name: "Énergie quotidienne vendue"
+      widget: "daily_grid_sell"
       class: "energy"
       state_class: "total_increasing"
       uom: "kWh"
@@ -324,6 +342,7 @@ parameters:
  - group: Upload
    items: 
     - name: "Puissance de charge totale"
+      widget: "load_state"
       class: "power"
       state_class: "measurement"      
       uom: "W"
@@ -351,6 +370,7 @@ parameters:
       icon: 'mdi:lightning-bolt-outline'
 
     - name: "Tension de charge"
+      widget: "voltage_state"
       class: "voltage"
       state_class: "measurement"      
       uom: "V"
@@ -360,6 +380,7 @@ parameters:
       icon: 'mdi:lightning-bolt-outline'
 
     - name: "Consommation de charge quotidienne"
+      widget: "daily_load"
       class: "energy"
       state_class: "total_increasing"      
       uom: "kWh"
@@ -467,6 +488,7 @@ parameters:
       icon: 'mdi:home-lightning-bolt'
       
     - name: "Fréquence de charge"
+      widget: "frequency_state"
       class: ""
       state_class: "measurement"      
       uom: "Hz"
@@ -486,6 +508,7 @@ parameters:
       icon: 'mdi:thermometer'
 
     - name: "Température AC"
+      widget: "ac_temp"
       class: "temperature"
       state_class: "measurement"      
       uom: "°C"
@@ -536,28 +559,6 @@ parameters:
       -  key: 1
          value: "Sur le réseau"
 
-    - name: "État connecté"
-      class: ""
-      uom: ""
-      state_class: ""      
-      scale: 1
-      rule: 1
-      registers: [0x00A6]
-      isstr: true
-      lookup: 
-      -  key: 0
-         value: "aucun"
-      -  key: 1
-         value: "On"
-
-    - name: "Puissance de la génération"
-      class: "power"
-      state_class: "measurement"      
-      uom: "W"
-      scale: 1
-      rule: 1
-      registers: [0x00A6]
-
     - name: "Mode de travail"
       class: ""
       state_class: ""      
@@ -586,9 +587,9 @@ parameters:
       state_class: ""      
       uom: ""
       scale: 1
-      rule: 6
+      rule: 3
       registers: [0x0065,0x0066,0x0067,0x0068,0x0069,0x006A]
-
+      
  - group: Time of Use
    items:
     - name: "Heure d'utilisation - Plage horaire 1"

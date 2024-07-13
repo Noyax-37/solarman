@@ -3,6 +3,7 @@
     "pyyaml" : {},
     "pyudev" : {},
     "serial" : {},
+    "requests" : {},
     "umodbus" : {}
   },
   "apt" : {
@@ -10,5 +11,8 @@
   },
   "npm": {
     "js-yaml" : {}
+  },
+  "post-install" : {
+    "restart_apache" : true
   }
 }
