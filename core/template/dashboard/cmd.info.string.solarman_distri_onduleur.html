@@ -484,6 +484,7 @@
 			  cmds[j].configuration['widget'] = cmds[j].configuration['widget'].replace(/é/g, 'e');
 			  cmds[j].configuration['widget'] = cmds[j].configuration['widget'].replace(/_/g, ' ');
 			  let id_eql = cmds[j].id;
+			  let id_unit = cmds[j].unit;
 			  let name = cmds[j].configuration['widget']
 			  if (debug#id# == 1) console.log('widget après adapt : ' + name);
 			  ///////////////////////////////////////////////////////////////////////
@@ -504,18 +505,21 @@
 				  }
 				})
 				jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
-				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
-				  if (_options.value != undefined) 
+				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.display_value + ' ' + id_unit)
+				  if (_options.display_value != undefined) 
 				  {
 					//_options.value = 745
+					//_options.unit = 'W'
+
 					if (_options.unit.toLowerCase() == 'kw') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'W'
 					}
 					config#id#.solar.pv1.power = parseFloat(_options.value)
 					config#id#.solar.pv1.power_unit = _options.unit
 					let pvPower = autoValueArray#id#(parseFloat(_options.value),config#id#.solar.unit)
-					if (debug#id# == 1) console.log('| autoValueArray ' + pvPower.value)
+					if (debug#id# == 1) console.log('| autoValueArray PV1 ' + pvPower.value + ' ' + pvPower.unit + ' ' + _options.display_value)
 					document.getElementById("pv1_power_state#id#").innerHTML = trunc#id#(pvPower.value, 3, 0) + ' ' + pvPower.unit
 					calculatePv#id#('pv1_power')
 				  }
@@ -543,7 +547,8 @@
 				  {
 					//_options.value = '1.45'
 					if (_options.unit.toLowerCase() == 'kw') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'W'
 					}
 					config#id#.solar.pv2.power = _options.value
@@ -577,7 +582,8 @@
 				  {
 					//_options.value = '1.345'
 					if (_options.unit.toLowerCase() == 'kw') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'W'
 					}
 					config#id#.solar.pv3.power = _options.value
@@ -611,7 +617,8 @@
 				  {
 					//_options.value = '1.345'
 					if (_options.unit.toLowerCase() == 'kw') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'W'
 					}
 					config#id#.solar.pv4.power = _options.value
@@ -823,7 +830,8 @@
 				  if (_options.value != undefined) 
 				  {
             		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'Wh'
 					}
 					let pv1Energy = autoValueArray#id#(parseFloat(_options.value),'Wh')
@@ -855,7 +863,8 @@
 				  if (_options.value != undefined) 
 				  {
             		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'Wh'
 					}
 					let pv2Energy = autoValueArray#id#(parseFloat(_options.value),'Wh')
@@ -887,7 +896,8 @@
 				  if (_options.value != undefined) 
 				  {
             		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'Wh'
 					}
 					let pv3Energy = autoValueArray#id#(parseFloat(_options.value),'Wh')
@@ -919,7 +929,8 @@
 				  if (_options.value != undefined) 
 				  {
             		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'Wh'
 					}
 					let pv4Energy = autoValueArray#id#(parseFloat(_options.value),'Wh')
@@ -950,7 +961,8 @@
 				  if (_options.value != undefined) 
 				  {
 					if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'Wh'
 					}
 					let dailySolar = autoValueArray#id#(parseFloat(_options.value),'Wh')
@@ -1032,7 +1044,8 @@
 				  if (_options.value != undefined) 
 				  {
             		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'Wh'
 					}
 					let dailyBatteryCharge = autoValueArray#id#(parseFloat(_options.value),'Wh')
@@ -1063,7 +1076,8 @@
 				  if (_options.value != undefined) 
 				  {
             		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'Wh'
 					}
 					let dailyBatteryDischarge = autoValueArray#id#(parseFloat(_options.value),'Wh')
@@ -1139,7 +1153,8 @@
 				  if (_options.value != undefined) 
 				  {
 					if (_options.unit.toLowerCase() == 'kw') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'W'
 					}
 					let dailyBatteryPower = autoValueArray#id#(parseFloat(_options.value),'W')
@@ -1186,7 +1201,8 @@
 				  if (_options.value != undefined) 
 				  {
             		if (_options.unit.toLowerCase() == 'kw') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'W'
 					}
 					let batteryMpptPower = trunc#id#(parseFloat(_options.value), 1)
@@ -1223,7 +1239,8 @@
 				  if (_options.value != undefined) 
 				  {
             		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'Wh'
 					}
 					let batteryMpptEnergy = autoValueArray#id#(parseFloat(_options.value),'Wh')
@@ -1254,7 +1271,8 @@
 				  if (_options.value != undefined) 
 				  {
             		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'Wh'
 					}
 					let dailyGridBuy = autoValueArray#id#(_options.value,'Wh')
@@ -1285,7 +1303,8 @@
 				  if (_options.value != undefined) 
 				  {
             		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'Wh'
 					}
 					let dailySellBuy = autoValueArray#id#(_options.value,'Wh')
@@ -1315,7 +1334,8 @@
 				  if (_options.value != undefined) 
 				  {
             		if (_options.unit.toLowerCase() == 'kw') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'W'
 					}
 					config#id#.grid.power_state = _options.value
@@ -1536,7 +1556,8 @@
 				  config#id#.load.power = _options.value
                   config#id#.load.unit = _options.unit
 				  if (_options.unit.toLowerCase() == 'kw') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'W'
 					}
 				  let loadStateCalc = autoValueArray#id#(_options.value,'W')
@@ -1568,7 +1589,8 @@
                   config#id#.load.load1.power_unit = _options.unit
 				  config#id#.load.load1.power = _options.value
 				  if (_options.unit.toLowerCase() == 'kw') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'W'
 					}
 				  let load1Power = autoValueArray#id#(_options.value,'W')
@@ -1608,7 +1630,8 @@
 				  config#id#.load.load2.power = _options.value
 				  config#id#.load.load2.power_unit = _options.unit
 				  if (_options.unit.toLowerCase() == 'kw') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'W'
 					}
 				  let load2Power = autoValueArray#id#(_options.value,'W')
@@ -1647,7 +1670,8 @@
 				  config#id#.load.load3.power = _options.value
 				  config#id#.load.load3.power_unit = _options.unit
 				  if (_options.unit.toLowerCase() == 'kw') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'W'
 					}
 				  let load3Power = autoValueArray#id#(_options.value,'W')
@@ -1686,7 +1710,8 @@
 				  config#id#.load.load4.power = _options.value
 				  config#id#.load.load4.power_unit = _options.unit
 				  if (_options.unit.toLowerCase() == 'kw') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'W'
 					}
 				  let load4Power = autoValueArray#id#(_options.value,'W')
@@ -1724,7 +1749,8 @@
 				  if (_options.value != undefined) 
 				  {
             		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'Wh'
 					}
 					let load1Energy = autoValueArray#id#(parseFloat(_options.value),'Wh')
@@ -1755,7 +1781,8 @@
 				  if (_options.value != undefined) 
 				  {
             		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'Wh'
 					}
 					let load2Energy = autoValueArray#id#(parseFloat(_options.value),'Wh')
@@ -1786,7 +1813,8 @@
 				  if (_options.value != undefined) 
 				  {
             		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'Wh'
 					}
 					let load3Energy = autoValueArray#id#(parseFloat(_options.value),'Wh')
@@ -1817,7 +1845,8 @@
 				  if (_options.value != undefined) 
 				  {
             		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'Wh'
 					}
 					let load4Energy = autoValueArray#id#(parseFloat(_options.value),'Wh')
@@ -1849,7 +1878,8 @@
 				  if (_options.value != undefined) 
 				  {
             		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'Wh'
 					}
 					let dailyload = autoValueArray#id#(_options.value,'Wh')
@@ -1882,7 +1912,8 @@
 				  if (_options.value != undefined) 
 				  {
             		if (_options.unit.toLowerCase() == 'kw') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'W'
 					}
 					document.getElementById("aux_power-#id#").innerHTML = _options.value + ' ' + config#id#.aux.power_unit
@@ -1921,7 +1952,8 @@
 				  if (_options.value != undefined) 
 				  {
             		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.value) * 1000
+					  _options.value = parseFloat(_options.display_value) * 1000
+					  _options.display_value = _options.value
 					  _options.unit = 'Wh'
 					}
 					let dailyAux = autoValueArray#id#(_options.value,'Wh')

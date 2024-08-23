@@ -1,0 +1,380 @@
+requests:
+  - start: 0x0001
+    end: 0x007F
+    mb_functioncode: 0x03
+
+parameters:
+ - group: solar
+   items:
+    - name: "CT1 Voltage"
+      uom: "V"
+      scale: 0.1
+      rule: 1
+      registers: [0x0001]
+
+    - name: "CT1 Current"
+      uom: "A"
+      scale: 0.01
+      rule: 4
+      registers: [0x0007,0x0008]
+
+    - name: "CT2 Voltage"
+      uom: "V"
+      scale: 0.1
+      rule: 1
+      registers: [0x0002]
+
+    - name: "CT2 Current"
+      uom: "A"
+      scale: 0.01
+      rule: 4
+      registers: [0x0009,0x000A]
+
+    - name: "CT3 Voltage"
+      uom: "V"
+      scale: 0.1
+      rule: 1
+      registers: [0x0003]
+
+    - name: "CT3 Current"
+      uom: "A"
+      scale: 0.01
+      rule: 4
+      registers: [0x000B,0x000C]
+      
+    - name: "CT4 Voltage"
+      uom: "V"
+      scale: 0.1
+      rule: 1
+      registers: [0x1001]
+
+    - name: "CT4 Current"
+      uom: "A"
+      scale: 0.01
+      rule: 4
+      registers: [0x1007,0x1008]
+      
+    - name: "CT5 Voltage"
+      uom: "V"
+      scale: 0.1
+      rule: 1
+      registers: [0x1002]
+
+    - name: "CT5 Current"
+      uom: "A"
+      scale: 0.01
+      rule: 4
+      registers: [0x1009,0x100A]
+      
+    - name: "CT6 Voltage"
+      uom: "V"
+      scale: 0.1
+      rule: 1
+      registers: [0x1003]
+
+    - name: "CT6 Current"
+      uom: "A"
+      scale: 0.01
+      rule: 4
+      registers: [0x100B,0x100C]
+      
+    - name: "Active Power CT1"
+      uom: "W"
+      scale: 1
+      rule: 4
+      registers: [0x000F,0x0010]
+
+    - name: "Active Power CT2"
+      uom: "W"
+      scale: 1
+      rule: 4
+      registers: [0x0011,0x0012]
+
+    - name: "Active Power CT3"
+      uom: "W"
+      scale: 1
+      rule: 4
+      registers: [0x0013,0x0014]
+
+    - name: "Active Power CT4"
+      uom: "W"
+      scale: 1
+      rule: 4
+      registers: [0x100F,0x1010]
+
+    - name: "Active Power CT5"
+      uom: "W"
+      scale: 1
+      rule: 4
+      registers: [0x1011,0x1012]
+
+    - name: "Active Power CT6"
+      uom: "W"
+      scale: 1
+      rule: 4
+      registers: [0x1013,0x1014]
+
+    - name: "Reactive Power CT1"
+      uom: "VAR"
+      scale: 1
+      rule: 4
+      registers: [0x0017,0x0018]
+
+    - name: "Reactive Power CT2"
+      uom: "VAR"
+      scale: 1
+      rule: 4
+      registers: [0x0019,0x001A]
+
+    - name: "Reactive Power CT3"
+      uom: "VAR"
+      scale: 1
+      rule: 4
+      registers: [0x001B,0x001C]
+
+    - name: "Reactive Power CT4"
+      uom: "VAR"
+      scale: 1
+      rule: 4
+      registers: [0x1017,0x1018]
+
+    - name: "Reactive Power CT5"
+      uom: "VAR"
+      scale: 1
+      rule: 4
+      registers: [0x1019,0x101A]
+
+    - name: "Reactive Power CT6"
+      uom: "VAR"
+      scale: 1
+      rule: 4
+      registers: [0x101B,0x101C]
+
+    - name: "Apparent Power CT1"
+      uom: "VA"
+      scale: 1
+      rule: 4
+      registers: [0x001F,0x0020]
+
+    - name: "Apparent Power CT2"
+      uom: "VA"
+      scale: 1
+      rule: 4
+      registers: [0x0021,0x0022]
+
+    - name: "Apparent Power CT3"
+      uom: "VA"
+      scale: 1
+      rule: 4
+      registers: [0x0023,0x0024]
+
+    - name: "Apparent Power CT4"
+      uom: "VA"
+      scale: 1
+      rule: 4
+      registers: [0x101F,0x1020]
+
+    - name: "Apparent Power CT5"
+      uom: "VA"
+      scale: 1
+      rule: 4
+      registers: [0x1021,0x1022]
+
+    - name: "Apparent Power CT6"
+      uom: "VA"
+      scale: 1
+      rule: 4
+      registers: [0x1023,0x1024]
+
+    - name: "Power Factor CT1"
+      uom: ""
+      scale: 0.001
+      rule: 3
+      registers: [0x0026]
+
+    - name: "Power Factor CT2"
+      uom: ""
+      scale: 0.001
+      rule: 3
+      registers: [0x0027]
+
+    - name: "Power Factor CT3"
+      uom: ""
+      scale: 0.001
+      rule: 3
+      registers: [0x0028]
+
+    - name: "Power Factor CT4"
+      uom: ""
+      scale: 0.001
+      rule: 3
+      registers: [0x1026]
+
+    - name: "Power Factor CT5"
+      uom: ""
+      scale: 0.001
+      rule: 3
+      registers: [0x1027]
+
+    - name: "Power Factor CT6"
+      uom: ""
+      scale: 0.001
+      rule: 3
+      registers: [0x1028]
+
+    - name: "Total Positive Energy CT1"
+      uom: "kWh"
+      scale: 0.01
+      rule: 2
+      registers: [0x003E,0x003F]
+
+    - name: "Total Positive Energy CT2"
+      uom: "kWh"
+      scale: 0.01
+      rule: 2
+      registers: [0x0052,0x0053]
+
+    - name: "Total Positive Energy CT3"
+      uom: "kWh"
+      scale: 0.01
+      rule: 2
+      registers: [0x0066,0x0067]
+
+    - name: "Total Positive Energy CT4"
+      uom: "kWh"
+      scale: 0.01
+      rule: 2
+      registers: [0x103E,0x103F]
+
+    - name: "Total Positive Energy CT5"
+      uom: "kWh"
+      scale: 0.01
+      rule: 2
+      registers: [0x1052,0x1053]
+
+    - name: "Total Positive Energy CT6"
+      uom: "kWh"
+      scale: 0.01
+      rule: 2
+      registers: [0x1066,0x1067]
+
+    - name: "Total Negative Energy CT1"
+      uom: "kWh"
+      scale: 0.01
+      rule: 2
+      registers: [0x0048,0x0049]
+
+    - name: "Total Negative Energy CT2"
+      uom: "kWh"
+      scale: 0.01
+      rule: 2
+      registers: [0x005C,0x005D]
+
+    - name: "Total Negative Energy CT3"
+      uom: "kWh"
+      scale: 0.01
+      rule: 2
+      registers: [0x0070,0x0071]
+
+    - name: "Total Negative Energy CT4"
+      uom: "kWh"
+      scale: 0.01
+      rule: 2
+      registers: [0x1048,0x1049]
+
+    - name: "Total Negative Energy CT5"
+      uom: "kWh"
+      scale: 0.01
+      rule: 2
+      registers: [0x105C,0x105D]
+
+    - name: "Total Negative Energy CT6"
+      uom: "kWh"
+      scale: 0.01
+      rule: 2
+      registers: [0x1070,0x1071]
+
+    - name: "Total Active Power (1st channel)"
+      uom: "W"
+      scale: 1
+      rule: 4
+      registers: [0x0013,0x0014]
+
+    - name: "Total Active Power (2nd channel)"
+      uom: "W"
+      scale: 1
+      rule: 4
+      registers: [0x100D,0x100E]
+
+    - name: "Total Reactive Power (1st channel)"
+      uom: "VAR"
+      scale: 1
+      rule: 4
+      registers: [0x0015,0x0016]
+
+    - name: "Total Reactive Power (2nd channel)"
+      uom: "VAR"
+      scale: 1
+      rule: 4
+      registers: [0x1015,0x1016]
+
+    - name: "Total Apparent Power (1st channel)"
+      uom: "VA"
+      scale: 1
+      rule: 4
+      registers: [0x001D,0x001E]
+
+    - name: "Total Apparent Power (2nd channel)"
+      uom: "VA"
+      scale: 1
+      rule: 4
+      registers: [0x101D,0x101E]
+
+    - name: "Total Positive Energy (1st channel)"
+      uom: "kWh"
+      scale: 0.01
+      rule: 2
+      registers: [0x002A,0x002B]
+
+    - name: "Total Positive Energy (2nd channel)"
+      uom: "kWh"
+      scale: 0.01
+      rule: 2
+      registers: [0x102A,0x102B]
+
+    - name: "Total Negative Energy (1st channel)"
+      uom: "kWh"
+      scale: 0.01
+      rule: 2
+      registers: [0x0034,0x0035]
+
+    - name: "Total Negative Energy (2nd channel)"
+      uom: "kWh"
+      scale: 0.01
+      rule: 2
+      registers: [0x1034,0x1035]
+
+    - name: "Power Factor (1st channel)"
+      uom: ""
+      scale: 0.001
+      rule: 3
+      registers: [0x0025]
+
+    - name: "Power Factor (2nd channel)"
+      uom: ""
+      scale: 0.001
+      rule: 3
+      registers: [0x1025]
+
+    - name: "Frequency (1st channel)"
+      uom: "Hz"
+      scale: 0.01
+      rule: 1
+      registers: [0x0029]
+
+    - name: "Frequency (2nd channel)"
+      uom: "Hz"
+      scale: 0.01
+      rule: 1
+      registers: [0x1029]
+
