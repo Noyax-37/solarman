@@ -1,18 +1,11 @@
 {
-  "pip3" :{
-    "pyyaml" : {},
-    "pyudev" : {},
-    "serial" : {},
-    "requests" : {},
-    "umodbus" : {}
-  },
-  "apt" : {
-    "php-yaml" : {}
-  },
+  "pip3" :{},
+  "apt" : {},
   "npm": {
     "js-yaml" : {}
   },
   "post-install" : {
+    "script" : "plugins/solarman/resources/post-install.sh",
     "restart_apache" : true
   }
 }

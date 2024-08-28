@@ -24,6 +24,7 @@ Les docs des onduleurs peuvent se trouver dans [ce répertoire](\doc_onduleurs\ 
 | kstar_hybrid.yaml          | ?                                        |                                                                                                                               |
 | sofar_g3hyd.yaml           | SOFAR Hybrid Three-Phase inverter        | HYD 6000 or rebranded (three-phase), ex. ZCS Azzurro 3PH HYD-ZSS                                                              |
 | sofar_hyd3k-6k-es.yaml     | SOFAR Hybrid Single-Phase inverter       | Monophasé, fonctionne sur Sofar Solar HYD xxxx ES (testé sur le 6000) ou rebranded, ex. ZCS Azzurro HYD-ZSS                   |
+| sofar_hyd-xxktl-3ph.yaml   | SOFAR Hybrid Three-Phase inverter        | Testé sur un Sofar Hyd 15KTL 3 phases                                                                                         |
 | sofar_lsw3.yaml            | SOFAR Inverters                          |                                                                                                                               |
 | sofar_TL_G2.yaml           | SOFAR Inverters X Gen 2                  |                                                                                                                               |
 | sofar_wifikit.yaml         | ?                                        |                                                                                                                               |
@@ -114,7 +115,9 @@ Ensuite choississez la fréquence d'interrogation que vous souhaitez, seuls 1, 5
 Widget template
 ===
 
-ajout d'un template (merci à @Phpvarious) qui permet d'afficher les principales données de l'onduleur d'une façon plus visuelle. dans un premier temps je n'ai complété que pour mon onduleur (Sofar Solar HYD xxx ES) mais vous pouvez vous même l'élaborer (voir fichier de configuration ci-dessous
+ajout d'un template (merci à @Phpvarious) qui permet d'afficher les principales données de l'onduleur d'une façon plus visuelle. dans un premier temps je n'ai complété que pour mon onduleur (Sofar Solar HYD xxx ES) mais vous pouvez vous même l'élaborer (voir fichier de configuration ci-dessous).
+
+Depuis la version 1.0.8 les infos alimentants le template peuvent être directement affectée depuis les commandes de l'équipement => plus la peine de modifier le fichier yaml
 
 ![widgetgif](widget.gif)
 

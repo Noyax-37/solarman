@@ -35,6 +35,7 @@ def main():
         values = data.decode().split(",")
         result = dict(zip(keys, values))
         logging.info("Resultat de la recherche : " + str(result))
+        print("Resultat de la recherche : " + str(result))
 
 
 
