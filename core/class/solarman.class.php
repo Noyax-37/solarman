@@ -252,6 +252,12 @@ class solarman extends eqLogic {
   public function postRemove() {
   }
 
+  // Fonction pour exclure un sous répertoire de la sauvegarde
+  public static function backupExclude() {
+    return ['resources/venv'];
+  }
+  
+
   /*
   * Permet de crypter/décrypter automatiquement des champs de configuration des équipements
   * Exemple avec le champ "Mot de passe" (password)
@@ -298,7 +304,7 @@ class solarman extends eqLogic {
     $res = 'OS: ' . $distrib . ' on ' . $hw;
     $res .= ' ; PHP: ' . phpversion();
     $res .= ' ; Python: ' . trim(shell_exec("python3 -V | cut -d ' ' -f 2"));
-//    $res .= ' ; Python venv: ' . trim(shell_exec("/var/www/html/plugins/solarman/ressources/venv/python3 -V | cut -d ' ' -f 2"));
+//    $res .= ' ; Python venv: ' . trim(shell_exec("/var/www/html/plugins/solarman/resources/venv/python3 -V | cut -d ' ' -f 2"));
     $res .= '<br/>Solarman: v ' . config::byKey('version', 'solarman', 'unknown', true);
     $res .= ' ; cmds: ' . count(cmd::searchConfiguration('', solarman::class));
     return $res;
@@ -322,14 +328,14 @@ class solarman extends eqLogic {
 
   public static function interroSolarman($eqLogic)
   {
-    $solarmanPath         	  = realpath(dirname(__FILE__) . '/../../ressources');
+    $solarmanPath         	  = realpath(dirname(__FILE__) . '/../../resources');
     log::add('solarman', 'info', '---------------------------------------------------------------');
     log::add('solarman', 'info', ' Démarrage Interrogation Onduleur ' . strval($eqLogic->getName()));
     $idOnduleur = $eqLogic->getId();
     $nameOnduleur = str_replace(' ', '_', strval($eqLogic->getName()));
 
     if ($idOnduleur!='Aucun' && $idOnduleur!=''){
-      $cmd          = 'nice -n 19 /usr/bin/python3 ' . $solarmanPath . '/solarman.py';
+      $cmd          = 'sudo nice -n 19 ' . $solarmanPath . '/venv/bin/python3 ' . $solarmanPath . '/solarman.py';
       $cmd         .= ' --apikey ' . jeedom::getApiKey('solarman');
       $cmd         .= ' --loglevel '. log::convertLogLevel(log::getLogLevel(__CLASS__));
       $cmd         .= ' --callback ' . network::getNetworkAccess('internal', 'proto:127.0.0.1:port:comp') . '/plugins/solarman/core/php/jeeSolarman.php';
@@ -362,9 +368,9 @@ class solarman extends eqLogic {
   {
     log::add('solarman_recherche_reseau', 'info', '---------------------------------------------------------------');
     log::add('solarman_recherche_reseau', 'info', '------------------Démarrage recherche réseau-------------------');
-    $solarmanPath         	  = realpath(dirname(__FILE__) . '/../../ressources');
+    $solarmanPath         	  = realpath(dirname(__FILE__) . '/../../resources');
 
-    $cmd          = 'nice -n 19 /usr/bin/python3 ' . $solarmanPath . '/scanner.py';
+    $cmd          = 'sudo nice -n 19 ' . $solarmanPath . '/venv/bin/python3 ' . $solarmanPath . '/scanner.py';
     $cmd         .= ' --loglevel '. log::convertLogLevel(log::getLogLevel(__CLASS__));
 
     log::add('solarman_recherche_reseau', 'debug', ' lancement programme : ' . $cmd);
