@@ -46,7 +46,8 @@ if (isset($result['device'])) {
                 log::add('solarman','debug','Registre décodé en hexa : ' . $key2 . ' en décimal : ' . intval($key2,0) . ' valeur = ' . strval($value));
                 if ($key2 == 'PID'){
                     log::add('solarman','debug',"Message du programme solarman. PId de l'équipement : " . $value);
-                    posix_kill(intval($value), 15);
+                    exec("pkill -f 'solarman.py'");
+                    //posix_kill(intval($value), 15);
                 } else {
                     $cmd = $eqlogic->getCmd('info',intval($key2,0));
                     if (is_object($cmd)){

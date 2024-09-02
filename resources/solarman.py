@@ -196,4 +196,5 @@ if not globals.JEEDOM_COM.test():
     sys.exit()
 
 lire()
+
 sys.exit()
