@@ -4,6 +4,10 @@
 >
 >S'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte.
 
+# 1.1.1 (02/09/2024) => béta + stable
+
+   - correction bug qui saturait la mémoire
+
 # 1.1.0 (28/08/2024) => béta + stable
 
    - création d'un environnement virtuel pour python
