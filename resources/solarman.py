@@ -118,7 +118,6 @@ def lire():
 					error_com = "Connexion error"
 					logging.error(error_com)
 				logging.error("Attention le plugin ne trouve pas votre logger, il est peut etre eteint sinon verifiez que son adresse IP n'a pas change")
-		sys.exit()
 	except Exception as e:
 		logging.warning(f"Interrogation de l'onduleur {globals.inverter_sn} a {globals.inverter_host}:{globals.inverter_port} non aboutie avec l'exception [{type(e).__name__}: {e}]")
 		current_val = {}
@@ -130,7 +129,6 @@ def lire():
 		except Exception:
 			error_com = "Connexion error"
 			logging.error(error_com)
-		sys.exit()
 
     
 
@@ -169,6 +167,7 @@ globals.inverter_mb_slaveid = int(args.mbslaveid)
 globals.path = './html/plugins/solarman/data/inverters/'
 
 globals.cycle = float(globals.cycle)
+globals.cycle = 0
 globals.cycle_sommeil = float(globals.cycle_sommeil)
 
 
@@ -190,6 +189,9 @@ logging.info('SOLARMAN------ Adresse IP de la cle wifi : ' + str(globals.inverte
 logging.info('SOLARMAN------ Port de la cle wifi : ' + str(globals.inverter_port))
 logging.info('SOLARMAN------ Numero de serie de la cle wifi File : ' + str(globals.inverter_sn))
 logging.info('SOLARMAN------ Id modbus de l onduleur : ' + str(globals.inverter_mb_slaveid))
+pidd = str(os.getpid())
+logging.info('SOLARMAN------ PID : ' + pidd)
+
 
 if not globals.JEEDOM_COM.test():
     logging.error('MODEM------ Network communication issues. Please fix your Jeedom network configuration.')
@@ -197,4 +199,9 @@ if not globals.JEEDOM_COM.test():
 
 lire()
 
-sys.exit()
+try:
+    sys.exit() # this always raises SystemExit
+except SystemExit:
+    logging.debug("SOLARMAN------ sys.exit() sortie normale")
+except:
+    logging.error("SOLARMAN------ probleme lors de la sortie") # some other exception got raised
