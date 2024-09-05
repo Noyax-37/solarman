@@ -328,7 +328,7 @@ class solarman extends eqLogic {
 
   public static function interroSolarman($eqLogic)
   {
-    exec("pkill -f 'solarman.py'");
+    //exec("pkill -f 'solarman.py'");
     $solarmanPath         	  = realpath(dirname(__FILE__) . '/../../resources');
     log::add('solarman', 'info', '---------------------------------------------------------------');
     log::add('solarman', 'info', ' Démarrage Interrogation Onduleur ' . strval($eqLogic->getName()));
