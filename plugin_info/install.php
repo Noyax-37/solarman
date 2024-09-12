@@ -30,6 +30,7 @@ function solarman_install() {
     }
     try {
         $core_version = $data['pluginVersion'];
+        config::save('version', $core_version, 'solarman');
     } catch (\Exception $e) {
 
     }
@@ -65,6 +66,7 @@ function solarman_update() {
     }
     try {
         $core_version = $data['pluginVersion'];
+        config::save('version', $core_version, 'solarman');
     } catch (\Exception $e) {
         log::add('solarman','warning','Pas de version de plugin (non bloquant ici)');
         goto step2;

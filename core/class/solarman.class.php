@@ -508,7 +508,65 @@ class solarman extends eqLogic {
       log::add('solarman', 'debug', " Le fichier conf onduleur n'existe pas");
     }
   }
-  
+
+  private static function pythonRequirementsInstalled(string $pythonPath, string $requirementsPath) {
+    if (!file_exists($pythonPath) || !file_exists($requirementsPath)) {
+      return false;
+    }
+    exec("{$pythonPath} -m pip freeze", $packages_installed);
+    $packages = join("||", $packages_installed);
+    exec("cat {$requirementsPath}", $packages_needed);
+    foreach ($packages_needed as $line) {
+      if (preg_match('/([^\s]+)[\s]*([>=~]=)[\s]*([\d+\.?]+)$/', $line, $need) === 1) {
+        if (preg_match('/' . $need[1] . '==([\d+\.?]+)/', $packages, $install) === 1) {
+          if ($need[2] == '==' && $need[3] != $install[1]) {
+            return false;
+          } elseif (version_compare($need[3], $install[1], '>')) {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  public static function dependancy_info()
+  {
+    $pythonBin = __DIR__ . '/../../resources/venv/bin/python3';
+    $pythonReq = __DIR__ . '/../../resources/requirements.txt';
+    $return = array();
+    $return['log'] = log::getPathToLog(__CLASS__ . '_packages');
+    $return['progress_file'] = jeedom::getTmpFolder(__CLASS__) . '/dependance';
+    $return['state'] = 'ok';
+    if (file_exists($return['progress_file'])) {
+      $return['state'] = 'in_progress';
+      log::add(__CLASS__, 'debug', sprintf(
+        __("Dépendances en cours d'installation... (%s%%)", __FILE__),
+        trim(file_get_contents($return['progress_file']))
+      ));
+    } elseif (!file_exists($pythonBin)) {
+      $return['state'] = 'nok';
+    } elseif (!self::pythonRequirementsInstalled($pythonBin, $pythonReq)) {
+      $return['state'] = 'nok';
+    } else {
+      log::add(__CLASS__, 'debug', sprintf(__('Dépendances installées.', __FILE__)));
+    }
+    return $return;
+  }
+
+  public static function dependancy_install()
+  {
+    $depLogFile = __CLASS__ . '_packages';
+    log::remove($depLogFile);
+      log::add(__CLASS__, 'info', sprintf(
+        __('Installation des dépendances, voir log dédié (%s)', __FILE__),
+        $depLogFile
+      ));
+        return array('script' => __DIR__ . '/../../resources/install_#stype#.sh ' . jeedom::getTmpFolder(__CLASS__) . '/dependance', 'log' => log::getPathToLog($depLogFile));
+  }
+
 }
 
 class solarmanCmd extends cmd {

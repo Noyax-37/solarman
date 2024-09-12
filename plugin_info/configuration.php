@@ -22,6 +22,11 @@ if (!isConnect()) {
   die();
 }
 
+
+sendVarToJS('version', config::byKey('version', 'solarman', 'unknown', true));
+include_file('desktop', 'solarman.config', 'js', 'solarman');
+
+
 $port = config::byKey('port', 'solarman');
 $core_version = '1.1.1';
 

@@ -4,6 +4,10 @@
 >
 >S'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte.
 
+# 1.2.1 (12/09/2024) => béta
+
+   - utilisation des lib de @nebz et de @Mips + @TiTidom-RC (dependance.lib et pyenv.lib)
+
 # 1.1.1b (05/09/2024) => béta + stable
 
    - correctif un peu plus "propre" que celui apporté rapidement au 1.1.1

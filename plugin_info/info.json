@@ -10,7 +10,7 @@
 	"category" : "energy",
 	"hasDependency" : true,
 	"hasOwnDeamon" : false,
-	"maxDependancyInstallTime" : 45,
+	"maxDependancyInstallTime" : 60,
 	"changelog" : "https://github.com/Noyax-37/solarman/blob/master/docs/fr_FR/changelog.md",
 	"documentation" : "https://github.com/Noyax-37/solarman/blob/master/docs/fr_FR/index.md",
 	"changelog_beta" : "https://github.com/Noyax-37/solarman/blob/develop/docs/fr_FR/changelog.md",
@@ -27,5 +27,5 @@
 		"v4",
 		"atlas"
 	],
-	"pluginVersion" : "1.1.1b"
+	"pluginVersion" : "1.2.1"
 }
