@@ -49,7 +49,7 @@ function solarman_install() {
     }
 */
     message::removeAll('solarman');
-    message::add('solarman', 'Installation du plugin Solarman terminée, vous êtes en version ' . $core_version . '.' . $versionIdentique);
+    message::add('solarman', 'Installation du plugin Solarman terminée, vous êtes en version ' . $core_version . ". Il est impératif de relancer l'installation des dépendances");
 }
 
 function solarman_update() {
@@ -100,7 +100,7 @@ function solarman_update() {
 */
 
     message::removeAll('solarman');
-    message::add('solarman', 'Mise à jour du plugin Solarman terminée, vous êtes en version ' . $core_version . '.' . $versionIdentique);
+    message::add('solarman', 'Mise à jour du plugin Solarman terminée, vous êtes en version ' . $core_version . ". Il est impératif de relancer l'installation des dépendances");
 //    solarman::cron();
 }
 
