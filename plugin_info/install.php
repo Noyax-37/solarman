@@ -19,6 +19,14 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 
 function solarman_install() {
     $core_version = '1.1.1';
+    $packagesjson = dirname(__FILE__) . '/packages.json';
+    if (file_exists($packagesjson)){
+        unlink($packagesjson);
+    }
+    $postinstall = dirname(__FILE__) . '../resources/packages.json';
+    if (file_exists($postinstall)){
+        unlink($postinstall);
+    }
     if (!file_exists(dirname(__FILE__) . '/info.json')) {
         log::add('solarman','warning','Pas de fichier info.json');
         goto step2;
@@ -49,12 +57,20 @@ function solarman_install() {
     }
 */
     message::removeAll('solarman');
-    message::add('solarman', 'Installation du plugin Solarman terminée, vous êtes en version ' . $core_version . ". Il est impératif de relancer l'installation des dépendances");
+    message::add('solarman', 'Installation du plugin Solarman terminée, vous êtes en version ' . $core_version . ". Il est impératif de relancer l'installation des dépendances.");
 }
 
 function solarman_update() {
     log::add('solarman','debug','solarman_update');
     $core_version = '1.1.1';
+    $packagesjson = dirname(__FILE__) . '/packages.json';
+    if (file_exists($packagesjson)){
+        unlink($packagesjson);
+    }
+    $postinstall = dirname(__FILE__) . '../resources/packages.json';
+    if (file_exists($postinstall)){
+        unlink($postinstall);
+    }
     if (!file_exists(dirname(__FILE__) . '/info.json')) {
         log::add('solarman','warning','Pas de fichier info.json');
         goto step2;
@@ -100,7 +116,7 @@ function solarman_update() {
 */
 
     message::removeAll('solarman');
-    message::add('solarman', 'Mise à jour du plugin Solarman terminée, vous êtes en version ' . $core_version . ". Il est impératif de relancer l'installation des dépendances");
+    message::add('solarman', 'Mise à jour du plugin Solarman terminée, vous êtes en version ' . $core_version . ". Il est impératif de relancer l'installation des dépendances.");
 //    solarman::cron();
 }
 
