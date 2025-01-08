@@ -23,7 +23,7 @@ function solarman_install() {
     if (file_exists($packagesjson)){
         unlink($packagesjson);
     }
-    $postinstall = dirname(__FILE__) . '../resources/packages.json';
+    $postinstall = dirname(__FILE__) . '../resources/post-install.sh';
     if (file_exists($postinstall)){
         unlink($postinstall);
     }
@@ -67,7 +67,7 @@ function solarman_update() {
     if (file_exists($packagesjson)){
         unlink($packagesjson);
     }
-    $postinstall = dirname(__FILE__) . '../resources/packages.json';
+    $postinstall = dirname(__FILE__) . '../resources/post-install.sh';
     if (file_exists($postinstall)){
         unlink($postinstall);
     }

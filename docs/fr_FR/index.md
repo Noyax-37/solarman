@@ -42,7 +42,16 @@ Pré-requis:
 ===
 Pour pouvoir récupérer les infos de votre onduleur il faut un onduleur compatible (liste non exhaustive ci-dessus) équipé d'une clé wifi. Cela ressemble à ça:
 
+* clé LSW3 (la plus commune):
+
 ![Clé Wifi](cle_wifi.png)
+
+<br>
+<br>
+
+* clé S2-WL-ST (sur certains onduleurs SOLIS et peut être d'autres marques)
+
+![Clé 2](clé_S2-WL-ST.jpg)
 
 <br>
 <br>

@@ -43,7 +43,7 @@ class solarman extends eqLogic {
     foreach (eqLogic::byType('solarman') as $eqLogic) {
       if ($eqLogic->getisEnable()==1){
         $autorefresh = $eqLogic->getConfiguration('autorefresh');
-        if ($autorefresh=='* * * *' or $autorefresh=='* * * * *' or $autorefresh==1){
+        if ($autorefresh=='* * * *' or $autorefresh=='* * * * *' or $autorefresh=='*/1 * * * *' or $autorefresh==1){
           $idOnduleur = $eqLogic->getId();
           $nameOnduleur = $eqLogic->getName();
           log::add('solarman', 'debug', " récupération des données de l'onduleur : " . '  ' . $nameOnduleur);
@@ -349,6 +349,7 @@ class solarman extends eqLogic {
       $cmd         .= ' --portclewifi ' . $eqLogic->getConfiguration('portCleWifi', '8899');
       $cmd         .= ' --serialclewifi ' . $eqLogic->getConfiguration('serialCleWifi');
       $cmd         .= ' --mbslaveid ' . $eqLogic->getConfiguration('mbSlaveId', '1');
+      $cmd         .= ' --typeclewifi ' . $eqLogic->getConfiguration('typeCleWifi', 'LSW3');
 
       log::add('solarman', 'debug', ' Exécution du service : ' . $cmd);
       $result = exec('nohup ' . $cmd . ' >> ' . log::getPathToLog('solarman_python_' . $nameOnduleur) . ' 2>&1 &');
@@ -560,11 +561,12 @@ class solarman extends eqLogic {
   {
     $depLogFile = __CLASS__ . '_packages';
     log::remove($depLogFile);
-      log::add(__CLASS__, 'info', sprintf(
-        __('Installation des dépendances, voir log dédié (%s)', __FILE__),
-        $depLogFile
-      ));
-        return array('script' => __DIR__ . '/../../resources/install_#stype#.sh ' . jeedom::getTmpFolder(__CLASS__) . '/dependance', 'log' => log::getPathToLog($depLogFile));
+
+    log::add(__CLASS__, 'info', sprintf(
+      __('Installation des dépendances, voir log dédié (%s)', __FILE__),
+      $depLogFile
+    ));
+    return array('script' => __DIR__ . '/../../resources/install_apt.sh ' . jeedom::getTmpFolder(__CLASS__) . '/dependance', 'log' => log::getPathToLog($depLogFile));
   }
 
 }

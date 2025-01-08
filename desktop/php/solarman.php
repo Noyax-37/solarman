@@ -168,6 +168,17 @@ function displayActionCard($action_name, $fa_icon, $action = '', $class = '') {
 								</div>
 							</div>
 							<div class="form-group">
+								<label class="col-sm-4 control-label">{{Modèle de clé wifi utilisée}}
+									<sup><i class="fas fa-question-circle tooltips" title="{{Voir la documentation pour trouver le modèle clé wifi}}"></i></sup>
+								</label>
+								<div class="col-sm-6">
+									<select class="eqLogicAttr configKey" data-l1key="configuration" data-l2key="typeCleWifi" line-height="11px">
+										<option valeur="LSW3" sélectionnée="oui">LSW3</option>
+										<option valeur="S2-WL-ST">S2-WL-ST</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-sm-4 control-label">{{Adresse IP de votre clé wifi}}
 									<sup><i class="fas fa-question-circle tooltips" title="{{Attention, pas l'adresse de l'onduleur mais de la clé wifi}}"></i></sup>
 								</label>

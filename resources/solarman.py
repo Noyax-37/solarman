@@ -25,7 +25,9 @@ from os.path import join
 import argparse
 import globals
 import yaml
-
+import socket
+from umodbus import conf
+from umodbus.client import tcp
 try:
     from jeedom.jeedom import *
 except ImportError as ex:
@@ -65,27 +67,44 @@ def lire():
 				attempts_left -= 1
 				try:
 					logging.info(f"Connexion au data logger {globals.inverter_host}:{globals.inverter_port}")
-					modbus = PySolarmanV5(globals.inverter_host, globals.inverter_sn, port=globals.inverter_port, mb_slave_id=globals.inverter_mb_slaveid, logger=logging, auto_reconnect=True, socket_timeout=15)
+					if globals.typecle == 'LSW3':
+						modbus = PySolarmanV5(globals.inverter_host, globals.inverter_sn, port=globals.inverter_port, mb_slave_id=globals.inverter_mb_slaveid, logger=logging, auto_reconnect=True, socket_timeout=15)
+					else:
+						conf.SIGNED_VALUES = True
+						sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+						sock.connect((globals.inverter_host, globals.inverter_port))
 					length = end - start + 1
 					if mb_fc==3:
 						response=''
-						response  = modbus.read_holding_registers(register_addr=start, quantity=length)
+						if globals.typecle == 'LSW3':
+							response  = modbus.read_holding_registers(register_addr=start, quantity=length)
+						else:
+							message = tcp.read_holding_registers(slave_id=globals.inverter_mb_slaveid, starting_address=start, quantity=length)
+							response = tcp.send_message(message, sock)
 					if mb_fc==4:
-						response  = modbus.read_input_registers(register_addr=start, quantity=length)
+						if globals.typecle == 'LSW3':
+							response  = modbus.read_input_registers(register_addr=start, quantity=length)
+						else:
+							message = tcp.read_input_registers(slave_id=globals.inverter_mb_slaveid, starting_address=start, quantity=length)
+							response = tcp.send_message(message, sock)
 					params.parse(response, start, length)        
 					result = 1
 					erreur = 1
 				except Exception as e:
 					erreur = 0
 					logging.warning(f"Interrogation des registres [{hex(start)} - {hex(end)}] NOK avec l'exception [{type(e).__name__}: {e}]")
-				if 'modbus' in locals():
-					try:
-						logging.info(f"Deconnexion du logger {globals.inverter_host}:{globals.inverter_port}")
-						modbus.disconnect()
-					finally:
-						modbus = None
+				if globals.typecle == 'LSW3':
+					if 'modbus' in locals():
+						try:
+							logging.info(f"Deconnexion du logger 'LSW3' {globals.inverter_host}:{globals.inverter_port}")
+							modbus.disconnect()
+						finally:
+							modbus = None
+					else:
+						noLogger += 1
 				else:
-					noLogger += 1
+					logging.info(f"Deconnexion du logger 'sock' {globals.inverter_host}:{globals.inverter_port}")
+					sock.close()
 				if erreur == 0:
 					logging.warning(f"Interrogation des registres [{hex(start)} - {hex(end)}] NOK, il reste [{attempts_left} essai]")
 				else:
@@ -150,6 +169,8 @@ parser.add_argument("--ipclewifi", help="Adresse IP de la cle wifi", type=str)
 parser.add_argument("--portclewifi", help="Port de la cle wifi", type=str)
 parser.add_argument("--serialclewifi", help="Numero de serie de la cle wifi", type=str)
 parser.add_argument("--mbslaveid", help="Id modbus de l onduleur", type=str)
+parser.add_argument("--typeclewifi", help="Type de cle raccordee sur l'onduleur", type=str)
+
 args = parser.parse_args()
 
 globals.apikey = args.apikey
@@ -160,11 +181,15 @@ globals.cycle = args.cycle
 globals.inverter_name = str(args.nameonduleur)
 globals.lookup_file = args.configonduleur
 globals.ideqpmnt = args.idonduleur
+globals.typecle = args.typeclewifi
 globals.inverter_host = args.ipclewifi
 globals.inverter_port = int(args.portclewifi)
-globals.inverter_sn = int(args.serialclewifi)
 globals.inverter_mb_slaveid = int(args.mbslaveid)
 globals.path = './html/plugins/solarman/data/inverters/'
+if globals.typecle == "LSW3":
+	globals.inverter_sn = int(args.serialclewifi)
+else:
+	globals.inverter_sn = 0
 
 globals.cycle = float(globals.cycle)
 globals.cycle = 0
@@ -185,6 +210,7 @@ logging.info('SOLARMAN------ Cycle : ' + str(globals.cycle))
 logging.info('SOLARMAN------ Onduleur : ' + str(globals.inverter_name))
 logging.info('SOLARMAN------ Fichier de config : ' + str(globals.lookup_file))
 logging.info('SOLARMAN------ Id de l equipement : ' + str(globals.ideqpmnt))
+logging.info('SOLARMAN------ type de la cle wifi : ' + str(globals.typecle))
 logging.info('SOLARMAN------ Adresse IP de la cle wifi : ' + str(globals.inverter_host))
 logging.info('SOLARMAN------ Port de la cle wifi : ' + str(globals.inverter_port))
 logging.info('SOLARMAN------ Numero de serie de la cle wifi File : ' + str(globals.inverter_sn))
