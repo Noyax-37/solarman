@@ -4,7 +4,7 @@
 >
 >S'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte.
 
-# 1.2.2 béta
+# 1.2.2
 
    - prise en compte des clés S2-WL-ST installées sur certains onduleurs SOLIS (peut être d'autres?)
 

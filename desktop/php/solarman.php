@@ -188,7 +188,7 @@ function displayActionCard($action_name, $fa_icon, $action = '', $class = '') {
 							</div>
 							<div class="form-group">
 								<label class="col-sm-4 control-label">{{Port utilisé par votre clé wifi}}
-									<sup><i class="fas fa-question-circle tooltips" title="{{A chercher dans les config de votre clé, en général 8899}}"></i></sup>
+									<sup><i class="fas fa-question-circle tooltips" title="{{A chercher dans les config de votre clé, en général 8899 pour LSW3 et 502 pour S2-WL-ST}}"></i></sup>
 								</label>
 								<div class="col-sm-6">
 									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="portCleWifi" placeholder="{{8899}}">

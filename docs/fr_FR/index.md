@@ -69,7 +69,7 @@ Configuration générale du plugin
 
 <br>
 <br>
-Un bouton permet de chercher sur le réseau les onduleurs qui s'y trouvent:
+Un bouton permet de chercher sur le réseau les onduleurs qui s'y trouvent, valable uniquement avec les clé LSW3 pour l'instant:
 <br>
 
 Pour rechercher le niveau de log doit être au minimum à "info": cliquer sur 1, si le bouton de log 3 n'apparait pas alors cliquer sur 2 et enfin cliquer sur le bouton 3.
@@ -112,13 +112,19 @@ Les premiers champs sont classiques.
 
 Ensuite le fichier de configuration que vous avez sélectionné ne sera plus modifiable. Si vous vous êtes trompé alors supprimer cet équipement et recréez en un autre.
 
-Il faut que vous saisissiez l'adresse ip de votre clé wifi, le port qu'elle utilise pour communiquer et son numéro de série. Le port est en général 8899 mais il faudra que vous alliez chercher le numéro de série dans les configuration de votre clé.
+Il faut sélectionner le modèle de clé wifi qui est installée sur votre onduleur (voir ci dessus)
+
+Il faut que vous saisissiez l'adresse ip de votre clé wifi, le port qu'elle utilise pour communiquer et son numéro de série. Le port est en général 8899 ou 502 en fonction du modèle de clé installée mais il faudra que vous alliez chercher le numéro de série dans les configuration de votre clé. 
 
 la page de configuration se visualise avec votre navigateur internet en saisissant l'adresse de votre clé: http://adresse_ip_de_votre_clé_wifi l'utilisateur et le mot de passe par défaut si vous ne les avez pas changés sont admin et admin
 
 ![paramétrage clé wifi](param_cle.png)
 
 Ensuite choississez la fréquence d'interrogation que vous souhaitez, seuls 1, 5, 10, 15 et 30 minutes sont valides.
+
+Le bouton vert en bas de l'écran sert à forcer la mise à jour des valeurs de votre onduleur
+
+Le bouton orange remets les registres utilisés conformes à ceux du fichier de configuration utilisé. Nécessaire si vous modifiez le fichier yaml de configuration. Attention toutefois si des erreurs sont affichées alors le seul moyen est de repartir depuis le début en recréant un nouvel équipement
 
 
 Widget template
