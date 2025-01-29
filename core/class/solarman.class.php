@@ -176,7 +176,7 @@ class solarman extends eqLogic {
             if ($rule > 4) {$isstr = 'string';}
             $cmd = (new solarmanCmd());
             $cmd->setEqLogic_id($this->id);
-            $cmd->setname($name);
+            $cmd->setName($name);
             $cmd->setLogicalId($registers[0]);
             $cmd->setType('info');
             $cmd->setUnite($unite);
@@ -194,11 +194,11 @@ class solarman extends eqLogic {
       $displayParam = displayParams();
       $cmd = (new solarmanCmd());
       $cmd->setEqLogic_id($this->id);
-      $cmd->setname('01-Template');
+      $cmd->setName('01-Template');
       $cmd->setLogicalId('Template');
       $cmd->setType('info');
       $cmd->setSubType('string');
-      $cmd->setTemplate('dashboard', 'solarman::distribution_onduleur');
+      $cmd->setTemplate('dashboard', 'solarman::solarman_distrib_onduleur');
       $cmd->setDisplay('parameters', $displayParam);
       $cmd->save();
       $cmd->refresh();
@@ -450,7 +450,7 @@ class solarman extends eqLogic {
               //log::add('solarman', 'debug', ' blablabla : ' . var_dump($cmd));
               if (is_object($cmd)) {
                 try{
-                  $cmd->setname($name);
+                  $cmd->setName($name);
                   $cmd->setUnite($unite);
                   $cmd->setSubType($isstr);
                   $cmd->setConfiguration('scale', $scale);
@@ -469,7 +469,7 @@ class solarman extends eqLogic {
                 try{
                   $cmd = (new solarmanCmd());
                   $cmd->setEqLogic_id($id);
-                  $cmd->setname($name);
+                  $cmd->setName($name);
                   $cmd->setLogicalId($registers[0]);
                   $cmd->setType('info');
                   $cmd->setUnite($unite);
@@ -495,11 +495,11 @@ class solarman extends eqLogic {
         $displayParam = displayParams();
         $cmd = (new solarmanCmd());
         $cmd->setEqLogic_id($id);
-        $cmd->setname('01-Template');
+        $cmd->setName('01-Template');
         $cmd->setLogicalId('Template');
         $cmd->setType('info');
         $cmd->setSubType('string');
-        $cmd->setTemplate('dashboard', 'solarman::distribution_onduleur');
+        $cmd->setTemplate('dashboard', 'solarman::solarman_distrib_onduleur');
         $cmd->setDisplay('parameters',$displayParam);
         $cmd->save();
         $cmd->refresh();

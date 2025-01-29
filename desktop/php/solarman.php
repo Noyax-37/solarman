@@ -171,10 +171,11 @@ function displayActionCard($action_name, $fa_icon, $action = '', $class = '') {
 								<label class="col-sm-4 control-label">{{Modèle de clé wifi utilisée}}
 									<sup><i class="fas fa-question-circle tooltips" title="{{Voir la documentation pour trouver le modèle clé wifi}}"></i></sup>
 								</label>
-								<div class="col-sm-6">
-									<select class="eqLogicAttr configKey" data-l1key="configuration" data-l2key="typeCleWifi" line-height="11px">
-										<option valeur="LSW3" sélectionnée="oui">LSW3</option>
-										<option valeur="S2-WL-ST">S2-WL-ST</option>
+								<div class="col-sm-6" height="11px">
+									<select class="eqLogicAttr configKey" data-l1key="configuration" data-l2key="typeCleWifi">
+										<valeur>"LSW3"</valeur>
+										<option value="LSW3" selected="yes">LSW3 (la plus commune)</option>
+										<option value="S2-WL-ST">S2-WL-ST (utilisée sur quelques onduleurs comme certains SOLIS par exemple)</option>
 									</select>
 								</div>
 							</div>

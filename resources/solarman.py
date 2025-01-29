@@ -55,24 +55,23 @@ def lire():
 	intervalles = len(requests)
 
 	try:
-
+		if globals.typecle == 'LSW3':
+			modbus = PySolarmanV5(globals.inverter_host, globals.inverter_sn, port=globals.inverter_port, mb_slave_id=globals.inverter_mb_slaveid, logger=logging, auto_reconnect=True, socket_timeout=15)
+		else:
+			conf.SIGNED_VALUES = True
+			sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			sock.connect((globals.inverter_host, globals.inverter_port))
+		logging.info(f"Début interrogation de l'onduleur {globals.inverter_name} associé au data logger {globals.inverter_host}:{globals.inverter_port}")
 		for request in requests:
 			start = request['start']
 			end = request['end']
 			mb_fc = request['mb_functioncode']
-			logging.debug(f"Interrogation de [{hex(start)} - {hex(end)}]...")
+			logging.info(f"Interrogation de [{hex(start)} - {hex(end)}]...")
 			_SendData = {}
 			attempts_left = QUERY_RETRY_ATTEMPTS
 			while attempts_left > 0:
 				attempts_left -= 1
 				try:
-					logging.info(f"Connexion au data logger {globals.inverter_host}:{globals.inverter_port}")
-					if globals.typecle == 'LSW3':
-						modbus = PySolarmanV5(globals.inverter_host, globals.inverter_sn, port=globals.inverter_port, mb_slave_id=globals.inverter_mb_slaveid, logger=logging, auto_reconnect=True, socket_timeout=15)
-					else:
-						conf.SIGNED_VALUES = True
-						sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-						sock.connect((globals.inverter_host, globals.inverter_port))
 					length = end - start + 1
 					if mb_fc==3:
 						response=''
@@ -93,18 +92,7 @@ def lire():
 				except Exception as e:
 					erreur = 0
 					logging.warning(f"Interrogation des registres [{hex(start)} - {hex(end)}] NOK avec l'exception [{type(e).__name__}: {e}]")
-				if globals.typecle == 'LSW3':
-					if 'modbus' in locals():
-						try:
-							logging.info(f"Deconnexion du logger 'LSW3' {globals.inverter_host}:{globals.inverter_port}")
-							modbus.disconnect()
-						finally:
-							modbus = None
-					else:
-						noLogger += 1
-				else:
-					logging.info(f"Deconnexion du logger 'sock' {globals.inverter_host}:{globals.inverter_port}")
-					sock.close()
+
 				if erreur == 0:
 					logging.warning(f"Interrogation des registres [{hex(start)} - {hex(end)}] NOK, il reste [{attempts_left} essai]")
 				else:
@@ -112,8 +100,21 @@ def lire():
 					break
 			if result == 0:
 				logging.warning(f"Interrogation des registres [{hex(start)} - {hex(end)}] NOK, abandon.")
+		if globals.typecle == 'LSW3':
+			if 'modbus' in locals():
+				try:
+					logging.info(f"Deconnexion du logger 'LSW3' {globals.inverter_host}:{globals.inverter_port}")
+					modbus.disconnect()
+				finally:
+					modbus = None
+			else:
+				noLogger += 1
+		else:
+			logging.info(f"Deconnexion du logger 'sock' {globals.inverter_host}:{globals.inverter_port}")
+			sock.close()
+		logging.info(f"Fin interrogation de l'onduleur {globals.inverter_name}...")
 		if result == 1:
-			logging.debug(f"Interrogations OK, mise a jour des donnees.")
+			logging.info(f"Interrogations OK, mise a jour des donnees.")
 			current_val = params.get_result()
 			logging.debug('Resultat : ')
 			# logging.debug(current_val)

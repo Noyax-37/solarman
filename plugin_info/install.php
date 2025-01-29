@@ -89,6 +89,9 @@ function solarman_update() {
     }
 
     step2:
+    //affectation du level "info" au fichier de log solarman_recherche_reseau
+    config::save('log::level::solarman_recherche_reseau', '{"200":"1"}');
+
     message::add('solarman', 'Mise à jour du plugin Solarman en cours...');
     log::add('solarman','info','*****************************************************');
     log::add('solarman','info','*********** Mise à jour du plugin solarman **********');

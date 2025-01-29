@@ -1611,6 +1611,7 @@
 			  else if (cmds[j].configuration['widget'] == 'load2 state'){
 				if (debug#id# == 1) console.log('| load2 state')
 				config#id#.load.additional_loads++
+				if (debug#id# == 1) console.log('| load2 additional load ' + config#id#.load.additional_loads)
 				jeedom.cmd.execute({
 				  id: id_eql,
 				  async: false,
@@ -1652,6 +1653,7 @@
 			  else if (cmds[j].configuration['widget'] == 'load3 state'){
 				if (debug#id# == 1) console.log('| load3 state')
 				config#id#.load.additional_loads++
+				if (debug#id# == 1) console.log('| load3 additional load ' + config#id#.load.additional_loads)
 				jeedom.cmd.execute({
 				  id: id_eql,
 				  async: false,

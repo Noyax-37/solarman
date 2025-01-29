@@ -50,7 +50,7 @@ try {
         solarman::majCommandes(init('id'));
         ajax::success();
         break;
-          
+
         case 'rechercheOndul':
           solarman::searchSolarman();
           ajax::success();
