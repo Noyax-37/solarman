@@ -31,7 +31,7 @@ except ImportError as ex:
 #from pysolarmanv5 import PySolarmanV5
 from pySolarman import PySolarmanV5
 
-QUERY_RETRY_ATTEMPTS = 2
+QUERY_RETRY_ATTEMPTS = 4
 
 def ecrire(inverter_host, inverter_port, inverter_sn, inverter_mb_slaveid, mb_fc, registre, liste, unique):
     result = 0
@@ -43,7 +43,7 @@ def ecrire(inverter_host, inverter_port, inverter_sn, inverter_mb_slaveid, mb_fc
             attempts_left -= 1
             try:
                 logging.info(f"Connexion au data logger {inverter_host}:{inverter_port}")
-                logging.info(f"Données à envoyer : " + str(liste))
+                logging.info(f"Données à envoyer liste : " + str(liste) + " ou unique : " + str(unique))
                 modbus = PySolarmanV5(inverter_host, inverter_sn, port=inverter_port, mb_slave_id=inverter_mb_slaveid, logger=logging, auto_reconnect=True, socket_timeout=15)
                 response = 0
                 if mb_fc==16:
@@ -90,12 +90,12 @@ parser.add_argument("--ipclewifi", help="Adresse IP de la cle wifi", type=str)
 parser.add_argument("--portclewifi", help="Port de la cle wifi", type=int, default=8899)
 parser.add_argument("--serialclewifi", help="Numero de serie de la cle wifi", type=int)
 parser.add_argument("--mbslaveid", help="Id modbus de l onduleur", type=int, default=1)
-parser.add_argument("--liste", help="listes des valeurs a ecrire", nargs='+', type=int, default=0)
+parser.add_argument("--liste", help="listes des valeurs a ecrire", nargs='+', type=int, default=[])
 parser.add_argument("--unique", help="valeur unique a ecrire", type=int, default=0)
 
 args = parser.parse_args()
 if type(args.liste) != list:
-    args.liste = [args.list]
+    args.liste = [args.liste]
 
 jeedom_utils.set_log_level('info')
 

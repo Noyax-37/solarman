@@ -3,8 +3,8 @@
 # Note that this won't work if your ZCS inverter is connected via Connext, you have to be using a Wi-Fi or Ethernet Kit such as ZSM-WIFI-USB.
 
 requests:
-  - start: 0x0404      # Inverter
-    end: 0x041A
+  - start: 0x0400      # Inverter
+    end: 0x047F
     mb_functioncode: 0x03
   - start: 0x0484      #GRID AC
     end: 0x04AF
@@ -21,10 +21,25 @@ requests:
   - start: 0x0684      #Generation
     end: 0x069B
     mb_functioncode: 0x03
+  - start: 0x1034      #Basic Config
+    end: 0x1034
+    mb_functioncode: 0x03
+  - start: 0x1040      #Basic Config
+    end: 0x105A
+    mb_functioncode: 0x03
+    
 parameters:
 
   - group: Inverter
     items:
+      - name: "serial"
+        class: "energy"
+        state_class: "serial"
+        uom: ""
+        scale: 1
+        rule: 3
+        registers: [ 0x0445,0x044C ]
+        
       - name: "État de l’onduleur"
         class: ""
         state_class: "measurement"
@@ -210,33 +225,6 @@ parameters:
         rule: 2
         registers: [ 0x04AF ]
         icon: 'mdi:home-lightning-bolt'
-      - name: "Load 1"
-        widget: "load1_state"
-        class: "power"
-        state_class: "measurement"
-        uom: ""
-        scale: 10
-        rule: 2
-        registers: [ 0x048F ]
-        icon: 'mdi:home-lightning-bolt'
-      - name: "Load 3"
-        widget: "load3_state"
-        class: "power"
-        state_class: "measurement"
-        uom: ""
-        scale: 10
-        rule: 2
-        registers: [ 0x049A ]
-        icon: 'mdi:home-lightning-bolt'
-      - name: "Load 4"
-        widget: "load4_state"
-        class: "power"
-        state_class: "measurement"
-        uom: ""
-        scale: 10
-        rule: 2
-        registers: [ 0x04A5 ]
-        icon: 'mdi:home-lightning-bolt'
       - name: "Tension réseau"
         class: "voltage"
         state_class: "measurement"
@@ -291,15 +279,6 @@ parameters:
         scale: 0.01
         rule: 1
         registers: [ 0x050B ]
-        icon: 'mdi:lightning-bolt-outline'
-      - name: "Load 2"
-        widget: "load2_state"
-        class: "power"
-        state_class: "measurement"
-        uom: ""
-        scale: 10
-        rule: 2
-        registers: [ 0x050C ]
         icon: 'mdi:lightning-bolt-outline'
 
   - group: Generation
@@ -940,3 +919,130 @@ parameters:
             value: 'ID191 Échec de la réparation du PID'
           - key: 32768
             value: 'ID192 Perte de signal du module PLC'
+
+  - group: BasicConfiguration
+    items:   
+      - name: "0x1044 BatConfig_ID"
+        uom: ""
+        scale: 1
+        rule: 1
+        registers: [ 0x1044 ]
+      - name: "0x1045 BatConfig_Address"
+        uom: ""
+        scale: 1
+        rule: 1
+        registers: [ 0x1045 ]
+      - name: "0x1046 BatConfig_Potocol"
+        uom: ""
+        scale: 1
+        rule: 1
+        registers: [ 0x1046 ]
+      - name: "0x1047 BatConfig_Voltage_Over"
+        uom: "V"
+        scale: 0.1
+        rule: 1
+        registers: [ 0x1047 ]
+      - name: "0x1048 BatConfig_Voltage_Charge"
+        uom: "V"
+        scale: 0.1
+        rule: 1
+        registers: [ 0x1048 ]
+      - name: "0x1049 BatConfig_Voltage_Lack"
+        uom: "V"
+        scale: 0.1
+        rule: 1
+        registers: [ 0x1049 ]
+      - name: "0x104a BatConfig_Voltage_Discharge_Stop"
+        uom: "V"
+        scale: 0.1
+        rule: 1
+        registers: [ 0x104a ]
+      - name: "0x104b BatConfig_Current_Charge_Limit"
+        uom: "A"
+        scale: 0.01
+        rule: 1
+        registers: [ 0x104b ]
+      - name: "0x104c BatConfig_Current_Discharge_Limit"
+        uom: "A"
+        scale: 0.01
+        rule: 1
+        registers: [ 0x104c ]
+      - name: "0x104D BatConfig_Depth_of_Discharge"
+        widget: ""
+        state_class: "measurement"
+        uom: "%"
+        scale: 1
+        rule: 1
+        registers: [ 0x104D ]
+      - name: "0x104e BatConfig_End_of_Discharge"
+        widget: ""
+        state_class: "measurement"
+        uom: "%"
+        scale: 1
+        rule: 1
+        registers: [ 0x104E ]
+      - name: "0x104F"
+        uom: ""
+        scale: 1
+        rule: 1
+        registers: [ 0x104F ]
+      - name: "0x1050"
+        uom: ""
+        scale: 1
+        rule: 1
+        registers: [ 0x1050 ]
+      - name: "0x1051"
+        uom: ""
+        scale: 1
+        rule: 1
+        registers: [ 0x1051 ]
+      - name: "0x1052"
+        uom: ""
+        scale: 1
+        rule: 1
+        registers: [ 0x1052 ]
+      - name: "0x1053"
+        uom: ""
+        scale: 1
+        rule: 1
+        registers: [ 0x1053 ]
+      - name: "0x1054"
+        uom: ""
+        scale: 1
+        rule: 1
+        registers: [ 0x1054 ]
+      - name: "0x1055"
+        uom: ""
+        scale: 1
+        rule: 1
+        registers: [ 0x1055 ]
+      - name: "0x1056"
+        uom: ""
+        scale: 1
+        rule: 1
+        registers: [ 0x1056 ]
+      - name: "0x1057"
+        uom: ""
+        scale: 1
+        rule: 1
+        registers: [ 0x1057 ]
+      - name: "0x1058"
+        uom: ""
+        scale: 1
+        rule: 1
+        registers: [ 0x1058 ]
+      - name: "0x1059"
+        uom: ""
+        scale: 1
+        rule: 1
+        registers: [ 0x1059 ]
+      - name: "0x105A"
+        uom: ""
+        scale: 1
+        rule: 1
+        registers: [ 0x105A ]
+      - name: "0x1040 - 0x1043"
+        uom: ""
+        scale: 1
+        rule: 6
+        registers: [ 0x1040,0x1043 ]

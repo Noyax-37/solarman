@@ -1,2 +1,8 @@
 
 resources/venv/
+
+resources/requirements copy.txt
+
+resources/jeedom/__pycache__/
+
+resources/__pycache__/

@@ -8,6 +8,7 @@ cycle_sommeil = 0.5
 inverter_name = ''
 lookup_file = ''
 ideqpmnt = 0
+typecle = 'LSW3'
 inverter_host = ''
 inverter_port = 8899
 inverter_sn = 0

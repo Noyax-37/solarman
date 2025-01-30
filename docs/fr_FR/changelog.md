@@ -4,6 +4,21 @@
 >
 >S'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte.
 
+# 1.2.3
+
+   - ajout du numéro de version en plus de la date dans la zone "état" de la configuration du plugin (merci à @Bad pour son coup de main)
+   - amélioration du processus d'interrogation de l'onduleur. Maintenant le plugin se connecte puis ne se déconnecte qu'une fois tous les registres interrogés (avant il y avait déconnexion/reconnexion à chaque plage de registre, honte à moi)
+   - correction de qq fautes de frappes
+   - 
+
+# 1.2.2
+
+   - prise en compte des clés S2-WL-ST installées sur certains onduleurs SOLIS (peut être d'autres?)
+
+# 1.2.1 (12/09/2024) => béta
+
+   - utilisation des lib de @nebz et de @Mips + @TiTidom-RC (dependance.lib et pyenv.lib)
+
 # 1.1.1b (05/09/2024) => béta + stable
 
    - correctif un peu plus "propre" que celui apporté rapidement au 1.1.1
