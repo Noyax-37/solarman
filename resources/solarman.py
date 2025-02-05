@@ -39,7 +39,7 @@ except ImportError as ex:
 from pySolarman import PySolarmanV5
 from parser import ParameterParser
 
-QUERY_RETRY_ATTEMPTS = 2
+QUERY_RETRY_ATTEMPTS = 4
 
 def lire():
 	pid = str(os.getpid())
@@ -51,7 +51,8 @@ def lire():
 	noLogger = 0
 	params = ParameterParser(parameter_definition)
 	requests = parameter_definition['requests']
-	logging.debug(f"Interrogation pour [{len(requests)}] intervalles...")
+	nbrequests = len(requests)
+	logging.debug(f"Interrogation pour [{nbrequests}] intervalles...")
 	intervalles = len(requests)
 
 	try:
@@ -87,7 +88,7 @@ def lire():
 							message = tcp.read_input_registers(slave_id=globals.inverter_mb_slaveid, starting_address=start, quantity=length)
 							response = tcp.send_message(message, sock)
 					params.parse(response, start, length)        
-					result = 1
+					result += 1
 					erreur = 1
 				except Exception as e:
 					erreur = 0
@@ -113,8 +114,8 @@ def lire():
 			logging.info(f"Deconnexion du logger 'sock' {globals.inverter_host}:{globals.inverter_port}")
 			sock.close()
 		logging.info(f"Fin interrogation de l'onduleur {globals.inverter_name}...")
-		if result == 1:
-			logging.info(f"Interrogations OK, mise a jour des donnees.")
+		if result >= 1:
+			logging.info(f"Interrogations OK pour {result} / {nbrequests} intervalles, mise a jour des donnees.")
 			current_val = params.get_result()
 			logging.debug('Resultat : ')
 			# logging.debug(current_val)

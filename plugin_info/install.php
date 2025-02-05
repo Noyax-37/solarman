@@ -33,7 +33,7 @@ function solarman_install() {
     }
     $data = json_decode(file_get_contents(dirname(__FILE__) . '/info.json'), true);
     if (!is_array($data)) {
-        log::add('solarman','warning','Impossible de décoder le fichier info.json');
+        log::add('solarman','warning',__('Impossible de décoder le fichier info.json', __FILE__));
         goto step2;
     }
     try {
@@ -57,11 +57,11 @@ function solarman_install() {
     }
 */
     message::removeAll('solarman');
-    message::add('solarman', 'Installation du plugin Solarman terminée, vous êtes en version ' . $core_version . ". Il est impératif de relancer l'installation des dépendances.");
+    message::add('solarman', sprintf(__("Installation du plugin Solarman terminée, vous êtes en version %s. Il est impératif de relancer l'installation des dépendances.", __FILE__), $core_version);
 }
 
 function solarman_update() {
-    log::add('solarman','debug','solarman_update');
+    log::add('solarman','debug',__('solarman_update'));
     $core_version = '1.1.1';
     $packagesjson = dirname(__FILE__) . '/packages.json';
     if (file_exists($packagesjson)){
@@ -72,19 +72,19 @@ function solarman_update() {
         unlink($postinstall);
     }
     if (!file_exists(dirname(__FILE__) . '/info.json')) {
-        log::add('solarman','warning','Pas de fichier info.json');
+        log::add('solarman','warning',__('Pas de fichier info.json', __FILE__));
         goto step2;
     }
     $data = json_decode(file_get_contents(dirname(__FILE__) . '/info.json'), true);
     if (!is_array($data)) {
-        log::add('solarman','warning','Impossible de décoder le fichier info.json (non bloquant ici)');
+        log::add('solarman','warning',__('Impossible de décoder le fichier info.json (non bloquant ici)', __FILE__));
         goto step2;
     }
     try {
         $core_version = $data['pluginVersion'];
         config::save('version', $core_version, 'solarman');
     } catch (\Exception $e) {
-        log::add('solarman','warning','Pas de version de plugin (non bloquant ici)');
+        log::add('solarman',__('warning','Pas de version de plugin (non bloquant ici)', __FILE__));
         goto step2;
     }
 
@@ -92,11 +92,11 @@ function solarman_update() {
     //affectation du level "info" au fichier de log solarman_recherche_reseau
     config::save('log::level::solarman_recherche_reseau', '{"200":"1"}');
 
-    message::add('solarman', 'Mise à jour du plugin Solarman en cours...');
+    message::add('solarman', __('Mise à jour du plugin Solarman en cours...', __FILE__));
     log::add('solarman','info','*****************************************************');
-    log::add('solarman','info','*********** Mise à jour du plugin solarman **********');
+    log::add('solarman','info',__-('*********** Mise à jour du plugin solarman **********', __FILE__));
     log::add('solarman','info','*****************************************************');
-    log::add('solarman','info','**        Core version    : '. $core_version. '                **');
+    log::add('solarman','info',__('**        Core version    :', __FILE__) . ' '. $core_version. '                **');
     log::add('solarman','info','*****************************************************');
 
 /*
@@ -119,7 +119,7 @@ function solarman_update() {
 */
 
     message::removeAll('solarman');
-    message::add('solarman', 'Mise à jour du plugin Solarman terminée, vous êtes en version ' . $core_version . ". Il est impératif de relancer l'installation des dépendances.");
+    message::add('solarman', sprintf(__("Mise à jour du plugin Solarman terminée, vous êtes en version %s. Il est impératif de relancer l'installation des dépendances.", __FILE__), $core_version);
 //    solarman::cron();
 }
 
@@ -129,6 +129,6 @@ function solarman_remove() {
         $crontoday->remove();
     }
     message::removeAll('solarman');
-    message::add('solarman', 'Désinstallation du plugin Solarman terminée');
+    message::add('solarman', __('Désinstallation du plugin Solarman terminée', __FILE__));
 }
 

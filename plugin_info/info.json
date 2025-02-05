@@ -19,6 +19,14 @@
 		"forum":"https://community.jeedom.com/tag/plugin-solarman",
 		"Fil d'actualité du plugin":"https://community.jeedom.com/t/plugin-solarman-actualites/"
 	},
+	"language": [
+		"de_DE",
+		"en_US",
+		"es_ES",
+		"fr_FR",
+		"it_IT",
+		"pt_PT"
+	],
 	"compatibility": [
 		"smart",
 		"rpi",

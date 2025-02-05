@@ -39,13 +39,13 @@ $var_to_log = '';
 
 if (isset($result['device'])) {
     foreach ($result['device'] as $key => $data) {
-        log::add('solarman','debug',"Message du programme solarman. Id de l'équipement : " . $key);
+        log::add('solarman','debug', __("Message du programme solarman. Id de l'équipement :", __FILE__) . ' ' . $key);
         $eqlogic = eqLogic::byId(intval($key), 'solarman');
         //if (is_object($eqlogic)) {
             foreach ($data as $key2 => $value) {
-                log::add('solarman','debug','Registre décodé en hexa : ' . $key2 . ' en décimal : ' . intval($key2,0) . ' valeur = ' . strval($value));
+                log::add('solarman','debug', sprintf(__('Registre décodé en hexa : %s en décimal :', __FILE__), $key2) . ' ' . intval($key2,0) . ' valeur = ' . strval($value));
                 if ($key2 == 'PID'){
-                    log::add('solarman','debug',"Message du programme solarman. PId de l'équipement : " . $value);
+                    log::add('solarman','debug', __("Message du programme solarman. PId de l'équipement :", __FILE__) . ' ' . $value);
                     //exec("sudo pkill -f 'solarman.py'");
                     //exec("sudo kill -9 " . $value);
                     //posix_kill(intval($value), 15);

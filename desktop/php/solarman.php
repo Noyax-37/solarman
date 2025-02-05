@@ -174,8 +174,8 @@ function displayActionCard($action_name, $fa_icon, $action = '', $class = '') {
 								<div class="col-sm-6" height="11px">
 									<select class="eqLogicAttr configKey" data-l1key="configuration" data-l2key="typeCleWifi">
 										<valeur>"LSW3"</valeur>
-										<option value="LSW3" selected="yes">LSW3 (la plus commune)</option>
-										<option value="S2-WL-ST">S2-WL-ST (utilisée sur quelques onduleurs comme certains SOLIS par exemple)</option>
+										<option value="LSW3" selected="yes">{{LSW3 (la plus commune)}}</option>
+										<option value="S2-WL-ST">{{S2-WL-ST (utilisée sur quelques onduleurs comme certains SOLIS par exemple)}}</option>
 									</select>
 								</div>
 							</div>
