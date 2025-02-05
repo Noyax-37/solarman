@@ -134,12 +134,14 @@
     },
     "plugins\/solarman\/plugin_info\/install.php": {
         "**        Core version    :": "** Core version :",
+        "*********** Mise à jour du plugin solarman **********": "*********** Update des solarman-Plugins **********",
         "Désinstallation du plugin Solarman terminée": "Deinstallation des Solarman-Plugins abgeschlossen",
         "Impossible de décoder le fichier info.json": "Die Datei info.json kann nicht dekodiert werden",
         "Impossible de décoder le fichier info.json (non bloquant ici)": "Die Datei info.json kann nicht dekodiert werden (hier nicht blockierend)",
         "Installation du plugin Solarman terminée, vous êtes en version %s. Il est impératif de relancer l'installation des dépendances.": "Die Installation des Solarman-Plugins ist abgeschlossen, Sie befinden sich in der Version %s. Starten Sie die Installation der Abhängigkeiten unbedingt erneut.",
         "Mise à jour du plugin Solarman en cours...": "Update des Solarman-Plugins läuft...",
         "Mise à jour du plugin Solarman terminée, vous êtes en version %s. Il est impératif de relancer l'installation des dépendances.": "Die Aktualisierung des Solarman-Plugins ist abgeschlossen, Sie befinden sich in der Version %s. Starten Sie die Installation der Abhängigkeiten unbedingt erneut.",
-        "Pas de fichier info.json": "Keine Datei info.json"
+        "Pas de fichier info.json": "Keine Datei info.json",
+        "Pas de version de plugin (non bloquant ici)": "Keine Plugin-Version (hier nicht blockierend)"
     }
 }
