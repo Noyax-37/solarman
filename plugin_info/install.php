@@ -77,14 +77,14 @@ function solarman_update() {
     }
     $data = json_decode(file_get_contents(dirname(__FILE__) . '/info.json'), true);
     if (!is_array($data)) {
-        log::add('solarman','warning',__('Impossible de décoder le fichier info.json (non bloquant ici)', __FILE__));
+        log::add('solarman','warning', __('Impossible de décoder le fichier info.json (non bloquant ici)', __FILE__));
         goto step2;
     }
     try {
         $core_version = $data['pluginVersion'];
         config::save('version', $core_version, 'solarman');
     } catch (\Exception $e) {
-        log::add('solarman',__('warning','Pas de version de plugin (non bloquant ici)', __FILE__));
+        log::add('solarman','warning', __('Pas de version de plugin (non bloquant ici)', __FILE__));
         goto step2;
     }
 
@@ -94,7 +94,7 @@ function solarman_update() {
 
     message::add('solarman', __('Mise à jour du plugin Solarman en cours...', __FILE__));
     log::add('solarman','info','*****************************************************');
-    log::add('solarman','info',__-('*********** Mise à jour du plugin solarman **********', __FILE__));
+    log::add('solarman','info',__('*********** Mise à jour du plugin solarman **********', __FILE__));
     log::add('solarman','info','*****************************************************');
     log::add('solarman','info',__('**        Core version    :', __FILE__) . ' '. $core_version. '                **');
     log::add('solarman','info','*****************************************************');
@@ -119,7 +119,7 @@ function solarman_update() {
 */
 
     message::removeAll('solarman');
-    message::add('solarman', sprintf(__("Mise à jour du plugin Solarman terminée, vous êtes en version %s. Il est impératif de relancer l'installation des dépendances.", __FILE__), $core_version);
+    message::add('solarman', sprintf(__("Mise à jour du plugin Solarman terminée, vous êtes en version %s. Il est impératif de relancer l'installation des dépendances.", __FILE__), $core_version));
 //    solarman::cron();
 }
 
