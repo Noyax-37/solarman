@@ -56,6 +56,20 @@ try {
           ajax::success();
           break;
 
+          case 'scanregister':
+            solarman::scanregisters(
+              init('ipcle'), 
+              init('portcle'), 
+              init('mbslaveid'), 
+              init('typecle'), 
+              init('seriecle'), 
+              init('typeregistre'), 
+              init('registerstart'), 
+              init('registerend')
+            );
+            ajax::success();
+            break;
+
     ###################################################################################################################
 
 
