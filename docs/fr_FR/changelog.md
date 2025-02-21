@@ -4,6 +4,11 @@
 >
 >S'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte.
 
+# 1.2.4
+
+   - possibilité de scanner une plages de registres pour vérifier s'ils sont accessibles et la conformité des données reccueillies
+   - ajout de fichiers modbus pour quelques onduleurs
+
 # 1.2.3
 
    - ajout du numéro de version en plus de la date dans la zone "état" de la configuration du plugin (merci à @Bad pour son coup de main)

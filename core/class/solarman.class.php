@@ -385,7 +385,35 @@ class solarman extends eqLogic {
     log::add('solarman_recherche_reseau', 'info', '---------------------------------------------------------------');
   }
 
-  	/**
+
+  public static function scanregisters($ip_cle, $port_cle, $mb_slave_id, $type_cle, $serial_cle, $register_type, $register_start, $register_end)
+  {
+    log::add('solarman_scan_reg', 'info', '---------------------------------------------------------------' . $mb_slave_id);
+    log::add('solarman_scan_reg', 'info', __('------------------Démarrage scan plage de registres-------------------', __FILE__));
+    $solarmanPath         	  = realpath(dirname(__FILE__) . '/../../resources');
+
+    $cmd          = 'sudo nice -n 19 ' . $solarmanPath . '/venv/bin/python3 ' . $solarmanPath . '/register_scan.py';
+    $cmd         .= ' --loglevel '. log::convertLogLevel(log::getLogLevel(__CLASS__));
+    $cmd         .= ' --ipclewifi ' . $ip_cle;
+    $cmd         .= ' --portclewifi ' . $port_cle;
+    $cmd         .= ' --serialclewifi ' . strval($serial_cle);
+    $cmd         .= ' --mbslaveid ' . strval($mb_slave_id);
+    $cmd         .= ' --typeclewifi ' . $type_cle;
+    $cmd         .= ' --register_type ' . $register_type;
+    $cmd         .= ' --register_start ' . $register_start;
+    $cmd         .= ' --register_end ' . $register_end;
+
+    log::add('solarman_scan_reg', 'debug', ' lancement programme : ' . $cmd);
+    $result = exec('nohup ' . $cmd . ' >> ' . log::getPathToLog('solarman_scan_reg 2>&1 &'));
+    if (strpos(strtolower($result), 'error') !== false || strpos(strtolower($result), 'traceback') !== false) {
+        log::add('solarman_scan_reg', 'error', __('Erreur pendant le scan :', __FILE__) . ' ' . $result);
+        return false;
+    }
+    log::add('solarman_scan_reg', 'info', __('-----------------------Scan terminé----------------------', __FILE__));
+    log::add('solarman_scan_reg', 'info', '---------------------------------------------------------------');
+  }
+
+  /**
 	 * Return a list of all inverters name and file.
 	 */
 	public static function inverterList(){

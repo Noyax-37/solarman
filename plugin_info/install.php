@@ -57,11 +57,11 @@ function solarman_install() {
     }
 */
     message::removeAll('solarman');
-    message::add('solarman', sprintf(__("Installation du plugin Solarman terminée, vous êtes en version %s. Il est impératif de relancer l'installation des dépendances.", __FILE__), $core_version);
+    message::add('solarman', sprintf(__("Installation du plugin Solarman terminée, vous êtes en version %s. Il est impératif de relancer l'installation des dépendances.", __FILE__), $core_version));
 }
 
 function solarman_update() {
-    log::add('solarman','debug',__('solarman_update'));
+    log::add('solarman','debug','solarman_update');
     $core_version = '1.1.1';
     $packagesjson = dirname(__FILE__) . '/packages.json';
     if (file_exists($packagesjson)){
@@ -91,6 +91,7 @@ function solarman_update() {
     step2:
     //affectation du level "info" au fichier de log solarman_recherche_reseau
     config::save('log::level::solarman_recherche_reseau', '{"200":"1"}');
+    config::save('log::level::solarman_scan_reg', '{"200":"1"}');
 
     message::add('solarman', __('Mise à jour du plugin Solarman en cours...', __FILE__));
     log::add('solarman','info','*****************************************************');

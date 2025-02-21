@@ -31,16 +31,16 @@ $port = config::byKey('port', 'solarman');
 $core_version = '1.1.1';
 
 if (!file_exists(dirname(__FILE__) . '/info.json')) {
-  log::add('solarman','warning','Pas de fichier info.json');
+  log::add('solarman','warning',__('Pas de fichier info.json', __FILE__));
 }
 $data = json_decode(file_get_contents(dirname(__FILE__) . '/info.json'), true);
 if (!is_array($data)) {
-  log::add('solarman','warning','Impossible de décoder le fichier info.json');
+  log::add('solarman','warning',__('Impossible de décoder le fichier info.json', __FILE__));
 }
 try {
   $core_version = $data['pluginVersion'];
 } catch (\Exception $e) {
-  log::add('solarman','warning','Impossible de récupérer la version.');
+  log::add('solarman','warning',__('Impossible de récupérer la version.', __FILE__));
 }
 
 ?>
@@ -70,6 +70,70 @@ try {
   </fieldset>
   <br /><br /><br /><br />
   <fieldset>
+    <legend><i class="icon fas fa-warning"></i> {{Test scan plage de registres}}</legend>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">{{Adresse Ip De Votre clé}}
+      </label>
+      <div class="col-sm-2">
+        <input class="scan_reg form-control" data-l1key="ip_cle"/>
+      </div>
+      <label class="col-sm-2 control-label">{{Port de votre clé}}
+      </label>
+      <div class="col-sm-2">
+        <input class="scan_reg form-control" data-l1key="port_cle"/>
+      </div>
+      <label class="col-sm-2 control-label">{{Modbus Slave ID}}
+      </label>
+      <div class="col-sm-2">
+        <input class="scan_reg form-control" data-l1key="slave_id"/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">{{Type de clé}}
+      </label>
+      <div class="col-sm-2">
+        <select class="scan_reg form-control" data-l1key="type_cle">
+          <option value=""></option>
+          <option value="LSW3">{{LSW3 (la plus commune, connexion en WIFI)}}</option>
+          <option value="ethernet">{{LSE3 (clé identique à la LSW3 mais en connection ethernet) ou S2-WL-ST (utilisée sur quelques onduleurs comme certains SOLIS par exemple)}}</option>
+        </select>
+      </div>
+      <label class="col-sm-2 control-label">{{Numéro de série de votre clé wifi}}
+      </label>
+      <div class="col-sm-2">
+        <input class="scan_reg form-control" data-l1key="serie_cle"/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">{{Type de registre à interroger}}
+      </label>
+      <div class="col-sm-2">
+        <select class="scan_reg form-control" data-l1key="type_registre">
+          <option value=""></option>
+          <option value="read_holding">{{Read holding registeur => modbus code 0x03}}</option>
+          <option value="read_input">{{Read input registeur => modbus code 0x04}}</option>
+        </select>
+      </div>
+      <label class="col-sm-2 control-label">{{Premier registre (en hexa = 0x0000)}}
+      </label>
+      <div class="col-sm-2">
+        <input class="scan_reg form-control" data-l1key="register_start"/>
+      </div>
+      <label class="col-sm-2 control-label">{{Dernier registre (en hexa = 0x0000)}}
+      </label>
+      <div class="col-sm-2">
+        <input class="scan_reg form-control" data-l1key="register_end"/>
+      </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label">{{Scan des registres (faire "rafraichir" si le log "solarman_scan_reg" n'apparait pas)}}</label>
+        <div class="col-sm-8">
+          <a class="btn btn-warning scan_register" data-choix="scan_register"><i class="fas fa-cogs"></i> {{Scanner les registres configurés ci-dessus}}</a>
+        </div>
+      </div>
+   </fieldset>
+  <br /><br /><br /><br />
+  <fieldset>
     <legend><i class="icon loisir-pacman1"></i> {{Version}}</legend>
     <div class="form-group">
         <label class="col-lg-4 control-label">Core Solarman <sup><i class="fas fa-question-circle tooltips" title="{{C'est la version du plugin}}" style="font-size : 1em;color:grey;"></i></sup></label>
@@ -79,6 +143,7 @@ try {
 
 </form>
 
+
 <script>
       $('.recherche_ondul').on('click', function () {
 				$.ajax({// fonction permettant de faire de l'ajax
@@ -86,7 +151,7 @@ try {
                 url: "plugins/solarman/core/ajax/solarman.ajax.php", // url du fichier php
                 data: {
                     action: "rechercheOndul",
-					id: $('.eqLogicAttr[data-l1key=id]').value()
+          					id: $('.eqLogicAttr[data-l1key=id]').value()
                 },
                 dataType: 'json',
                 error: function (request, status, error) {
@@ -97,6 +162,37 @@ try {
                 }
             	});
 	    });
+
+      $('.scan_register').on('click', function () {
+        if ($('.scan_reg[data-l1key=type_cle]').value() == 'LSW3'){
+          serie_cle = $('.scan_reg[data-l1key=serie_cle]').value();
+        } else {
+          serie_cle = '123456';
+        }
+				$.ajax({// fonction permettant de faire de l'ajax
+                type: "POST", // methode de transmission des données au fichier php
+                url: "plugins/solarman/core/ajax/solarman.ajax.php", // url du fichier php
+                data: {
+                    action: "scanregister",
+          					ipcle: $('.scan_reg[data-l1key=ip_cle]').value(),
+                    portcle: $('.scan_reg[data-l1key=port_cle]').value(),
+                    mbslaveid: $('.scan_reg[data-l1key=slave_id]').value(),
+                    typecle: $('.scan_reg[data-l1key=type_cle]').value(),
+                    seriecle: serie_cle,
+                    typeregistre: $('.scan_reg[data-l1key=type_registre]').value(),
+                    registerstart: $('.scan_reg[data-l1key=register_start]').value(),
+                    registerend: $('.scan_reg[data-l1key=register_end]').value()
+                },
+                dataType: 'json',
+                error: function (request, status, error) {
+                    handleAjaxError(request, status, error);
+                },
+                success: function (data) { // si l'appel a bien fonctionné
+                    $.fn.showAlert({message: "{{Scan non terminé, aller voir le résultat dans les log 'Solarman_scan_reg' et attendre la fin}}", level: 'success'});
+                }
+            	});
+	    });
+
 
 </script>
 
