@@ -9,7 +9,7 @@ Fichiers de configuration auto pour: Afore_BNTxxxKTL-2mppt, deye_2mppt, deye_4mp
 
 Liste (non exhaustives) des onduleurs pris en compte à l'heure actuelle et le fichier de configuration associé:  
 <br>
-Les docs des onduleurs peuvent se trouver dans [ce répertoire](\doc_onduleurs\ )
+Les docs des onduleurs peuvent se trouver dans [ce répertoire](docs_onduleurs\ )
 <br>
 
 | Fichier de configuration   | Onduleurs supportés                      | Observations                                                                                                                  |
