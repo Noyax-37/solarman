@@ -3,8 +3,8 @@
 # Note that this won't work if your ZCS inverter is connected via Connext, you have to be using a Wi-Fi or Ethernet Kit such as ZSM-WIFI-USB.
 
 requests:
-  - start: 0x0400      # Inverter
-    end: 0x047F
+  - start: 0x0404      # Inverter
+    end: 0x041A
     mb_functioncode: 0x03
   - start: 0x0484      #GRID AC
     end: 0x04AF
