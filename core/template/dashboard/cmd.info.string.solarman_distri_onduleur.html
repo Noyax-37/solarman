@@ -3,8 +3,8 @@
   Widget name : cmd.info.string.solarman_distri_onduleur
   first Author : Phpvarious
   Inspiration : https://github.com/slipx06/sunsynk-power-flow-card/tree/master
-  Last Uptade : 2023/09/21 23h00 - Phpvarious
-
+  Last Uptade : 2026/03/07 - Noyax37
+  
   ###### TODO ######
 -->
   <div class="widget#id#" id="widget#id#"></div>
@@ -43,10 +43,10 @@
   </style>
   <script>
     var debug#id# = ('#debug#' == 1) ? true : false;
-    debug#id# = true;
+    //debug#id# = true;
     var fullJs#id# = false
     var jeedomVersion#id# = 4.4
-    var versionWidget#id# = '21/09/2023 23h00'
+    var versionWidget#id# = '2026/03/07 - CORRECTED'
     
     if (debug#id#) console.log('┌─────────────────── Widget Distribution Onduleur [#id#] Compatibilité V4.3 V4.4 [' + versionWidget#id# + '] ───────────────')
     /* Compatibilité V4.2 V4.3 V4.4 */
@@ -74,6 +74,46 @@
       'W' : [1000, 'W', 'kW', 'MW'],
       'Wh' : [1000, 'Wh', 'kWh', 'MWh'],
       'l' : [1000, 'l', 'm<sup>3</sup>'],
+    }
+    
+    /**
+     * FONCTION HELPER - Convertit les valeurs sans modifier _options
+     * Retourne un objet avec les valeurs converties
+     * IMPORTANT: Ne jamais modifier _options directement !
+     */
+    function getConvertedValue#id#(_options) {
+      // Créer une copie locale sans modifier l'original
+      let rawValue = parseFloat(_options.value) || 0;
+      let displayValue = parseFloat(_options.display_value) || rawValue;
+      let unit = (_options.unit || '').toString();
+      
+      // Vérifier aussi raw_unit si disponible (pour certaines versions de Jeedom)
+      if (typeof _options.raw_unit !== 'undefined' && _options.raw_unit !== '') {
+        unit = _options.raw_unit;
+      }
+      
+      let result = {
+        value: rawValue,
+        displayValue: displayValue,
+        originalUnit: unit,
+        convertedUnit: unit,
+        wasConverted: false
+      };
+      
+      // Conversion kW -> W
+      if (unit.toLowerCase() === 'kw') {
+        result.value = displayValue * 1000;
+        result.convertedUnit = 'W';
+        result.wasConverted = true;
+      }
+      // Conversion kWh -> Wh
+      else if (unit.toLowerCase() === 'kwh') {
+        result.value = displayValue * 1000;
+        result.convertedUnit = 'Wh';
+        result.wasConverted = true;
+      }
+      
+      return result;
     }
     
     function trunc#id#(value = 0, trunc = 1, forceDec = false) {
@@ -109,7 +149,9 @@
         result.value = myval[0]
         result.unit = prefix[myval[1]]
         //console.log('autoValueArray() -> value = ' + result.value + ' ' + result.unit + ' ' + prefix[myval[1]] + ' ' + myval[1])
-     } else result.value = value //Math.trunc(value * trunc) / trunc
+     } else {
+		result.value = value //Math.trunc(value * trunc) / trunc
+	 }
       return result
     }
     
@@ -458,9 +500,9 @@
     if (is_numeric('#batterySocShutdown#')) config#id#.battery.soc.shutdown = '#batterySocShutdown#'
     if ("#mpptName#" != '#'+'mpptName#') config#id#.battery.mppt.name = "#mpptName#"
     if ("#batteryColor#" != '#'+'batteryColor#') document.documentElement.style.setProperty('--battery_colour#id#', '#batteryColor#')
-    ////////////////////////// Battery /////////////////////////
+    ////////////////////////// Onduleur /////////////////////////
     if ("#inverterColor#" != '#'+'inverterColor#') document.documentElement.style.setProperty('--inverter_colour#id#', '#inverterColor#')
-    if ("#inverterModel#" != '#'+'inverterModel#') config#id#.inverter.model = '#inverterModel#'
+    if ("#inverterTxt#" != '#' + 'inverterTxt#') document.documentElement.style.setProperty('--inverter_secondary_colour#id#', '#inverterTxt#')
     ////////////////////////// Aux /////////////////////////
     if ("#auxColor#" != '#'+'auxColor#') document.documentElement.style.setProperty('--aux_colour#id#', '#auxColor#')
     if (is_numeric('#auxMaxPower#')) config#id#.aux.energy = '#auxMaxPower#'
@@ -508,18 +550,13 @@
 				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.display_value + ' ' + id_unit)
 				  if (_options.display_value != undefined) 
 				  {
-					//_options.value = 745
-					//_options.unit = 'W'
-
-					if (_options.unit.toLowerCase() == 'kw') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'W'
-					}
-					config#id#.solar.pv1.power = parseFloat(_options.value)
-					config#id#.solar.pv1.power_unit = _options.unit
-					let pvPower = autoValueArray#id#(parseFloat(_options.value),config#id#.solar.unit)
-					if (debug#id# == 1) console.log('| autoValueArray PV1 ' + pvPower.value + ' ' + pvPower.unit + ' ' + _options.display_value)
+					//
+					let converted = getConvertedValue#id#(_options);
+					
+					config#id#.solar.pv1.power = converted.value
+					config#id#.solar.pv1.power_unit = converted.convertedUnit
+					let pvPower = autoValueArray#id#(converted.value, config#id#.solar.unit)
+					if (debug#id# == 1) console.log('| autoValueArray PV1 ' + pvPower.value + ' ' + pvPower.unit + ' (original: ' + _options.display_value + ' ' + _options.unit + ')')
 					document.getElementById("pv1_power_state#id#").innerHTML = trunc#id#(pvPower.value, 3, 0) + ' ' + pvPower.unit
 					calculatePv#id#('pv1_power')
 				  }
@@ -545,15 +582,12 @@
 				  if (debug#id# == 1) console.log('| event for ' + name + '[' + id_eql + '] -> ' + _options.value)
 				  if (_options.value != undefined) 
 				  {
-					//_options.value = '1.45'
-					if (_options.unit.toLowerCase() == 'kw') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'W'
-					}
-					config#id#.solar.pv2.power = _options.value
-					config#id#.solar.pv2.power_unit = _options.unit
-					let pvPower = autoValueArray#id#(parseFloat(_options.value),config#id#.solar.unit)
+					//
+					let converted = getConvertedValue#id#(_options);
+					
+					config#id#.solar.pv2.power = converted.value
+					config#id#.solar.pv2.power_unit = converted.convertedUnit
+					let pvPower = autoValueArray#id#(converted.value, config#id#.solar.unit)
 					if (debug#id# == 1) console.log('| autoValueArray ' + pvPower.value)
 					document.getElementById("pv2_power_state#id#").innerHTML = trunc#id#(pvPower.value, 3, 0) + ' ' + pvPower.unit
 					calculatePv#id#('pv2_power')
@@ -580,15 +614,12 @@
 				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
 				  if (_options.value != undefined) 
 				  {
-					//_options.value = '1.345'
-					if (_options.unit.toLowerCase() == 'kw') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'W'
-					}
-					config#id#.solar.pv3.power = _options.value
-					config#id#.solar.pv3.power_unit = _options.unit
-					let pvPower = autoValueArray#id#(parseFloat(_options.value),config#id#.solar.unit)
+					//
+					let converted = getConvertedValue#id#(_options);
+					
+					config#id#.solar.pv3.power = converted.value
+					config#id#.solar.pv3.power_unit = converted.convertedUnit
+					let pvPower = autoValueArray#id#(converted.value, config#id#.solar.unit)
 					if (debug#id# == 1) console.log(' autoValueArray ' + pvPower.value)
 					document.getElementById("pv3_power_state#id#").innerHTML = trunc#id#(pvPower.value, 3, 0) + ' ' + pvPower.unit
 					calculatePv#id#('pv3_power')
@@ -615,15 +646,12 @@
 				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
 				  if (_options.value != undefined) 
 				  {
-					//_options.value = '1.345'
-					if (_options.unit.toLowerCase() == 'kw') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'W'
-					}
-					config#id#.solar.pv4.power = _options.value
-					config#id#.solar.pv4.power_unit = _options.unit
-					let pvPower = autoValueArray#id#(parseFloat(_options.value),config#id#.solar.unit)
+					//
+					let converted = getConvertedValue#id#(_options);
+					
+					config#id#.solar.pv4.power = converted.value
+					config#id#.solar.pv4.power_unit = converted.convertedUnit
+					let pvPower = autoValueArray#id#(converted.value, config#id#.solar.unit)
 					if (debug#id# == 1) console.log(' autoValueArray ' + pvPower.value)
 					document.getElementById("pv4_power_state#id#").innerHTML = trunc#id#(pvPower.value, 3, 0) + ' ' + pvPower.unit
 					calculatePv#id#('pv4_power')
@@ -829,12 +857,10 @@
 				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
 				  if (_options.value != undefined) 
 				  {
-            		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'Wh'
-					}
-					let pv1Energy = autoValueArray#id#(parseFloat(_options.value),'Wh')
+					//
+					let converted = getConvertedValue#id#(_options);
+					
+					let pv1Energy = autoValueArray#id#(converted.value, 'Wh')
 					document.getElementById("pv1_energy#id#").innerHTML = trunc#id#(pv1Energy.value, 3, 0) + ' ' + pv1Energy.unit
 				  }
 				})
@@ -862,12 +888,10 @@
 				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
 				  if (_options.value != undefined) 
 				  {
-            		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'Wh'
-					}
-					let pv2Energy = autoValueArray#id#(parseFloat(_options.value),'Wh')
+					//
+					let converted = getConvertedValue#id#(_options);
+					
+					let pv2Energy = autoValueArray#id#(converted.value, 'Wh')
 					document.getElementById("pv2_energy#id#").innerHTML = trunc#id#(pv2Energy.value, 3, 0) + ' ' + pv2Energy.unit
 				  }
 				})
@@ -895,12 +919,10 @@
 				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
 				  if (_options.value != undefined) 
 				  {
-            		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'Wh'
-					}
-					let pv3Energy = autoValueArray#id#(parseFloat(_options.value),'Wh')
+					//
+					let converted = getConvertedValue#id#(_options);
+					
+					let pv3Energy = autoValueArray#id#(converted.value, 'Wh')
 					document.getElementById("pv3_energy#id#").innerHTML = trunc#id#(pv3Energy.value, 3, 0) + ' ' + pv3Energy.unit
 				  }
 				})
@@ -928,12 +950,10 @@
 				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
 				  if (_options.value != undefined) 
 				  {
-            		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'Wh'
-					}
-					let pv4Energy = autoValueArray#id#(parseFloat(_options.value),'Wh')
+					//
+					let converted = getConvertedValue#id#(_options);
+					
+					let pv4Energy = autoValueArray#id#(converted.value, 'Wh')
 					document.getElementById("pv4_energy#id#").innerHTML = trunc#id#(pv4Energy.value, 3, 0) + ' ' + pv4Energy.unit
 				  }
 				})
@@ -960,12 +980,10 @@
 				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
 				  if (_options.value != undefined) 
 				  {
-					if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'Wh'
-					}
-					let dailySolar = autoValueArray#id#(parseFloat(_options.value),'Wh')
+					//
+					let converted = getConvertedValue#id#(_options);
+					
+					let dailySolar = autoValueArray#id#(converted.value, 'Wh')
 					document.getElementById("daily_solar_value#id#").innerHTML = trunc#id#(dailySolar.value, 3, 0) + ' ' + dailySolar.unit
 				  }
 				})
@@ -1043,12 +1061,10 @@
 				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
 				  if (_options.value != undefined) 
 				  {
-            		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'Wh'
-					}
-					let dailyBatteryCharge = autoValueArray#id#(parseFloat(_options.value),'Wh')
+					//
+					let converted = getConvertedValue#id#(_options);
+					
+					let dailyBatteryCharge = autoValueArray#id#(converted.value, 'Wh')
 					document.getElementById("daily_bat_charge_value#id#").innerHTML = trunc#id#(dailyBatteryCharge.value, 3, 0) + ' ' + dailyBatteryCharge.unit
 				  }
 				})
@@ -1075,12 +1091,10 @@
 				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
 				  if (_options.value != undefined) 
 				  {
-            		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'Wh'
-					}
-					let dailyBatteryDischarge = autoValueArray#id#(parseFloat(_options.value),'Wh')
+					//
+					let converted = getConvertedValue#id#(_options);
+					
+					let dailyBatteryDischarge = autoValueArray#id#(converted.value, 'Wh')
 					document.getElementById("daily_bat_discharge_value#id#").innerHTML = trunc#id#(dailyBatteryDischarge.value, 3, 0) + ' ' + dailyBatteryDischarge.unit
 				  }
 				})
@@ -1149,15 +1163,12 @@
 				})
 				jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
 				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
-				  //_options.value = -0.1
 				  if (_options.value != undefined) 
 				  {
-					if (_options.unit.toLowerCase() == 'kw') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'W'
-					}
-					let dailyBatteryPower = autoValueArray#id#(parseFloat(_options.value),'W')
+					//
+					let converted = getConvertedValue#id#(_options);
+					
+					let dailyBatteryPower = autoValueArray#id#(converted.value, 'W')
 					let batteryPower = (dailyBatteryPower.value > 0) ? dailyBatteryPower.value : (dailyBatteryPower.value < 0) ? (dailyBatteryPower.value * -1) : dailyBatteryPower.value
 					document.getElementById("battery_power#id#").innerHTML = trunc#id#(parseFloat(batteryPower), 1) + ' ' + dailyBatteryPower.unit
 					if(trunc#id#(parseFloat(dailyBatteryPower.value), 1) < 0) {
@@ -1200,12 +1211,10 @@
 				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
 				  if (_options.value != undefined) 
 				  {
-            		if (_options.unit.toLowerCase() == 'kw') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'W'
-					}
-					let batteryMpptPower = trunc#id#(parseFloat(_options.value), 1)
+					//
+					let converted = getConvertedValue#id#(_options);
+					
+					let batteryMpptPower = trunc#id#(converted.value, 1)
 					document.getElementById("battery_mppt_power-#id#").innerHTML = batteryMpptPower + ' ' + config#id#.battery.mppt.power_unit
 					if(batteryMpptPower > 0) {
 					  document.getElementById("dot-battery-mppt-#id#").setAttribute("fill", "var(--solar_colour#id#)");
@@ -1238,12 +1247,10 @@
 				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
 				  if (_options.value != undefined) 
 				  {
-            		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'Wh'
-					}
-					let batteryMpptEnergy = autoValueArray#id#(parseFloat(_options.value),'Wh')
+					//
+					let converted = getConvertedValue#id#(_options);
+					
+					let batteryMpptEnergy = autoValueArray#id#(converted.value, 'Wh')
 					document.getElementById("battery-mppt-energy-#id#").innerHTML = trunc#id#(batteryMpptEnergy.value, 3, 0) + ' ' + batteryMpptEnergy.unit
 				  }
 				})
@@ -1270,12 +1277,10 @@
 				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
 				  if (_options.value != undefined) 
 				  {
-            		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'Wh'
-					}
-					let dailyGridBuy = autoValueArray#id#(_options.value,'Wh')
+					//
+					let converted = getConvertedValue#id#(_options);
+					
+					let dailyGridBuy = autoValueArray#id#(converted.value, 'Wh')
 					document.getElementById("daily_grid_buy_value#id#").innerHTML = trunc#id#(dailyGridBuy.value, 3, 0) + ' ' + dailyGridBuy.unit
 				  }
 				})
@@ -1302,12 +1307,10 @@
 				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
 				  if (_options.value != undefined) 
 				  {
-            		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'Wh'
-					}
-					let dailySellBuy = autoValueArray#id#(_options.value,'Wh')
+					//
+					let converted = getConvertedValue#id#(_options);
+					
+					let dailySellBuy = autoValueArray#id#(converted.value, 'Wh')
 					document.getElementById("daily_grid_sell_value#id#").innerHTML = trunc#id#(dailySellBuy.value, 3, 0) + ' ' + dailySellBuy.unit
 				  }
 				})
@@ -1333,18 +1336,16 @@
 				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
 				  if (_options.value != undefined) 
 				  {
-            		if (_options.unit.toLowerCase() == 'kw') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'W'
-					}
-					config#id#.grid.power_state = _options.value
-					config#id#.grid.unit = _options.unit
+					//
+					let converted = getConvertedValue#id#(_options);
 					
-                    let gridPowerAuto = autoValueArray#id#(_options.value,'W')
+					config#id#.grid.power_state = converted.value
+					config#id#.grid.unit = converted.convertedUnit
+					
+                    let gridPowerAuto = autoValueArray#id#(converted.value, 'W')
 					let gridPowerTrunc = gridPowerAuto.value
 					let gridPower = (gridPowerTrunc > 0) ? gridPowerTrunc : (gridPowerTrunc < 0) ? (gridPowerTrunc * -1) : gridPowerTrunc
-					document.getElementById("grid_power#id#").innerHTML = trunc#id#(gridPower,3,0) + ' ' + gridPowerAuto.unit
+					document.getElementById("grid_power#id#").innerHTML = trunc#id#(gridPower, 3, 0) + ' ' + gridPowerAuto.unit
 					if(gridPowerTrunc > 0) {
 					  document.getElementById("grid-dot-buy#id#").setAttribute("fill", "var(--grid_colour#id#)");
 					  document.getElementById("grid-dot1-buy#id#").setAttribute("fill", "var(--grid_colour#id#)");
@@ -1553,14 +1554,14 @@
 				})
 				jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
 				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
-				  config#id#.load.power = _options.value
-                  config#id#.load.unit = _options.unit
-				  if (_options.unit.toLowerCase() == 'kw') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'W'
-					}
-				  let loadStateCalc = autoValueArray#id#(_options.value,'W')
+				  
+				  //
+				  let converted = getConvertedValue#id#(_options);
+				  
+				  config#id#.load.power = converted.value
+                  config#id#.load.unit = converted.convertedUnit
+				  
+				  let loadStateCalc = autoValueArray#id#(converted.value, 'W')
 				  document.getElementById("ess_power#id#").innerHTML = trunc#id#(loadStateCalc.value, 3, 0) + ' ' + loadStateCalc.unit
 				  calculateLoad#id#('load state')
 				})
@@ -1585,15 +1586,19 @@
 				  }
 				})
 				jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+				  console.log('385 : ', _options.unit, ' raw ', _options.raw_unit, 'displ ', _options.display_value, ' val ', _options.value)
 				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
-                  config#id#.load.load1.power_unit = _options.unit
-				  config#id#.load.load1.power = _options.value
-				  if (_options.unit.toLowerCase() == 'kw') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'W'
-					}
-				  let load1Power = autoValueArray#id#(_options.value,'W')
+				  
+				  //
+				  let converted = getConvertedValue#id#(_options);
+				  
+				  config#id#.load.load1.power_unit = converted.convertedUnit
+				  config#id#.load.load1.power = converted.value
+				  
+				  // Déterminer l'unité pour l'auto-formatage
+				  let unite = converted.convertedUnit;
+				  
+				  let load1Power = autoValueArray#id#(converted.value, unite)
 				  document.getElementById("ess_load1#id#").innerHTML = trunc#id#(load1Power.value, 3, 0) + ' ' + load1Power.unit
 				  if (config#id#.load.has_load_power === false) calculateLoad#id#('load1 state')
 				  
@@ -1626,16 +1631,15 @@
 				  }
 				})
 				jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
-					//_options.value = 3.5
 				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
-				  config#id#.load.load2.power = _options.value
-				  config#id#.load.load2.power_unit = _options.unit
-				  if (_options.unit.toLowerCase() == 'kw') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'W'
-					}
-				  let load2Power = autoValueArray#id#(_options.value,'W')
+				  
+				  //
+				  let converted = getConvertedValue#id#(_options);
+				  
+				  config#id#.load.load2.power = converted.value
+				  config#id#.load.load2.power_unit = converted.convertedUnit
+				  
+				  let load2Power = autoValueArray#id#(converted.value, 'W')
 				  document.getElementById("ess_load2#id#").innerHTML = trunc#id#(load2Power.value, 3, 0) + ' ' + load2Power.unit
 				  if (config#id#.load.has_load_power === false) calculateLoad#id#('load2 state')
 				  
@@ -1669,14 +1673,14 @@
 				})
 				jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
 				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
-				  config#id#.load.load3.power = _options.value
-				  config#id#.load.load3.power_unit = _options.unit
-				  if (_options.unit.toLowerCase() == 'kw') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'W'
-					}
-				  let load3Power = autoValueArray#id#(_options.value,'W')
+				  
+				  //
+				  let converted = getConvertedValue#id#(_options);
+				  
+				  config#id#.load.load3.power = converted.value
+				  config#id#.load.load3.power_unit = converted.convertedUnit
+				  
+				  let load3Power = autoValueArray#id#(converted.value, 'W')
 				  document.getElementById("ess_load3#id#").innerHTML = trunc#id#(load3Power.value, 3, 0) + ' ' + load3Power.unit
 				  if (config#id#.load.has_load_power === false) calculateLoad#id#('load3 state')
 				  
@@ -1709,14 +1713,14 @@
 				})
 				jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
 				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
-				  config#id#.load.load4.power = _options.value
-				  config#id#.load.load4.power_unit = _options.unit
-				  if (_options.unit.toLowerCase() == 'kw') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'W'
-					}
-				  let load4Power = autoValueArray#id#(_options.value,'W')
+				  
+				  //
+				  let converted = getConvertedValue#id#(_options);
+				  
+				  config#id#.load.load4.power = converted.value
+				  config#id#.load.load4.power_unit = converted.convertedUnit
+				  
+				  let load4Power = autoValueArray#id#(converted.value, 'W')
 				  document.getElementById("ess_load4#id#").innerHTML = trunc#id#(load4Power.value, 3, 0) + ' ' + load4Power.unit
 				  if (config#id#.load.has_load_power === false) calculateLoad#id#('load4 state')
 				  
@@ -1750,12 +1754,10 @@
 				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
 				  if (_options.value != undefined) 
 				  {
-            		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'Wh'
-					}
-					let load1Energy = autoValueArray#id#(parseFloat(_options.value),'Wh')
+					//
+					let converted = getConvertedValue#id#(_options);
+					
+					let load1Energy = autoValueArray#id#(converted.value, 'Wh')
 					document.getElementById("load1_energy#id#").innerHTML = trunc#id#(load1Energy.value, 3, 0) + ' ' + load1Energy.unit
 				  }
 				})
@@ -1782,12 +1784,10 @@
 				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
 				  if (_options.value != undefined) 
 				  {
-            		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'Wh'
-					}
-					let load2Energy = autoValueArray#id#(parseFloat(_options.value),'Wh')
+					//
+					let converted = getConvertedValue#id#(_options);
+					
+					let load2Energy = autoValueArray#id#(converted.value, 'Wh')
 					document.getElementById("load2_energy#id#").innerHTML = trunc#id#(load2Energy.value, 3, 0) + ' ' + load2Energy.unit
 				  }
 				})
@@ -1814,12 +1814,10 @@
 				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
 				  if (_options.value != undefined) 
 				  {
-            		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'Wh'
-					}
-					let load3Energy = autoValueArray#id#(parseFloat(_options.value),'Wh')
+					//
+					let converted = getConvertedValue#id#(_options);
+					
+					let load3Energy = autoValueArray#id#(converted.value, 'Wh')
 					document.getElementById("load3_energy#id#").innerHTML = trunc#id#(load3Energy.value, 3, 0) + ' ' + load3Energy.unit
 				  }
 				})
@@ -1846,12 +1844,10 @@
 				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
 				  if (_options.value != undefined) 
 				  {
-            		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'Wh'
-					}
-					let load4Energy = autoValueArray#id#(parseFloat(_options.value),'Wh')
+					//
+					let converted = getConvertedValue#id#(_options);
+					
+					let load4Energy = autoValueArray#id#(converted.value, 'Wh')
 					document.getElementById("load4_energy#id#").innerHTML = trunc#id#(load4Energy.value, 3, 0) + ' ' + load4Energy.unit
 				  }
 				})
@@ -1879,12 +1875,10 @@
 				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
 				  if (_options.value != undefined) 
 				  {
-            		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'Wh'
-					}
-					let dailyload = autoValueArray#id#(_options.value,'Wh')
+					//
+					let converted = getConvertedValue#id#(_options);
+					
+					let dailyload = autoValueArray#id#(converted.value, 'Wh')
 					document.getElementById("daily_load_value#id#").innerHTML = trunc#id#(dailyload.value, 3, 0) + ' ' + dailyload.unit
 				  }
 				})
@@ -1913,19 +1907,17 @@
 				  
 				  if (_options.value != undefined) 
 				  {
-            		if (_options.unit.toLowerCase() == 'kw') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'W'
-					}
-					document.getElementById("aux_power-#id#").innerHTML = _options.value + ' ' + config#id#.aux.power_unit
-					if (_options.value > 0) {
+					//
+					let converted = getConvertedValue#id#(_options);
+					
+					document.getElementById("aux_power-#id#").innerHTML = converted.value + ' ' + config#id#.aux.power_unit
+					if (converted.value > 0) {
 					  document.getElementById("aux-dot-#id#").setAttribute("fill", "var(--aux_colour#id#)")
 					}
 					else {
 					  document.getElementById("aux-dot-#id#").setAttribute("fill", "transparent")
 					}
-					config#id#.aux.power = _options.value
+					config#id#.aux.power = converted.value
 					calculateAux#id#('aux power')
 				  }
 				})
@@ -1953,12 +1945,10 @@
 				  if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
 				  if (_options.value != undefined) 
 				  {
-            		if (_options.unit.toLowerCase() == 'kwh') {
-					  _options.value = parseFloat(_options.display_value) * 1000
-					  _options.display_value = _options.value
-					  _options.unit = 'Wh'
-					}
-					let dailyAux = autoValueArray#id#(_options.value,'Wh')
+					//
+					let converted = getConvertedValue#id#(_options);
+					
+					let dailyAux = autoValueArray#id#(converted.value, 'Wh')
 					document.getElementById("daily_aux_value#id#").innerHTML = trunc#id#(dailyAux.value, 3, 0) + ' ' + dailyAux.unit
 				  }
 				})
@@ -2553,10 +2543,6 @@
 		let solar2 = parseFloat(config#id#.solar.pv2.power)
 		let solar3 = parseFloat(config#id#.solar.pv3.power)
 		let solar4 = parseFloat(config#id#.solar.pv4.power)
-		if (config#id#.solar.pv1.power_unit.toLowerCase() == 'kw') solar1 = parseFloat(config#id#.solar.pv1.power) * 1000
-		if (config#id#.solar.pv2.power_unit.toLowerCase() == 'kw') solar2 = parseFloat(config#id#.solar.pv2.power) * 1000
-		if (config#id#.solar.pv3.power_unit.toLowerCase() == 'kw') solar3 = parseFloat(config#id#.solar.pv3.power) * 1000
-		if (config#id#.solar.pv4.power_unit.toLowerCase() == 'kw') solar4 = parseFloat(config#id#.solar.pv4.power) * 1000
 		let solarTot = solar1 + solar2 + solar3 + solar4
         let total_pv = autoValueArray#id#(solarTot, 'W')
         if (debug#id#) console.log('| solarTot = ' + solarTot)
@@ -2632,30 +2618,7 @@
           if (debug#id#) console.log('| load4_state = ' + config#id#.load.load4.power + ' load4_unit = ' + config#id#.load.load4.power_unit);
           //if (config#id#.load.load1.power_unit != config#id#.load.load2.power_unit || config#id#.load.load1.power_unit != config#id#.load.load3.power_unit || config#id#.load.load1.power_unit != config#id#.load.load4.power_unit) console.log('| /!\\ ------- Attention unité differente entre load1, load2, load3 ou load4 calcul impossible !!!')
           //else {
-          if (config#id#.load.load1.power_unit.toLowerCase() == 'kw') {
-            config#id#.load.load1.power = config#id#.load.load1.power * 1000
-			config#id#.load.load1.power_unit = 'W'
-          }
-          if (config#id#.load.load2.power_unit.toLowerCase() == 'kw') {
-            config#id#.load.load2.power = config#id#.load.load2.power * 1000 
-			config#id#.load.load2.power_unit = 'W'
-          }
 
-          if (config#id#.load.load3.power_unit.toLowerCase() == 'kw') {
-            config#id#.load.load3.power = config#id#.load.load3.power * 1000 
-			config#id#.load.load3.power_unit = 'W'
-          }
-            
-          if (config#id#.load.load4.power_unit.toLowerCase() == 'kw') {
-            config#id#.load.load4.power = config#id#.load.load4.power * 1000 
-			config#id#.load.load4.power_unit = 'W'
-          }
-
-          if (debug#id#) console.log('| 2-load1_state = ' + config#id#.load.load1.power + ' load1_unit = ' + config#id#.load.load1.power_unit);
-          if (debug#id#) console.log('| 2-load2_state = ' + config#id#.load.load2.power + ' load2_unit = ' + config#id#.load.load2.power_unit);
-          if (debug#id#) console.log('| 2-load3_state = ' + config#id#.load.load3.power + ' load3_unit = ' + config#id#.load.load3.power_unit);
-          if (debug#id#) console.log('| 2-load4_state = ' + config#id#.load.load4.power + ' load4_unit = ' + config#id#.load.load4.power_unit);
-            
           //autoValueArray#id#(parseFloat(_options.value),config#id#.solar.unit)
           //if (config#id#.load.load.unit.toLowerCase() = 'kw') config#id#.load.load.power = config#id#.load.load.power * 1000 
           // if (debug#id#==1) console.log(' load.load1.power_unit = ' + config#id#.load.load1.power_unit)
@@ -2864,7 +2827,6 @@
   <template>
     <div> ------------ Général -------------</div>
     <div>Background : Couleur arrière plan du widget [ Exemple : #fffff, white, linear-gradient... | Défaut : transparent ]</div>
-    <div>inverterColor : Couleur des éléments de catégorie "onduleur" [ Exemple : #fffff, white]</div>
     <div>noGridColor : Couleur du logo "noGridColor" [ Exemple : #fffff, white]</div>
     <div> ------------ Solar ------------</div>
     <div>pv1Name : personnalisation du nom du Pv1. (Ex: Ouest, Nord, PV1 ...)</div>
@@ -2874,6 +2836,9 @@
     <div>dailySolarText : personnalisation du texte. (défaut : DAILY SOLAR)</div>
     <div>pvMaxPower : Puissance max des PV. (permet la gestion de vitesse de l'animation)</div>
     <div>solarColor : Couleur des éléments de catégorie "solaire" [ Exemple : #fffff, white]</div>
+    <div> ------------ Onduleur ------------</div>
+    <div>inverterColor : Couleur des éléments de catégorie "onduleur" [ Exemple : #fffff, white]</div>
+	<div>inverterTxt : couleur du texte dans l'onduleur</div>
     <div> ------------ Load ------------</div>
     <div>load1Name : personnalisation du nom du Load1. (Ex: C.E, Clim, ...)</div>
     <div>load1Icon : Afficher Icone. Choix : oven, pump, aircon, boiler, charging</div>
