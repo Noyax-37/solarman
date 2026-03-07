@@ -233,12 +233,6 @@ function displayActionCard($action_name, $fa_icon, $action = '', $class = '') {
 									<label class="col-sm-12 control-label">{{Seuls les auto actualisation à 1, 5, 10, 15 et 30 minutes sont fonctionnelles}} </label>
 								</div>
 							</div>
-							<div class="form-group">
-								<label class="col-sm-4 control-label">{{Utiliser le template du plugin}}</label>
-								<div class="col-sm-6">
-									<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="usePluginTemplate" checked>
-								</div>
-							</div>
 							<br><br>
 							<div class="form-group">
 								<div class="col-sm-2">
@@ -257,19 +251,297 @@ function displayActionCard($action_name, $fa_icon, $action = '', $class = '') {
 									<a class="btn btn-warning raz_configInverter" data-choix="raz_configInverter"><i class="fas fa-cogs"></i> {{Rechargement des paramètres de l'onduleur (modification config, suppression par erreur de commande, ...)}}</a>
 								</div>
 							</div>
+                            
+                            <!-- Début Configuration Widget -->
+							<br><br>
+                            <legend><i class="fas fa-palette"></i> {{Paramètres d'affichage du Widget (s'il est utilisé)}}
+                                <sup><i class="fas fa-question-circle tooltips" title="Effacer la zone de texte correspondante pour retrouver la valeur par défaut d'un des paramètres"></i></sup>
+                            </legend>
+
+							<div class="col-sm-4"></div>
+                            <a class="btn btn-info" id="bt_openTemplateHelp"><i class="fas fa-info-circle"></i> {{ À quoi correspondent ces paramètres ? }}</a>
+							<br><br>
+                            
+                            <div class="col-sm-2">
+                            </div>
+                            <fieldset class="param-template">
+                                <!-- Général -->
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">{{Couleur arrière plan}}
+                                        <sup><i class="fas fa-question-circle tooltips" title="transparent, #ffffff, linear-gradient..."></i></sup>
+                                    </label>
+                                    <div class="col-sm-6">
+                                        <div class="input-group">
+                                            <!-- Color Picker intégré comme un addon -->
+                                            <span class="input-group-addon cursor" style="padding: 2px; background-color: #eee;">
+                                                <input type="color" class="color-picker-helper" style="width: 30px; height: 30px; border: none; padding: 0; cursor: pointer;">
+                                            </span>
+                                            <input type="text" class="form-control cmdAttr template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="Background" placeholder="transparent">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Réseau -->
+                                <fieldset><legend>{{Réseau}}</legend>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Texte Surplus Jour}}</label>
+                                        <div class="col-sm-6"><input type="text" class="cmdAttr form-control template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="dailyGridSellText"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Texte Conso Réseau}}</label>
+                                        <div class="col-sm-6"><input type="text" class="cmdAttr form-control template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="dailyGridBuyText"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Puissance Max Réseau}}
+                                            <sup><i class="fas fa-question-circle tooltips" title="sert à la vitesse d'animation"></i></sup>
+                                        </label>
+                                        <div class="col-sm-6"><input type="number" class="cmdAttr form-control template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="gridMaxPower"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Couleur Réseau}}</label>
+                                        <div class="col-sm-6">
+                                            <div class="input-group">
+                                                <span class="input-group-addon cursor" style="padding: 2px; background-color: #eee;">
+                                                    <input type="color" class="color-picker-helper" style="width: 30px; height: 30px; border: none; padding: 0; cursor: pointer;" value="#5490c2">
+                                                </span>
+                                                <input type="text" class="form-control cmdAttr template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="gridColor" placeholder="#5490c2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Couleur si réseau HS}}</label>
+                                        <div class="col-sm-6">
+                                            <div class="input-group">
+                                                <span class="input-group-addon cursor" style="padding: 2px; background-color: #eee;">
+                                                    <input type="color" class="color-picker-helper" style="width: 30px; height: 30px; border: none; padding: 0; cursor: pointer;" value="#db041c">
+                                                </span>
+                                                <input type="text" class="form-control cmdAttr template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="noGridColor" placeholder="#db041c">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <!-- Solaire -->
+                                <fieldset><legend>{{Solaire}}</legend>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Texte Prod. Jour}}</label>
+                                        <div class="col-sm-6"><input type="text" class="cmdAttr form-control template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="dailySolarText"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Puissance Max PV}}
+                                            <sup><i class="fas fa-question-circle tooltips" title="sert à la vitesse d'animation"></i></sup>
+                                        </label>
+                                        <div class="col-sm-6"><input type="number" class="cmdAttr form-control template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="pvMaxPower"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Couleur Solaire}}</label>
+                                        <div class="col-sm-6">
+                                            <div class="input-group">
+                                                <span class="input-group-addon cursor" style="padding: 2px; background-color: #ffa500;">
+                                                    <input type="color" class="color-picker-helper" style="width: 30px; height: 30px; border: none; padding: 0; cursor: pointer;" value="#ffa500">
+                                                </span>
+                                                <input type="text" class="form-control cmdAttr template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="solarColor" placeholder="orange">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Nom PV1}}</label>
+                                        <div class="col-sm-6"><input type="text" class="cmdAttr form-control template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="pv1Name" placeholder="PV1"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Nom PV2}}</label>
+                                        <div class="col-sm-6"><input type="text" class="cmdAttr form-control template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="pv2Name"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Nom PV3}}</label>
+                                        <div class="col-sm-6"><input type="text" class="cmdAttr form-control template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="pv3Name"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Nom PV4}}</label>
+                                        <div class="col-sm-6"><input type="text" class="cmdAttr form-control template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="pv4Name"></div>
+                                    </div>
+                                </fieldset>
+
+                                <!-- Onduleur -->
+                                <fieldset><legend>{{Onduleur}}</legend>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Couleur Onduleur}}</label>
+                                        <div class="col-sm-6">
+                                            <div class="input-group">
+                                                <span class="input-group-addon cursor" style="padding: 2px; background-color: #eee;">
+                                                    <input type="color" class="color-picker-helper" style="width: 30px; height: 30px; border: none; padding: 0; cursor: pointer;" value="#808080">
+                                                </span>
+                                                <input type="text" class="form-control cmdAttr template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="inverterColor" placeholder="grey">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Couleur texte onduleur}}</label>
+                                        <div class="col-sm-6">
+                                            <div class="input-group">
+                                                <span class="input-group-addon cursor" style="padding: 2px; background-color: #eee;">
+                                                    <input type="color" class="color-picker-helper" style="width: 30px; height: 30px; border: none; padding: 0; cursor: pointer;">
+                                                </span>
+                                                <input type="text" class="form-control cmdAttr template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="inverterTxt" placeholder="black">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <!-- Batterie -->
+                                <fieldset><legend>{{Batterie}}</legend>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Texte Charge Jour}}</label>
+                                        <div class="col-sm-6"><input type="text" class="cmdAttr form-control template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="dailyBatteryChargeText"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Texte Décharge Jour}}</label>
+                                        <div class="col-sm-6"><input type="text" class="cmdAttr form-control template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="dailyBatteryDischargeText"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Puissance Max Batterie}}
+                                            <sup><i class="fas fa-question-circle tooltips" title="sert à la vitesse d'animation"></i></sup>
+                                        </label>
+                                        <div class="col-sm-6"><input type="number" class="cmdAttr form-control template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="batteryMaxPower"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{SOC Mini}}</label>
+                                        <div class="col-sm-6"><input type="number" class="cmdAttr form-control template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="batterySocShutdown"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Nom Chargeur PV}}</label>
+                                        <div class="col-sm-6"><input type="text" class="cmdAttr form-control template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="mpptName"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Couleur Batterie}}</label>
+                                        <div class="col-sm-6">
+                                            <div class="input-group">
+                                                <span class="input-group-addon cursor" style="padding: 2px; background-color: #eee;">
+                                                    <input type="color" class="color-picker-helper" style="width: 30px; height: 30px; border: none; padding: 0; cursor: pointer;" value="#ff69b4">
+                                                </span>
+                                                <input type="text" class="form-control cmdAttr template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="batteryColor" placeholder="pink">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <!-- Auxiliaire -->
+                                <fieldset><legend>{{Auxiliaire}}</legend>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Puissance Max Aux}}
+                                            <sup><i class="fas fa-question-circle tooltips" title="sert à la vitesse d'animation"></i></sup>
+                                        </label>
+                                        <div class="col-sm-6"><input type="number" class="cmdAttr form-control template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="auxMaxPower"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Couleur Auxiliaire}}</label>
+                                        <div class="col-sm-6">
+                                            <div class="input-group">
+                                                <span class="input-group-addon cursor" style="padding: 2px; background-color: #eee;">
+                                                    <input type="color" class="color-picker-helper" style="width: 30px; height: 30px; border: none; padding: 0; cursor: pointer;" value="#a43df5">
+                                                </span>
+                                                <input type="text" class="form-control cmdAttr template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="auxColor" placeholder="#a43df5">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                
+                                <!-- Charges -->
+                                <fieldset><legend>{{Charges (Load)}}</legend>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Texte Conso Jour}}</label>
+                                        <div class="col-sm-6"><input type="text" class="cmdAttr form-control template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="dailyLoadText"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Puissance Max Load}}
+                                            <sup><i class="fas fa-question-circle tooltips" title="sert à la vitesse d'animation"></i></sup>
+                                        </label>
+                                        <div class="col-sm-6"><input type="number" class="cmdAttr form-control template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="loadMaxPower"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Couleur Load}}</label>
+                                        <div class="col-sm-6">
+                                            <div class="input-group">
+                                                <span class="input-group-addon cursor" style="padding: 2px; background-color: #eee;">
+                                                    <input type="color" class="color-picker-helper" style="width: 30px; height: 30px; border: none; padding: 0; cursor: pointer;" value="#5fb6ad">
+                                                </span>
+                                                <input type="text" class="form-control cmdAttr template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="loadColor" placeholder="#5fb6ad">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Animation Load}}</label>
+                                        <div class="col-sm-6">
+                                            <select class="cmdAttr form-control template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="loadAnimate">
+                                                <option value="1">{{Activée}}</option>
+                                                <option value="0">{{Désactivée}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Nom Charge 1}}</label>
+                                        <div class="col-sm-6"><input type="text" class="cmdAttr form-control template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="load1Name"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Icone Charge 1}}
+                                            <sup><i class="fas fa-question-circle tooltips" title="oven, pump, aircon, boiler, charging"></i></sup>
+                                        </label>
+                                        <div class="col-sm-6"><input type="text" class="cmdAttr form-control template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="load1Icon"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Nom Charge 2}}</label>
+                                        <div class="col-sm-6"><input type="text" class="cmdAttr form-control template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="load2Name"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Icone Charge 2}}</label>
+                                        <div class="col-sm-6"><input type="text" class="cmdAttr form-control template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="load2Icon"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Nom Charge 3}}</label>
+                                        <div class="col-sm-6"><input type="text" class="cmdAttr form-control template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="load3Name"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Icone Charge 3}}</label>
+                                        <div class="col-sm-6"><input type="text" class="cmdAttr form-control template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="load3Icon"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Nom Charge 4}}</label>
+                                        <div class="col-sm-6"><input type="text" class="cmdAttr form-control template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="load4Name"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Icone Charge 4}}</label>
+                                        <div class="col-sm-6"><input type="text" class="cmdAttr form-control template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="load4Icon"></div>
+                                    </div>
+                                </fieldset>
+
+                                <!-- Debug -->
+                                <fieldset><legend>{{Debug (affiche des infos dans la console)}}</legend>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">{{Mode Debug}}</label>
+                                        <div class="col-sm-6">
+                                            <select class="cmdAttr form-control template-widget-param" data-l1key="display" data-l2key="parameters" data-l3key="debug">
+                                                <option value="0">{{Désactivé}}</option>
+                                                <option value="1">{{Activé}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                            </fieldset>
+
 						</div>
 
-						<!-- Partie droite de l'onglet "Équipement" -->
-						<!-- Affiche un champ de commentaire par défaut mais vous pouvez y mettre ce que vous voulez -->
-						<div class="col-lg-6">
-							<legend><i class="fas fa-info"></i> {{Informations}}</legend>
-							<div class="form-group">
-								<label class="col-sm-4 control-label">{{Description}}</label>
-								<div class="col-sm-6">
-									<textarea class="form-control eqLogicAttr autogrow" data-l1key="comment"></textarea>
-								</div>
-							</div>
-						</div>
+                        <!-- Partie droite de l'onglet "Équipement" -->
+                        <div class="col-lg-6">
+                            <legend><i class="fas fa-info"></i> {{Informations}}</legend>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">{{Description}}</label>
+                                <div class="col-sm-6">
+                                    <textarea class="form-control eqLogicAttr autogrow" data-l1key="comment"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
 					</fieldset>
 				</form>
 			</div><!-- /.tabpanel #eqlogictab-->
@@ -301,6 +573,116 @@ function displayActionCard($action_name, $fa_icon, $action = '', $class = '') {
 
 		</div><!-- /.tab-content -->
 	</div><!-- /.eqLogic -->
+
+	<!-- Modale d'aide pour les paramètres du template -->
+	<div class="modal fade" id="md_templateHelp" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">
+						<i class="fas fa-info-circle"></i> {{Infos succintes sur l'utilisation des paramètres du widget:}}
+					</h4>
+				</div>
+                <div class="modal-body">
+                    <p style="font-size:1.1em; margin-bottom:20px;">
+                        {{Ces paramètres permettent de personnaliser l'apparence et le comportement du }}<strong>{{widget spécifique}}</strong> {{de votre onduleur Solarman.}}<br>
+                        <small>{{Ils ne s'appliquent que si vous avez choisi d'utiliser le template du plugin (commande '01-Template' visible).}}</small>
+                    </p>
+
+                    <div style="display:flex; flex-wrap:wrap; gap:18px; justify-content:center;">
+
+                        <!-- Carte Générale -->
+                        <div style="flex:1 1 320px; max-width:380px; border:1px solid #ddd; border-radius:8px; padding:16px; background:#f9f9f9;">
+                            <h4 style="margin-top:0; color:#2c7be5;"><i class="fas fa-paint-brush"></i> {{Général}}</h4>
+                            <ul style="padding-left:20px; margin:12px 0;">
+                                <li><strong>{{Couleur arrière-plan}}</strong> : {{couleur de fond du widget entier}}<br>
+                                    <code>transparent</code> | <code>#f0f4f8</code> | <code>linear-gradient(to right, #e0f7fa, #bbdefb)</code>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Carte Réseau -->
+                        <div style="flex:1 1 320px; max-width:380px; border:1px solid #ddd; border-radius:8px; padding:16px; background:#f9f9f9;">
+                            <h4 style="margin-top:0; color:#2c7be5;"><i class="fas fa-plug"></i> {{Réseau}}</h4>
+                            <ul style="padding-left:20px; margin:12px 0;">
+                                <li><strong>{{Texte Surplus / Conso Jour}}</strong> : {{libellé affiché (ex: "Injection réseau", "Achat réseau")}}</li>
+                                <li><strong>{{Puissance Max Réseau}}</strong> : {{valeur en W pour calibrer l'animation (ex: 6000)}}</li>
+                                <li><strong>{{Couleur Réseau}}</strong> : {{couleur du flux quand le réseau est présent}}</li>
+                                <li><strong>{{Couleur si réseau HS}}</strong> : {{couleur quand plus de connexion réseau détectée}}</li>
+                            </ul>
+                        </div>
+
+                        <!-- Carte Solaire -->
+                        <div style="flex:1 1 320px; max-width:380px; border:1px solid #ddd; border-radius:8px; padding:16px; background:#f9f9f9;">
+                            <h4 style="margin-top:0; color:#2c7be5;"><i class="fas fa-sun"></i> {{Solaire}}</h4>
+                            <ul style="padding-left:20px; margin:12px 0;">
+                                <li><strong>{{Texte Prod. Jour}}</strong> : {{ex "Production photovoltaïque"}}</li>
+                                <li><strong>{{Puissance Max PV}}</strong> : {{puissance crête installée (ex: 9000) → impacte l'animation}}</li>
+                                <li><strong>{{Couleur Solaire}}</strong> : {{couleur du flux PV (souvent orange/jaune)}}</li>
+                                <li><strong>{{Nom PV1 / PV2 / PV3 / PV4}}</strong> : {{renommez les entrées MPPT si besoin}}</li>
+                            </ul>
+                        </div>
+
+                        <!-- Carte Onduleur -->
+                        <div style="flex:1 1 320px; max-width:380px; border:1px solid #ddd; border-radius:8px; padding:16px; background:#f9f9f9;">
+                            <h4 style="margin-top:0; color:#2c7be5;"><i class="fas fa-microchip"></i> {{Onduleur}}</h4>
+                            <ul style="padding-left:20px; margin:12px 0;">
+                                <li><strong>{{Couleur Onduleur}}</strong> : {{couleur du corps / icône de l'onduleur}}</li>
+                                <li><strong>{{Couleur texte onduleur}}</strong> : {{couleur des valeurs affichées sur l'onduleur}}</li>
+                            </ul>
+                        </div>
+
+                        <!-- Carte Batterie -->
+                        <div style="flex:1 1 320px; max-width:380px; border:1px solid #ddd; border-radius:8px; padding:16px; background:#f9f9f9;">
+                            <h4 style="margin-top:0; color:#2c7be5;"><i class="fas fa-battery-full"></i> {{Batterie}}</h4>
+                            <ul style="padding-left:20px; margin:12px 0;">
+                                <li><strong>{{Texte Charge / Décharge Jour}}</strong> : {{libellés personnalisés}}</li>
+                                <li><strong>{{Puissance Max Batterie}}</strong> : {{pour l'animation (ex: 5000)}}</li>
+                                <li><strong>{{SOC Mini}}</strong> : {{sert aux calculs de la capacités et du temps restant en décharge (ex: 10)}}</li>
+                                <li><strong>{{Nom Chargeur PV}}</strong> : {{nom d'un chargeur éventuel ex "MPPT hybride"}}</li>
+                            </ul>
+                        </div>
+
+                        <!-- Carte Auxiliaire & Charges -->
+                        <div style="flex:1 1 320px; max-width:380px; border:1px solid #ddd; border-radius:8px; padding:16px; background:#f9f9f9;">
+                            <h4 style="margin-top:0; color:#2c7be5;"><i class="fas fa-bolt"></i> {{Auxiliaire & Charges}}</h4>
+                            <ul style="padding-left:20px; margin:12px 0;">
+                                <li><strong>{{Puissance Max Aux / Load}}</strong> : {{calibrage animation}}</li>
+                                <li><strong>{{Animation Load}}</strong> : {{1 = activée (pulsation quand conso), 0 = statique}}</li>
+                                <li><strong>{{Nom / Icône Charge 1 à 4}}</strong> : {{personnalisation (ex: "Climatisation", "four", "pompe")}}<br>
+                                    Icônes possibles : {{oven, pump, aircon, boiler, charging, tv, lightbulb, etc.}}
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Debug -->
+                        <div style="flex:1 1 320px; max-width:380px; border:1px solid #ddd; border-radius:8px; padding:16px; background:#fff3cd; border-color:#ffeeba;">
+                            <h4 style="margin-top:0; color:#856404;"><i class="fas fa-bug"></i> Debug</h4>
+                            <p style="margin:8px 0;">
+                                {{Activez le mode Debug (1) pour voir dans la console du navigateur :}}<br>
+                                • {{les valeurs reçues}}<br>
+                                • {{les calculs d'animation}}<br>
+                                • {{les erreurs potentielles}}
+                            </p>
+                            <small>{{Utile uniquement pour dépanner.}}</small>
+                        </div>
+
+                    </div>
+
+                    <div style="margin-top:25px; text-align:center; font-style:italic; color:#666;">
+                        {{Pour revenir à la valeur par défaut d'un paramètre → effacez complètement la case correspondante et sauvegardez.}}
+                    </div>
+                </div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">{{Fermer}}</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </div><!-- /.row row-overflow -->
 
 <script>
@@ -341,6 +723,149 @@ function displayActionCard($action_name, $fa_icon, $action = '', $class = '') {
                 }
             	});
 	        });
+
+
+// --- Gestion des paramètres du template ---
+
+var solarmanTemplateCmd = null;
+
+function bindTemplateParams() {
+    var eqId = $('.eqLogicAttr[data-l1key=id]').value();
+    if (!eqId) return;
+
+    $.ajax({
+        type: "POST",
+        url: "core/ajax/eqLogic.ajax.php",
+        data: {
+            action: "get",
+            id: eqId,
+            type: 'solarman'
+        },
+        dataType: 'json',
+        success: function (data) {
+            if (data.state == 'ok' && data.result && data.result.cmd) {
+                var templateCmd = null;
+                for (var i in data.result.cmd) {
+                    if (data.result.cmd[i].logicalId == 'Template') {
+                        templateCmd = data.result.cmd[i];
+                        break;
+                    }
+                }
+
+                if (templateCmd) {
+                    solarmanTemplateCmd = templateCmd;
+                    $('.template-widget-param').attr('data-cmd_id', templateCmd.id);
+
+                    var params = {};
+                    if (templateCmd.display && templateCmd.display.parameters) {
+                        params = templateCmd.display.parameters;
+                    }
+
+                    $('.template-widget-param').each(function() {
+                        var key = $(this).attr('data-l3key');
+                        if (params[key] !== undefined) {
+                            $(this).value(params[key]);
+                            syncColorPickerFromText($(this));
+                        }
+                    });
+                }
+            }
+        }
+    });
+}
+
+function syncColorPickerFromText($textInput) {
+    // On cherche le color picker DANS le groupe (il est maintenant dans un span addon)
+    var $colorPicker = $textInput.closest('.input-group').find('.color-picker-helper');
+    if ($colorPicker.length) {
+        var val = $textInput.value();
+        if (/^#[0-9A-F]{6}$/i.test(val)) {
+            $colorPicker.value(val);
+        }
+    }
+}
+
+// Hook sur le bouton Sauvegarder
+var solarmanIsSavingCmd = false;
+
+ $('body').on('click', '.eqLogicAction[data-action=save]', function(e) {
+    if (solarmanIsSavingCmd) return;
+    if (!solarmanTemplateCmd) return;
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
+
+    var params = {};
+    $('.template-widget-param').each(function() {
+        var key = $(this).attr('data-l3key');
+        var val = $(this).value();
+        if (key) {
+            if (!isNaN(val) && val !== '') {
+                params[key] = parseFloat(val);
+            } else {
+                params[key] = val;
+            }
+        }
+    });
+
+    if (!solarmanTemplateCmd.display) solarmanTemplateCmd.display = {};
+    solarmanTemplateCmd.display.parameters = params;
+
+    solarmanIsSavingCmd = true;
+    
+    jeedom.cmd.save({
+        cmd: solarmanTemplateCmd,
+        error: function(error) {
+            handleAjaxError(error);
+            solarmanIsSavingCmd = false;
+        },
+        success: function() {
+            $('.eqLogicAction[data-action=save]')[0].click();
+            setTimeout(function() {
+                solarmanIsSavingCmd = false;
+            }, 1000);
+        }
+    });
+});
+
+// --- Interactions Color Pickers ---
+
+// 1. Quand on change la couleur via le picker -> on met à jour le texte
+ $('.eqLogic').on('input change', '.color-picker-helper', function() {
+    var textInput = $(this).closest('.input-group').find('input[type="text"]');
+    var newColor = $(this).value();
+    textInput.value(newColor);
+    textInput.change(); 
+});
+
+// 2. Quand on tape du texte -> on essaye de mettre à jour le picker
+ $('.eqLogic').on('input', '.template-widget-param', function() {
+    syncColorPickerFromText($(this));
+});
+
+// Hooks Jeedom standard
+ $('body').off('jeedom_eqLogic_load').on('jeedom_eqLogic_load', function(event, eqLogic) {
+    bindTemplateParams();
+});
+
+var templateObserver = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+        if ($('.eqLogic').is(':visible') && $('.template-widget-param:not([data-cmd_id])').length > 0) {
+            bindTemplateParams();
+        }
+    });
+});
+templateObserver.observe(document.querySelector('.row.row-overflow'), { attributes: true, subtree: true, attributeFilter: ['style'] });
+
+// affichage de la modale d'aide template
+$(document).on('click', '#bt_openTemplateHelp', function() {
+	console.log("Ouverture modale aide template");
+    $('#md_templateHelp').modal('show');
+});
+
+
+
+
 
 </script>
 

@@ -4,6 +4,14 @@
 >
 >S'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte.
 
+Si vous souhaitez me payer un café par Paypal: [Offrir un café](https://www.paypal.com/donate/?hosted_button_id=JD64LAEUMUWMU)
+
+
+# 1.2.6
+
+   - reprise de certaines parties du template, devrait normalement être non impactant
+   - possibilité de saisir les paramètres du template dans la configuration de l'équipement en plus de la méthode actuelle
+   
 # 1.2.4
 
    - possibilité de scanner une plages de registres pour vérifier s'ils sont accessibles et la conformité des données reccueillies
