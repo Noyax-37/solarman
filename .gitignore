@@ -6,3 +6,5 @@ resources/requirements copy.txt
 resources/jeedom/__pycache__/
 
 resources/__pycache__/
+
+core/i18n/
