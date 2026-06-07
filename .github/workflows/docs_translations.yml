@@ -1,4 +1,4 @@
-name: Docs translate 
+name: Docs_translate 
  
 on: 
   workflow_dispatch: 
