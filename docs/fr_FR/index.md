@@ -290,4 +290,3 @@ En cas de bug sur le plugin il est possible de demander de l'aide :
 
 Si vous avez une erreur "Cannot uninstall 'PyYAML'. It is a distutils installed project..." lors de l'installation des dépendances alors allez dans "réglages/système/configuration" puis allez dans l'onglet ">_OS/DB" et enfin dans ">_administration système" et exécutez la commande "sudo -H pip3 install --ignore-installed PyYAML". Ensuite relancez l'installation des dépendances et tout devrait rentrer dans l'ordre.
 
-TODO: Je dois mettre à jour la doc...
