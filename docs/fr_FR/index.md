@@ -1,6 +1,6 @@
 <br><br><br>
 
-Présentation
+Présentations
 ===
 Le plugin Solarman permet de récupérer les informations de votre onduleur monitoré par le site https://home.solarmanpv.com/ , comme par exemple les Sofar Solar HYD de 3 à 6K ES. 
 
