@@ -14,7 +14,7 @@ on:
       - docs/fr_FR/**
   pull_request:
     branches:
-      - beta
+      - develop
     paths:
       - docs/fr_FR/**
 
