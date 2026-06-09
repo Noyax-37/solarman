@@ -1,6 +1,6 @@
 <br><br><br>
 
-Presentations
+Overview
 ===
 The Solarman plugin allows you to retrieve data from your inverter monitored by the website https://home.solarmanpv.com/, such as the Sofar Solar HYD models ranging from 3 to 6 kW.
 

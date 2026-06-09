@@ -1,6 +1,6 @@
 <br><br><br>
 
-Presentaciones
+Presentación
 ===
 El plugin Solarman permite recuperar la información de tu inversor supervisado por el sitio web https://home.solarmanpv.com/, como por ejemplo los modelos Sofar Solar HYD de 3 a 6 kW de potencia nominal.
 

@@ -1,6 +1,6 @@
 <br><br><br>
 
-Präsentationen
+Vorstellung
 ===
 Mit dem Solarman-Plugin können Sie die Daten Ihres Wechselrichters abrufen, der über die Website https://home.solarmanpv.com/ überwacht wird, wie beispielsweise die Sofar Solar HYD-Modelle mit 3 bis 6 kVA.
 
