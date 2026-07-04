@@ -61,6 +61,7 @@ def lire():
 		else:
 			conf.SIGNED_VALUES = True
 			sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			sock.settimeout(15)
 			sock.connect((globals.inverter_host, globals.inverter_port))
 		logging.info(f"Début interrogation de l'onduleur {globals.inverter_name} associé au data logger {globals.inverter_host}:{globals.inverter_port}")
 		for request in requests:
@@ -122,6 +123,10 @@ def lire():
 			try:
 				_SendData = current_val
 				_SendData['PID'] = str(pid)
+				if result != nbrequests:
+					_SendData['connection'] = 1
+				else:
+					_SendData['connection'] = 0
 				logging.debug(_SendData)
 				globals.JEEDOM_COM.add_changes('device::' + globals.ideqpmnt, _SendData)
 			except Exception:
@@ -133,6 +138,7 @@ def lire():
 				try:
 					_SendData = current_val
 					_SendData['PID'] = str(pid)
+					_SendData['connection'] = 2
 					logging.debug(_SendData)
 					globals.JEEDOM_COM.add_changes('device::' + globals.ideqpmnt, _SendData)
 				except Exception:
