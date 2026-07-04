@@ -40,7 +40,7 @@ $var_to_log = '';
 if (isset($result['device'])) {
     foreach ($result['device'] as $key => $data) {
         log::add('solarman','debug', __("Message du programme solarman. Id de l'équipement :", __FILE__) . ' ' . $key);
-        $eqlogic = eqLogic::byId(intval($key), 'solarman');
+        $eqlogic = eqLogic::byId(intval($key));
         //if (is_object($eqlogic)) {
             foreach ($data as $key2 => $value) {
                 log::add('solarman','debug', sprintf(__('Registre décodé en hexa : %s en décimal :', __FILE__), $key2) . ' ' . intval($key2,0) . ' valeur = ' . strval($value));
@@ -50,10 +50,32 @@ if (isset($result['device'])) {
                     //exec("sudo kill -9 " . $value);
                     //posix_kill(intval($value), 15);
                 } else {
-                    $cmd = $eqlogic->getCmd('info',intval($key2,0));
+                    if ($key2 == 'connection'){
+                        $cmd = $eqlogic->getCmd('info',$key2);
+                        $template = $eqlogic->getCmd('info', 'Template');
+                        if (is_object($template)) {
+                            $parameters = $template->getDisplay('parameters');
+                            if ($value == 0) {
+                                $parameters['inverterStateColour'] = 'green';
+                            } else if ($value == 1) {
+                                $parameters['inverterStateColour'] = 'yellow';
+                            } else if ($value == 2) {
+                                $parameters['inverterStateColour'] = 'red';
+                            } else {
+                                $parameters['inverterStateColour'] = 'transparent';
+                            }
+                            $template->setDisplay('parameters', $parameters);
+                            $template->save();
+                        }
+                    } else {
+                        $cmd = $eqlogic->getCmd('info',intval($key2,0));
+                    }
                     if (is_object($cmd)){
                         $cmd->event($value);
+                    } else {
+                        log::add('solarman','debug', __("Message du programme solarman. Commande non trouvée pour l'équipement :", __FILE__) . ' ' . $key . ' ' . $key2);
                     }
+
                 }
             }
         //}

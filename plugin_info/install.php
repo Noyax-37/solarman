@@ -100,6 +100,25 @@ function solarman_update() {
     log::add('solarman','info',__('**        Core version    :', __FILE__) . ' '. $core_version. '                **');
     log::add('solarman','info','*****************************************************');
 
+
+    foreach (eqLogic::byType('solarman') as $eqLogic) {
+
+        $connect = $eqLogic->getCmd('info', 'connection');
+        if (!is_object($connect)) {
+            log::add('solarman', "debug", "création de 'état connexion' pour {$eqLogic->getName()}");
+            $connect = new solarmanCmd();
+            $connect->setName(__('Etat connexion', __FILE__));
+        } else {
+            log::add('solarman','debug', "'état connexion' existe pour l'eqlogiq {$eqLogic->getName()}");
+        }
+        $connect->setEqLogic_id($eqLogic->getId());
+        $connect->setLogicalId('connection');
+        $connect->setType('info');
+        $connect->setSubType('numeric');
+        $connect->setOrder(3);
+        $connect->save();
+    }
+
 /*
     $crontoday = cron::byClassAndFunction('solarman', 'interroOnduleurs');
     if (is_object($crontoday)) {

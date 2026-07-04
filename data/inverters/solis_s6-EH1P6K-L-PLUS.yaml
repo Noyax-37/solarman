@@ -1,0 +1,931 @@
+# Solis Single Phase Hybrid
+# RHI-(3-6)K-48ES-5G
+# Modbus information retrieved from:
+# https://www.scss.tcd.ie/Brian.Coghlan/Elios4you/RS485_MODBUS-Hybrid-BACoghlan-201811228-1854.pdf
+
+requests:
+  - start: 33029
+    end:  33095
+    mb_functioncode: 0x04
+  - start: 33116
+    end:  33179
+    mb_functioncode: 0x04
+  - start: 33206
+    end:  33282
+    mb_functioncode: 0x04
+  - start: 43010
+    end: 43024
+    mb_functioncode: 0x03
+  - start: 43707
+    end: 43714
+    mb_functioncode: 0x03
+
+parameters:
+ - group: InverterStatus
+   items:
+    - name: "Etat de l’onduleur"
+      class: ""
+      state_class: "measurement"
+      uom: ""
+      scale: 1
+      rule: 1
+      registers: [33095]
+      icon: 'mdi:home-lightning-bolt'
+      isstr: true
+      lookup:
+      -  key: 0x0
+         value: "Etat d’attente"
+      -  key:  0x1
+         value: "Fonctionnement en boucle ouverte"
+      -  key: 0x2
+         value: "Démarrage progressif"
+      -  key: 0x3
+         value: "Sur le réseau/Génération"
+      -  key: 0x1004
+         value: "Surtension du réseau"
+      -  key: 0x1010
+         value: "Sous-tension du réseau"
+      -  key: 0x1012
+         value: "Surfréquence de la grille"
+      -  key: 0x1013
+         value: "Sous-fréquence de la grille"
+      -  key: 0x1014
+         value: "Grille Diablotin trop grande"
+      -  key: 0x1015
+         value: "Pas de grille"
+      -  key: 0x1016
+         value: "Déséquilibre du réseau"
+      -  key: 0x1017
+         value: "Gigue de fréquence de grille"
+      -  key: 0x1018
+         value: "Surintensité du réseau"
+      -  key: 0x1019
+         value: "Défaut de suivi du réseau"
+      -  key: 0x1020
+         value: "Surtension CC"
+      -  key: 0x1021
+         value: "Surtension du bus CC"
+      -  key: 0x1022
+         value: "Tension inégale du bus CC"
+      -  key: 0x1024
+         value: "Tension inégale du bus CC2"
+      -  key: 0x1025
+         value: "Surintensité du chemin DC A"
+      -  key: 0x1026
+         value: "Surintensité du chemin DC B"
+      -  key: 0x1027
+         value: "Perturbation de l’entrée CC"
+      -  key: 0x1030
+         value: "Perturbation du réseau"
+      -  key: 0x1031
+         value: "Protection de l’initialisation DSP"
+      -  key: 0x1032
+         value: "Protection contre les surchauffes"
+      -  key: 0x1033
+         value: "Défaut d’isolation PV"
+      -  key: 0x1034
+         value: "Protection contre les courants de fuite"
+      -  key: 0x1035
+         value: "Protection contre la détection de relais"
+      -  key: 0x1036
+         value: "DSP_B Protection"
+      -  key: 0x1037
+         value: "Composant CC trop Large"
+      -  key: 0x1038
+         value: "Protection contre les sous-tensions 12v"
+      -  key: 0x1039
+         value: "Protection contre la température"
+      -  key: 0x1040
+         value: "Protection contre l’auto-test de l’arc électrique"
+      -  key: 0x1041
+         value: "Protection contre les arcs électriques"
+      -  key: 0x1042
+         value: "Exception SRAM DSP sur puce"
+      -  key: 0x1043
+         value: "Exception FLASH DSP sur puce"
+      -  key: 0x1044
+         value: "Le pointeur PC DSP sur puce est anormal"
+      -  key: 0x1045
+         value: "Exception de registre de clé DSP"
+      -  key: 0x1046
+         value: "Perturbation du réseau 02"
+      -  key: 0x1047
+         value: "Anomalie d’échantillonnage du courant de grille"
+      -  key: 0x1048
+         value: "Surintensité IGBT"
+      -  key: 0x1050
+         value: "Surintensité transitoire de courant réseau"
+      -  key: 0x1051
+         value: "Défaillance matérielle de surtension de la batterie"
+      -  key: 0x1052
+         value: "Surintensité matérielle LLC"
+      -  key: 0x1053
+         value: "Détection de surtension de la batterie"
+      -  key: 0x1054
+         value: "Détection de sous-tension de la batterie"
+      -  key: 0x1055
+         value: "Batterie non connectée"
+      -  key: 0x1056
+         value: "Défaut de surtension de dérivation"
+      -  key: 0x1057
+         value: "Défaut de surcharge de dérivation"
+
+    - name: "Etat de fonctionnement"
+      class: ""
+      state_class: "measurement"
+      uom: ""
+      scale: 1
+      rule: 1
+      registers: [33121]
+      icon: 'mdi:home-lightning-bolt'
+      isstr: true
+      lookup:
+      -  key: 0x701
+         value: "Fonctionnement normal"
+      -  key: 0x702
+         value: "Mise en veille initiale"
+      -  key: 0x704
+         value: "Arrêt de la commande"
+      -  key: 0x708
+         value: "Temps d'arrêt"
+      -  key: 0x710
+         value: "Veille"
+      -  key: 0x720
+         value: "Opération de déclassement"
+      -  key: 0x740
+         value: "Limiter l’opération"
+      -  key: 0x780
+         value: "Dériver la surcharge"
+
+    - name: "Etat de défaut du réseau"
+      class: ""
+      state_class: "measurement"
+      uom: ""
+      scale: 1
+      rule: 1
+      registers: [33116]
+      icon: 'mdi:alert'
+      isstr: true
+      lookup:
+      -  key: 0x0000
+         value: "Pas de faute"
+      -  key: 0x1
+         value: "Pas de grille"
+      -  key: 0x2
+         value: "Surtension du réseau"
+      -  key: 0x4
+         value: "Sous-tension du réseau"
+      -  key: 0x8
+         value: "Surfréquence de la grille"
+      -  key: 0x10
+         value: "Sous-fréquence de la grille"
+      -  key: 0x20
+         value: "Déséquilibre du réseau"
+      -  key: 0x40
+         value: "Gigue de fréquence de grille"
+      -  key: 0x80
+         value: "Impédance de grille trop grande"
+      -  key: 0x100
+         value: "Défaut de suivi du réseau"
+      -  key: 0x200
+         value: "Défaillance de la communication du compteur"
+      -  key: 0x400
+         value: "Sécurité intégrée"
+
+    - name: "Etat d’erreur de charge de sauvegarde"
+      class: ""
+      state_class: "measurement"
+      uom: ""
+      scale: 1
+      rule: 1
+      registers: [33117]
+      icon: 'mdi:alert'
+      isstr: true
+      lookup:
+      -  key: 0x0
+         value: "Pas de faute"
+      -  key: 0x1
+         value: "Défaut de surtension de dérivation"
+      -  key: 0x2
+         value: "Défaut de surcharge de dérivation"
+
+    - name: "Etat de défaillance de la batterie"
+      class: ""
+      state_class: "measurement"
+      uom: ""
+      scale: 1
+      rule: 1
+      registers: [33118]
+      icon: 'mdi:alert'
+      isstr: true
+      lookup:
+      -  key: 0x0
+         value: "Pas de défaut"
+      -  key: 0x1
+         value: "Batterie non connectée"
+      -  key: 0x2
+         value: "Détection de surtension de batterie"
+      -  key: 0x4
+         value: "Détection de sous-tension de batterie"
+
+    - name: "Etat de défaut 04 (appareil)"
+      class: ""
+      state_class: "mesure"
+      uom: ""
+      scale: 1
+      rule: 1
+      registers: [33119]
+      icon: 'mdi:alert'
+      isstr: true
+      lookup:
+      -  key: 0x0000
+         value: "Pas de défaut"
+      -  key: 0x1
+         value: "Surtension CC"
+      -  key: 0x2
+         value: "Surtension du bus CC"
+      -  key: 0x4
+         value: "Tension inégale du bus CC"
+      -  key: 0x8
+         value: "Sous-tension du bus CC"
+      -  key: 0x10
+         value: "Bus CC2 Tension inégale"
+      -  key: 0x20
+         value: "Surintensité du chemin DC A"
+      -  key: 0x40
+         value: "Surintensité du chemin DC B"
+      -  key: 0x80
+         value: "Perturbation de l’entrée CC"
+      -  key: 0x100
+         value: "Surintensité du réseau"
+      -  key: 0x200
+         value: "Surintensité IGBT"
+      -  key: 0x400
+         value: "Perturbation du réseau 2"
+      -  key: 0x800
+         value: "Protection contre l’auto-test de l’arc électrique"
+      -  key: 0x1000
+         value: "Réservation de défaut d’arc"
+      -  key: 0x2000
+         value: "Anomalie de l’échantillon de courant de grille"
+
+    - name: "Etat de défaut 05 (appareil)"
+      class: ""
+      state_class: ""
+      uom: ""
+      scale: 1
+      rule: 1
+      registers: [33120]
+      icon: 'mdi:alert'
+      isstr: true
+      lookup:
+      -  key: 0x0000
+         value: "Pas de défaut"
+      -  key: 0x1
+         value: "Perturbation du réseau"
+      -  key: 0x2
+         value: "Composant CC trop grand"
+      -  key: 0x4
+         value: "Protection contre les surchauffes"
+      -  key: 0x8
+         value: "Protection contre la détection de relais"
+      -  key: 0x10
+         value: "Protection sous température"
+      -  key: 0x20
+         value: "Défaut d’isolation PV"
+      -  key: 0x40
+         value: "Protection contre les sous-tensions 12V"
+      -  key: 0x80
+         value: "Protection contre les courants de fuite"
+      -  key: 0x100
+         value: "Auto-test de courant de fuite"
+      -  key: 0x200
+         value: "Protection de l’initialisation DSP"
+      -  key: 0x400
+         value: "DSP B Protection"
+      -  key: 0x800
+         value: "Défaillance H/W de surtension de la batterie"
+      -  key: 0x1000
+         value: "Surintensité matérielle LLC"
+      -  key: 0x2000
+         value: "OverCurren transitoire côté réseaut"
+      -  key: 0x4000
+         value: "Echec de la communication CAN"
+      -  key: 0x8000
+         value: "Echec de la communication DSP"
+
+    - name: "Température de l’onduleur"
+      class: "temperature"
+      state_class: "measurement"
+      uom: "°C"
+      scale: 0.1
+      rule: 2
+      registers: [33093]
+      icon: 'mdi:thermometer'
+
+# Sensors below are outside of modbus request ranges.
+# If enabling, ensure to amend the request start register.
+#
+#    - name: "ID de l’onduleur"
+#      class: ""
+#      state_class: ""
+#      uom: ""
+#      scale: 1
+#      rule: 5
+#      registers: [33004,33005,33006,33007,33008,33009,33010,33011,33012,33013,33014,33015,33016,33017,33018,33019]
+#      isstr: true
+
+#    - name: "Modèle de produit"
+#      class: ""
+#      state_class: ""
+#      uom: ""
+#      scale: 1
+#      rule: 3
+#      registers: [33000]
+#      isstr: true
+
+#    - name: "Version du logiciel DSP"
+#      class: ""
+#      state_class: ""
+#      uom: ""
+#      scale: 1
+#      rule: 3
+#      registers: [33001]
+#      isstr: true
+
+#    - name: "Version du logiciel LCD"
+#      class: ""
+#      state_class: ""
+#      uom: ""
+#      scale: 1
+#      rule: 3
+#      registers: [33002]
+#      isstr: true
+
+#    - name: "Version du logiciel de protocole"
+#      class: ""
+#      state_class: ""
+#      uom: ""
+#      scale: 1
+#      rule: 3
+#      registers: [33003]
+#      isstr: true
+
+    - name: "Mode de contrôle du stockage"
+      class: ""
+      state_class: "measurement"
+      uom: ""
+      scale: 1
+      rule: 1
+      registers: [33132]
+      icon: 'mdi:battery-clock'
+      isstr: true
+      lookup:
+      -  key: 0x21
+         value: "Auto-utilisation"
+      -  key: 0x22
+         value: "Revenus optimisés"
+      -  key: 0x23
+         value: "Temps d’utilisation"
+      -  key: 0x24
+         value: "Stockage hors réseau"
+      -  key: 0x28
+         value: "Réveil de la batterie"
+      -  key: 0x60
+         value: "Priorité d’injection"
+
+ - group: InverterDC
+   items:
+    - name: "Tension DC PV1"
+      class: "voltage"
+      state_class: "measurement"
+      uom: "V"
+      scale: 0.1
+      rule: 1
+      registers: [33049]
+      icon: 'mdi:solar-power'
+
+    - name: "Tension DC PV2"
+      class: "voltage"
+      state_class: "measurement"
+      uom: "V"
+      scale: 0.1
+      rule: 1
+      registers: [33051]
+      icon: 'mdi:solar-power'
+
+    - name: "Courant DC PV1"
+      class: "current"
+      uom: "A"
+      scale: 0.1
+      rule: 1
+      registers: [33050]
+      icon: 'mdi:current-dc'
+
+    - name: "Courant DC PV2"
+      class: "current"
+      state_class: "measurement"
+      uom: "A"
+      scale: 0.1
+      rule: 1
+      registers: [33052]
+      icon: 'mdi:current-dc'
+
+    - name: "Puissance de sortie DC totale"
+      class: "power"
+      state_class: "measurement"
+      uom: "W"
+      scale: 1
+      rule: 3
+      registers: [33058,33057]
+      icon: 'mdi:solar-power'
+
+    - name: "Puissance d’inversion/redressement"
+      class: "power"
+      state_class: "measurement"
+      uom: "W"
+      scale: 10
+      rule: 2
+      registers: [33157]
+      icon: 'mdi:solar-power'
+
+ - group: InverterAC
+   items:
+    - name: "Puissance AC de l’onduleur"
+      class: "power"
+      state_class: "measurement"
+      uom: "W"
+      scale: 1
+      rule: 4
+      registers: [33152,33151]
+      icon: 'mdi:solar-power'
+
+    - name: "Tension de l’onduleur"
+      class: "voltage"
+      state_class: "measurement"
+      uom: "V"
+      scale: 0.1
+      rule: 1
+      registers: [33073]
+      icon: 'mdi:transmission-tower'
+
+    - name: "Courant de l’onduleur"
+      class: "current"
+      state_class: "measurement"
+      uom: "A"
+      scale: 0.1
+      rule: 1
+      registers: [33076]
+      icon: 'mdi:current-ac'
+
+    - name: "Puissance active de l’onduleur"
+      class: "power"
+      state_class: "measurement"
+      uom: "W"
+      scale: 1
+      rule: 4
+      registers: [33080,33079]
+      icon: 'mdi:transmission-tower'
+
+      # Inverter Reactive Power is defined as a signed 32 bit integer
+      # across 33082 and 33081, however the field appears to be only
+      # 20 bits wide i.e. the upper 12 bits are always zero.
+      # Define only the lower signed 16 bits for moment
+    - name: "Puissance réactive de l’onduleur"
+      class: "reactive_power"
+      state_class: "measurement"
+      uom: "var"
+      scale: 1
+      rule: 4
+      registers: [33082]
+      icon: 'mdi:transmission-tower'
+
+    - name: "Puissance apparente de l’onduleur"
+      class: "apparent_power"
+      state_class: "measurement"
+      uom: "VA"
+      scale: 1
+      rule: 4
+      registers: [33084,33083]
+      icon: 'mdi:transmission-tower'
+
+    - name: "Fréquence de l’onduleur"
+      class: "frequency"
+      state_class: "measurement"
+      uom: "Hz"
+      scale: 0.01
+      rule: 1
+      registers: [33094]
+      icon: 'mdi:sine-wave'
+
+ - group: Generation
+   items:
+    - name: "Production quotidienne"
+      class: "energy"
+      state_class: "total_increasing"
+      uom: "kWh"
+      scale: 0.1
+      rule: 1
+      registers: [33035]
+      icon: 'mdi:solar-power'
+
+    - name: "Production mensuelle"
+      class: "energy"
+      state_class: "total_increasing"
+      uom: "kWh"
+      scale: 1
+      rule: 3
+      registers: [33032,33031]
+      icon: 'mdi:solar-power'
+
+    - name: "Production annuelle"
+      class: "energy"
+      state_class: "total_increasing"
+      uom: "kWh"
+      scale: 1
+      rule: 3
+      registers: [33038,33037]
+      icon: 'mdi:solar-power'
+
+    - name: "Production totale"
+      class: "energy"
+      state_class: "total_increasing"
+      uom: "kWh"
+      scale: 1
+      rule: 3
+      registers: [33030,33029]
+      icon: 'mdi:solar-power'
+
+ - group: Grid
+   items:
+    - name: "Fréquence du compteur"
+      class: "frequency"
+      state_class: "measurement"
+      uom: "Hz"
+      scale: 0.01
+      rule: 1
+      registers: [33282]
+      icon: 'mdi:sine-wave'
+
+    - name: "Facteur de puissance du compteur"
+      class: "power_factor"
+      state_class: "measurement"
+      uom: ""
+      scale: 0.01
+      rule: 2
+      registers: [33281]
+      icon: 'mdi:transmission-tower'
+
+    - name: "Tension AC du compteur"
+      class: "voltage"
+      state_class: "measurement"
+      uom: "V"
+      scale: 0.1
+      rule: 1
+      registers: [33251]
+      icon: 'mdi:transmission-tower'
+
+    - name: "Courant AC du compteur"
+      class: "current"
+      state_class: "measurement"
+      uom: "A"
+      scale: 0.01
+      rule: 1
+      registers: [33252]
+      icon: 'mdi:current-ac'
+
+    - name: "Puissance active du Compteur"
+      class: "power"
+      state_class: "measurement"
+      uom: "W"
+      scale: 1
+      rule: 4
+      registers: [33258,33257]
+      icon: 'mdi:transmission-tower'
+
+    - name: "Puissance réactive du compteur"
+      class: "reactive_power"
+      state_class: "measurement"
+      uom: "var"
+      scale: 1
+      rule: 4
+      registers: [33266,33265]
+      icon: 'mdi:transmission-tower'
+
+    - name: "Puissance apparente du compteur"
+      class: "apparent_power"
+      state_class: "measurement"
+      uom: "VA"
+      scale: 1
+      rule: 4
+      registers: [33274,33273]
+      icon: 'mdi:transmission-tower'
+
+    - name: "Energie quotidienne importée"
+      class: "energy"
+      state_class: "total_increasing"
+      uom: "kWh"
+      scale: 0.1
+      rule: 1
+      registers: [33171]
+      icon: 'mdi:home-import-outline'
+
+    - name: "Energie totale importée"
+      class: "energy"
+      state_class: "total_increasing"
+      uom: "kWh"
+      scale: 1
+      rule: 3
+      registers: [33170,33169]
+      icon: 'mdi:home-import-outline'
+
+    - name: "Energie quotidienne exportée"
+      class: "energy"
+      state_class: "total_increasing"
+      uom: "kWh"
+      scale: 0.1
+      rule: 1
+      registers: [33175]
+      icon: 'mdi:home-export-outline'
+
+    - name: "Energie totale exportée"
+      class: "energy"
+      state_class: "total_increasing"
+      uom: "kWh"
+      scale: 1
+      rule: 3
+      registers: [33174,33173]
+      icon: 'mdi:home-export-outline'
+
+ - group: Load
+   items:
+    - name: "Puissance de charge de la maison"
+      class: "power"
+      state_class: "measurement"
+      uom: "W"
+      scale: 1
+      rule: 1
+      registers: [33147]
+      icon: 'mdi:home-lightning-bolt'
+
+    - name: "Puissance de charge de secours"
+      class: "power"
+      state_class: "measurement"
+      uom: "W"
+      scale: 1
+      rule: 1
+      registers: [33148]
+      icon: 'mdi:home-battery'
+
+    - name: "Consommation quotidienne (charge de la maison + charge de secours)"
+      class: "energy"
+      state_class: "total_increasing"
+      uom: "kWh"
+      scale: 0.1
+      rule: 1
+      registers: [33179]
+      icon: 'mdi:lightning-bolt-outline'
+
+    - name: "Consommation totale (charge de la maison + charge de secours)"
+      class: "energy"
+      state_class: "total_increasing"
+      uom: "kWh"
+      scale: 1
+      rule: 3
+      registers: [33178,33177]
+      icon: 'mdi:lightning-bolt-outline'
+
+ - group: Battery
+   items:
+    - name: "Mode de fonctionnement de la batterie"
+      class: ""
+      state_class: "measurement"
+      uom: ""
+      scale: 1
+      rule: 1
+      registers: [33135]
+      isstr: true
+      lookup:
+      -  key: 0
+         value: "Charge"
+      -  key: 1
+         value: "Décharge"
+      icon: 'mdi:battery'
+
+    - name: "Puissance de la batterie"
+      class: "power"
+      state_class: "measurement"
+      uom: "W"
+      scale: 1
+      rule: 4
+      registers: [33150,33149]
+      icon: 'mdi:battery-charging'
+
+    - name: "Niveau de charge de la batterie (SoC)"
+      class: "battery"
+      state_class: "measurement"
+      uom: "%"
+      scale: 1
+      rule: 1
+      registers: [33139]
+      icon: 'mdi:battery'
+
+    - name: "Santé de la batterie SoH"
+      class: "battery"
+      state_class: "measurement"
+      uom: "%"
+      scale: 1
+      rule: 1
+      registers: [33140]
+      icon: 'mdi:battery'
+
+    - name: "Courant de la batterie"
+      class: "current"
+      state_class: "measurement"
+      uom: "A"
+      scale: 0.1
+      rule: 2
+      registers: [33134]
+      icon: 'mdi:current-dc'
+
+    - name: "Tension de la batterie"
+      class: "voltage"
+      state_class: "measurement"
+      uom: "V"
+      scale: 0.1
+      rule: 1
+      registers: [33133]
+      icon: 'mdi:battery'
+
+    - name: "Energie quotidienne chargée dans la batterie"
+      class: "energy"
+      state_class: "total_increasing"
+      uom: "kWh"
+      scale: 0.1
+      rule: 1
+      registers: [33163]
+      icon: 'mdi:battery-plus'
+
+    - name: "Energie quotidienne déchargée de la batterie"
+      class: "energy"
+      state_class: "total_increasing"
+      uom: "kWh"
+      scale: 0.1
+      rule: 1
+      registers: [33167]
+      icon: 'mdi:battery-minus'
+
+    - name: "Energie totale chargée dans la batterie"
+      class: "energy"
+      state_class: "total_increasing"
+      uom: "kWh"
+      scale: 1
+      rule: 3
+      registers: [33162,33161]
+      icon: 'mdi:battery-plus'
+
+    - name: "Energie totale déchargée de la batterie"
+      class: "energy"
+      state_class: "total_increasing"
+      uom: "kWh"
+      scale: 1
+      rule: 3
+      registers: [33166,33165]
+      icon: 'mdi:battery-minus'
+
+    - name: "Courant de charge maximum de la batterie"
+      class: "current"
+      state_class: "measurement"
+      uom: "A"
+      scale: 0.1
+      rule: 1
+      registers: [33206]
+      icon: 'mdi:battery-arrow-up'
+
+    - name: "Courant de décharge maximum de la batterie"
+      class: "current"
+      state_class: "measurement"
+      uom: "A"
+      scale: 0.1
+      rule: 1
+      registers: [33207]
+      icon: 'mdi:battery-arrow-down'
+
+    - name: "Courant de la batterie (BMS)"
+      class: "current"
+      state_class: "measurement"
+      uom: "A"
+      scale: 0.1
+      rule: 2
+      registers: [33142]
+      icon: 'mdi:current-dc'
+
+    - name: "Tension de la batterie (BMS)"
+      class: "voltage"
+      state_class: "measurement"
+      uom: "V"
+      scale: 0.01
+      rule: 1
+      registers: [33141]
+      icon: 'mdi:battery'
+
+    - name: "Limite de courant de charge de la batterie (BMS)"
+      class: "current"
+      state_class: "measurement"
+      uom: "A"
+      scale: 0.1
+      rule: 1
+      registers: [33143]
+      icon: 'mdi:battery-arrow-up'
+
+    - name: "Limite de courant de décharge de la batterie (BMS)"
+      class: "current"
+      state_class: "measurement"
+      uom: "A"
+      scale: 0.1
+      rule: 1
+      registers: [33144]
+      icon: 'mdi:battery-arrow-down'
+    
+    - name: "Charge maximum de la batterie"
+      class: "battery"
+      state_class: "measurement"
+      uom: "%"
+      scale: 1
+      rule: 1
+      registers: [43010]
+      icon: 'mdi:battery'
+      
+    - name: "Rétention de la batterie"
+      class: "battery"
+      state_class: "measurement"
+      uom: "%"
+      scale: 1
+      rule: 1
+      registers: [43024]
+      icon: 'mdi:battery'
+
+ - group: TimedCharge
+   items: 
+    - name: "Programmation de charge Slot1 : Etat du programme"
+      class: ""
+      state_class: "measurement"
+      uom: ""
+      scale: 1
+      rule: 1
+      registers: [43707]
+      icon: 'mdi:wrench-clock'
+      
+    - name: "Programmation de charge Slot1 : SoC"
+      class: ""
+      state_class: "measurement"
+      uom: "%"
+      scale: 1
+      rule: 1
+      registers: [43708]
+      icon: 'mdi:wrench-clock'
+      
+    - name: "Programmation de charge Slot1 : Courant"
+      class: ""
+      state_class: "measurement"
+      uom: "A"
+      scale: 0.1
+      rule: 1
+      registers: [43709]
+      icon: 'mdi:wrench-clock'
+      
+    - name: "Programmation de charge Slot1 : Heure de début"
+      class: ""
+      state_class: "measurement"
+      uom: "h"
+      scale: 1
+      rule: 1
+      registers: [43711]
+      icon: 'mdi:wrench-clock'
+
+    - name: "Programmation de charge Slot1 : Minute de début"
+      class: ""
+      state_class: "measurement"
+      uom: "mn"
+      scale: 1
+      rule: 1
+      registers: [43712]
+      icon: 'mdi:wrench-clock'
+      
+    - name: "Programmation de charge Slot1 : Heure de fin"
+      class: ""
+      state_class: "measurement"
+      uom: "h"
+      scale: 1
+      rule: 1
+      registers: [43713]
+      icon: 'mdi:wrench-clock'
+      
+    - name: "Programmation de charge Slot1 : Minute de fin"
+      class: ""
+      state_class: "measurement"
+      uom: "mn"
+      scale: 1
+      rule: 1
+      registers: [43714]
+      icon: 'mdi:wrench-clock'

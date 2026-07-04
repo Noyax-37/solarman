@@ -211,8 +211,14 @@ class solarman extends eqLogic {
       $refresh->setSubType('other');
       $refresh->save();
 
-           
-      
+      $connect = new solarmanCmd();
+      $connect->setName(__('Etat connexion', __FILE__));
+      $connect->setEqLogic_id($this->getId());
+      $connect->setLogicalId('connection');
+      $connect->setType('info');
+      $connect->setSubType('numeric');
+      $connect->save();
+
     } catch (Exception $e) {
       log::add('solarman', 'error', __(' Attention, erreur lors du postInsert :', __FILE__) . ' ' . $e->getMessage());
     }

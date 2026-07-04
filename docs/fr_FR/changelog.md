@@ -7,6 +7,20 @@
 Si vous souhaitez me payer un café par Paypal: [Offrir un café](https://www.paypal.com/donate/?hosted_button_id=JD64LAEUMUWMU)
 
 
+# 1.2.7
+
+   - modification de l'animation des loads pour permettre un load négatif
+   - modification des registres modbus concernant les loads pour les onduleurs configurés avec la fichier deye_sg04lp3.yaml
+   - sur une idée de @Bison, ajout d'une commande info pour l'état de l'interrogation de l'onduleur: 
+      - 0: interrogation terminée avec succès
+      - 1: interrogation partiellement terminée avec succès
+      - 2: interrogation entièrement HS
+   - en lien avec la commande ci dessus, ajout d'une pastille sur l'onduleur du widget pour indiquer l'état de l'interrogation de l'onduleur
+      - vert: interrogation terminée avec succès
+      - orange: interrogation partiellement terminée avec succès
+      - rouge: interrogation entièrement HS
+   - ajout d'un fichier de configuration pour onduleurs Solis Single Phase Hybrid EH1P6K (merci à @Bison pour le fichier)
+   
 # 1.2.6
 
    - reprise de certaines parties du template, devrait normalement être non impactant

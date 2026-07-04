@@ -17,7 +17,7 @@
       --load_colour#id# : #5fb6ad;
       --inverter_colour#id# : grey;
       --inverter_secondary_colour#id# : black;
-      --inverterStateColour#id#: transparent;
+      --inverterStateColour#id#: green;
       --background#id#: transparent;
       --no_grid_colour#id#: #db041c;
     }
@@ -501,8 +501,10 @@
     if ("#mpptName#" != '#'+'mpptName#') config#id#.battery.mppt.name = "#mpptName#"
     if ("#batteryColor#" != '#'+'batteryColor#') document.documentElement.style.setProperty('--battery_colour#id#', '#batteryColor#')
     ////////////////////////// Onduleur /////////////////////////
+
     if ("#inverterColor#" != '#'+'inverterColor#') document.documentElement.style.setProperty('--inverter_colour#id#', '#inverterColor#')
     if ("#inverterTxt#" != '#' + 'inverterTxt#') document.documentElement.style.setProperty('--inverter_secondary_colour#id#', '#inverterTxt#')
+	if ("#inverterStateColour#" != '#' + 'inverterStateColour#') document.documentElement.style.setProperty('--inverter_state_colour#id#', '#inverterStateColour#')
     ////////////////////////// Aux /////////////////////////
     if ("#auxColor#" != '#'+'auxColor#') document.documentElement.style.setProperty('--aux_colour#id#', '#auxColor#')
     if (is_numeric('#auxMaxPower#')) config#id#.aux.energy = '#auxMaxPower#'
@@ -1602,12 +1604,27 @@
 				  document.getElementById("ess_load1#id#").innerHTML = trunc#id#(load1Power.value, 3, 0) + ' ' + load1Power.unit
 				  if (config#id#.load.has_load_power === false) calculateLoad#id#('load1 state')
 				  
-				  if (config#id#.load.load1.power > 0) {
-					document.getElementById("es-dot1-#id#").setAttribute("fill", "var(--load_colour#id#)");
-				  }
-				  else {
-					document.getElementById("es-dot1-#id#").setAttribute("fill", "transparent");
-				  }
+//				  if (config#id#.load.load1.power < 0) {
+//					document.getElementById("es-dot1-#id#").setAttribute("fill", "var(--load_colour#id#)");
+//				  }
+	//			  else {
+	//				document.getElementById("es-dot1-#id#").setAttribute("fill", "transparent");
+	//			  }
+
+					if(trunc#id#(parseFloat(config#id#.load.load1.power ), 1) > 0) {
+					  document.getElementById("es-dot1-#id#").setAttribute("fill", "var(--load_colour#id#)");
+					  document.getElementById("esneg-dot1-#id#").setAttribute("fill", "transparent");
+					}
+					else if(trunc#id#(parseFloat(config#id#.load.load1.power ), 1) < 0) {
+					  document.getElementById("es-dot1-#id#").setAttribute("fill", "transparent");
+					  document.getElementById("esneg-dot1-#id#").setAttribute("fill", "var(--load_colour#id#)");
+					}
+					else {
+					  document.getElementById("es-dot1-#id#").setAttribute("fill", "transparent");
+					  document.getElementById("esneg-dot1-#id#").setAttribute("fill", "transparent");
+					}
+
+				  
 				})
 			  }
 			  ///////////////////////////////////////////////////////////////////////
@@ -1643,12 +1660,18 @@
 				  document.getElementById("ess_load2#id#").innerHTML = trunc#id#(load2Power.value, 3, 0) + ' ' + load2Power.unit
 				  if (config#id#.load.has_load_power === false) calculateLoad#id#('load2 state')
 				  
-				  if (config#id#.load.load2.power > 0) {
-					document.getElementById("es-dot2-#id#").setAttribute("fill", "var(--load_colour#id#)");
-				  }
-				  else {
-					document.getElementById("es-dot2-#id#").setAttribute("fill", "transparent");
-				  }
+					if(trunc#id#(parseFloat(config#id#.load.load2.power ), 1) > 0) {
+					  document.getElementById("es-dot2-#id#").setAttribute("fill", "var(--load_colour#id#)");
+					  document.getElementById("esneg-dot2-#id#").setAttribute("fill", "transparent");
+					}
+					else if(trunc#id#(parseFloat(config#id#.load.load2.power ), 1) < 0) {
+					  document.getElementById("es-dot2-#id#").setAttribute("fill", "transparent");
+					  document.getElementById("esneg-dot2-#id#").setAttribute("fill", "var(--load_colour#id#)");
+					}
+					else {
+					  document.getElementById("es-dot2-#id#").setAttribute("fill", "transparent");
+					  document.getElementById("esneg-dot2-#id#").setAttribute("fill", "transparent");
+					}
 				})
 			  }
 			  ///////////////////////////////////////////////////////////////////////
@@ -1684,12 +1707,18 @@
 				  document.getElementById("ess_load3#id#").innerHTML = trunc#id#(load3Power.value, 3, 0) + ' ' + load3Power.unit
 				  if (config#id#.load.has_load_power === false) calculateLoad#id#('load3 state')
 				  
-				  if (config#id#.load.load3.power > 0) {
-					document.getElementById("es-dot3-#id#").setAttribute("fill", "var(--load_colour#id#)");
-				  }
-				  else {
-					document.getElementById("es-dot3-#id#").setAttribute("fill", "transparent");
-				  }
+					if(trunc#id#(parseFloat(config#id#.load.load3.power ), 1) > 0) {
+					  document.getElementById("es-dot3-#id#").setAttribute("fill", "var(--load_colour#id#)");
+					  document.getElementById("esneg-dot3-#id#").setAttribute("fill", "transparent");
+					}
+					else if(trunc#id#(parseFloat(config#id#.load.load3.power ), 1) < 0) {
+					  document.getElementById("es-dot3-#id#").setAttribute("fill", "transparent");
+					  document.getElementById("esneg-dot3-#id#").setAttribute("fill", "var(--load_colour#id#)");
+					}
+					else {
+					  document.getElementById("es-dot3-#id#").setAttribute("fill", "transparent");
+					  document.getElementById("esneg-dot3-#id#").setAttribute("fill", "transparent");
+					}
 				})
 			  }
 			  ///////////////////////////////////////////////////////////////////////
@@ -1724,12 +1753,18 @@
 				  document.getElementById("ess_load4#id#").innerHTML = trunc#id#(load4Power.value, 3, 0) + ' ' + load4Power.unit
 				  if (config#id#.load.has_load_power === false) calculateLoad#id#('load4 state')
 				  
-				  if (config#id#.load.load4.power > 0) {
-					document.getElementById("es-dot4-#id#").setAttribute("fill", "var(--load_colour#id#)");
-				  }
-				  else {
-					document.getElementById("es-dot4-#id#").setAttribute("fill", "transparent");
-				  }
+					if(trunc#id#(parseFloat(config#id#.load.load4.power ), 1) > 0) {
+					  document.getElementById("es-dot4-#id#").setAttribute("fill", "var(--load_colour#id#)");
+					  document.getElementById("esneg-dot4-#id#").setAttribute("fill", "transparent");
+					}
+					else if(trunc#id#(parseFloat(config#id#.load.load4.power ), 1) < 0) {
+					  document.getElementById("es-dot4-#id#").setAttribute("fill", "transparent");
+					  document.getElementById("esneg-dot4-#id#").setAttribute("fill", "var(--load_colour#id#)");
+					}
+					else {
+					  document.getElementById("es-dot4-#id#").setAttribute("fill", "transparent");
+					  document.getElementById("esneg-dot4-#id#").setAttribute("fill", "transparent");
+					}
 				})
 			  }
 			  ///////////////////////////////////////////////////////////////////////
@@ -2142,28 +2177,28 @@
           ///////////////////////////////////////////////////////
           ////////////////////// Load ///////////////////////////
           ///////////////////////////////////////////////////////
-          html += '<!-- Load -->'
-          html += '<rect x="304" y="213.5" width="70" height="30" rx="4.5" ry="4.5" class="' + ((config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" pointer-events="all"/>'
-          
-          html += '<text id="ess_power#id#" x="338.1" y="232.2" display="' + ((config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '' : 'none') + '" class="' + ((config#id#.large_font !== true) ? 'ft12-#id#' : 'ft14-#id#') + ' ftw-#id# center-align#id#" fill="var(--load_colour#id#)"></text>'
-          // LINE LOAD
-          html += '<path id="es-line#id#" class="' + ((config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '' : 'hidden-#id#') + '" d="M 304 228 L 264.7 228" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
-          html += '<circle id="es-dot1#id#" cx="0" cy="0" r="3" fill="transparent">'
-          html += '<animateMotion id="anim_load1#id#" dur="' + config#id#.load.animation_speed + 's" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">'
-          html += '<mpath xlink:href="#es-line#id#"/></animateMotion></circle>'
-          html += '<path id="es-line1#id#" class="' + ((config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '' : 'hidden-#id#') + '" d="M 374 228 L 402.38 228" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
-          html += '<circle id="es-dot#id#" cx="0" cy="0" r="3" fill="transparent"><animateMotion id="anim_load#id#" dur="' + config#id#.load.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-line1#id#"/></animateMotion></circle>'
-          
-          // ICON LOAD ESS
-          //html += '<svg xmlns="http://www.w3.org/2000/svg" id="icon_load#id#" x="402" y="177.5" width="79" height="79" viewBox="0 0 24 24"><path fill="var(--load_colour#id#)" d="M15 9h1V7.5h4V9h1c.55 0 1 .45 1 1v11c0 .55-.45 1-1 1h-6c-.55 0-1-.45-1-1V10c0-.55.45-1 1-1m1 2v3h4v-3h-4m-4-5.31l-5 4.5V18h5v2H5v-8H2l10-9l2.78 2.5H14v1.67l-.24.1L12 5.69Z"/></svg>'
-          // ICON LOAD NONESS
-          html += '<svg xmlns="http://www.w3.org/2000/svg" class="' + ((config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '' : 'hidden-#id#') + '" id="icon_load#id#" x="400" y="190.5" width="79" height="79" viewBox="0 0 24 24"><path fill="var(--load_colour#id#)" d="m15 13l-4 4v-3H2v-2h9V9l4 4M5 20v-4h2v2h10v-7.81l-5-4.5L7.21 10H4.22L12 3l10 9h-3v8H5Z"></path></svg>'
-          
-          // entities.day_load_energy_84
-          let dailyLoad = autoValueArray#id#(config#id#.load.daily.state,config#id#.load.daily.unit)
-          html += '<text id="daily_load_value#id#" x="' + ((config#id#.load.additional_loads == 1) ? '400.4' : '335') + '" y="' + ((config#id#.load.additional_loads == 1) ? '277.9' : '178') + '" class="ft16-#id# left-align#id# ' + (((config#id#.load.daily.show === true) && (config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power)) ? '' : 'hidden-#id#') + '" fill="var(--load_colour#id#)">' + trunc#id#(dailyLoad.value, 3, 0) + ' ' + dailyLoad.unit + '</text>'
-          
-          html += '<text id="daily_load#id#" x="' + ((config#id#.load.additional_loads == 1) ? '400.4' : '335') + '" y="' + ((config#id#.load.additional_loads == 1) ? '292.1' : '192.2') + '" class="ft9-#id# left-align#id# ' + (((config#id#.load.daily.show === true) && (config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power)) ? '' : 'hidden-#id#') + '" fill="var(--load_colour#id#)" >' + config#id#.load.daily.text + '</text>'
+          html += '<!-- Load -->' 
+          html += '<rect x="304" y="213.5" width="70" height="30" rx="4.5" ry="4.5" class="' + ((config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" pointer-events="all"/>' 
+           
+          html += '<text id="ess_power#id#" x="338.1" y="232.2" display="' + ((config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '' : 'none') + '" class="' + ((config#id#.large_font !== true) ? 'ft12-#id#' : 'ft14-#id#') + ' ftw-#id# center-align#id#" fill="var(--load_colour#id#)"></text>' 
+          // LINE LOAD 
+          html += '<path id="es-line#id#" class="' + ((config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '' : 'hidden-#id#') + '" d="M 304 228 L 264.7 228" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>' 
+          html += '<circle id="es-dot1#id#" cx="0" cy="0" r="3" fill="transparent">' 
+          html += '<animateMotion id="anim_load1#id#" dur="' + config#id#.load.animation_speed + 's" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">' 
+          html += '<mpath xlink:href="#es-line#id#"/></animateMotion></circle>' 
+          html += '<path id="es-line1#id#" class="' + ((config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '' : 'hidden-#id#') + '" d="M 374 228 L 402.38 228" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>' 
+          html += '<circle id="es-dot#id#" cx="0" cy="0" r="3" fill="transparent"><animateMotion id="anim_load#id#" dur="' + config#id#.load.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-line1#id#"/></animateMotion></circle>' 
+           
+          // ICON LOAD ESS 
+          //html += '<svg xmlns="http://www.w3.org/2000/svg" id="icon_load#id#" x="402" y="177.5" width="79" height="79" viewBox="0 0 24 24"><path fill="var(--load_colour#id#)" d="M15 9h1V7.5h4V9h1c.55 0 1 .45 1 1v11c0 .55-.45 1-1 1h-6c-.55 0-1-.45-1-1V10c0-.55.45-1 1-1m1 2v3h4v-3h-4m-4-5.31l-5 4.5V18h5v2H5v-8H2l10-9l2.78 2.5H14v1.67l-.24.1L12 5.69Z"/></svg>' 
+          // ICON LOAD NONESS 
+          html += '<svg xmlns="http://www.w3.org/2000/svg" class="' + ((config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '' : 'hidden-#id#') + '" id="icon_load#id#" x="400" y="190.5" width="79" height="79" viewBox="0 0 24 24"><path fill="var(--load_colour#id#)" d="m15 13l-4 4v-3H2v-2h9V9l4 4M5 20v-4h2v2h10v-7.81l-5-4.5L7.21 10H4.22L12 3l10 9h-3v8H5Z"></path></svg>' 
+           
+          // entities.day_load_energy_84 
+          let dailyLoad = autoValueArray#id#(config#id#.load.daily.state,config#id#.load.daily.unit) 
+          html += '<text id="daily_load_value#id#" x="' + ((config#id#.load.additional_loads == 1) ? '400.4' : '335') + '" y="' + ((config#id#.load.additional_loads == 1) ? '277.9' : '178') + '" class="ft16-#id# left-align#id# ' + (((config#id#.load.daily.show === true) && (config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power)) ? '' : 'hidden-#id#') + '" fill="var(--load_colour#id#)">' + trunc#id#(dailyLoad.value, 3, 0) + ' ' + dailyLoad.unit + '</text>' 
+           
+          html += '<text id="daily_load#id#" x="' + ((config#id#.load.additional_loads == 1) ? '400.4' : '335') + '" y="' + ((config#id#.load.additional_loads == 1) ? '292.1' : '192.2') + '" class="ft9-#id# left-align#id# ' + (((config#id#.load.daily.show === true) && (config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power)) ? '' : 'hidden-#id#') + '" fill="var(--load_colour#id#)" >' + config#id#.load.daily.text + '</text>' 
           ///////////////////////////////////////////////////////
           //////////////////// Load 1 ///////////////////////////
           ///////////////////////////////////////////////////////
@@ -2185,6 +2220,9 @@
           // LINE
           html += '<path id="es-load1path#id#" d="M 441 190 L 441 158" class="' + ((config#id#.load.additional_loads >= 1) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
           html += '<circle id="es-dot1-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.additional_loads >= 1 && config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="' + ((config#id#.load.load1.power == 0) ? 'transparent' : 'var(--load_colour#id#)') + '"><animateMotion id="anim_load1-#id#" dur="3" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-load1path#id#"></mpath></animateMotion></circle>'
+
+          html += '<circle id="esneg-dot1-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.additional_loads >= 1 && config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="' + ((config#id#.load.load1.power == 0) ? 'transparent' : 'var(--load_colour#id#)') + '"><animateMotion id="anim_load1-#id#" dur="3" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-load1path#id#"></mpath></animateMotion></circle>'
+
           ///////////////////////////////////////////////////////
           //////////////////// Load 2 ///////////////////////////
           ///////////////////////////////////////////////////////
@@ -2206,7 +2244,10 @@
           // LINE
           html += '<path id="es-load2path#id#" d="M 441 300 L 441 267" class="' + ((config#id#.load.additional_loads >= 2) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
           html += '<circle id="es-dot2-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.additional_loads >= 2 && config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="' + ((config#id#.load.load2.power == 0) ? 'transparent' : 'var(--load_colour#id#)') + '"><animateMotion id="anim_load2-#id#" dur="3" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-load2path#id#"></mpath></animateMotion></circle>'
-          ///////////////////////////////////////////////////////
+
+          html += '<circle id="esneg-dot2-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.additional_loads >= 1 && config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="' + ((config#id#.load.load2.power == 0) ? 'transparent' : 'var(--load_colour#id#)') + '"><animateMotion id="anim_load2-#id#" dur="3" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-load2path#id#"></mpath></animateMotion></circle>'
+
+		  ///////////////////////////////////////////////////////
           //////////////////// Load 3 ///////////////////////////
           ///////////////////////////////////////////////////////
           html += '<!-- Load 3 -->'
@@ -2227,7 +2268,10 @@
           // LINE
           html += '<path id="es-load3path#id#" d="M 520 158 L 520 205 Q 520 214 512 214 L 475 214" class="' + ((config#id#.load.additional_loads >= 3) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
           html += '<circle id="es-dot3-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.additional_loads >= 3 && config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="' + ((config#id#.load.load3.power == 0) ? 'transparent' : 'var(--load_colour#id#)') + '"><animateMotion id="anim_load3-#id#" dur="3" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-load3path#id#"></mpath></animateMotion></circle>'
-          ///////////////////////////////////////////////////////
+
+          html += '<circle id="esneg-dot3-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.additional_loads >= 1 && config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="' + ((config#id#.load.load3.power == 0) ? 'transparent' : 'var(--load_colour#id#)') + '"><animateMotion id="anim_load3-#id#" dur="3" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-load3path#id#"></mpath></animateMotion></circle>'
+
+		  ///////////////////////////////////////////////////////
           //////////////////// Load 4 ///////////////////////////
           ///////////////////////////////////////////////////////
           html += '<!-- Load 4 -->'
@@ -2248,7 +2292,10 @@
           // LINE
           html += '<path id="es-load4path#id#" d="M 520 300 L 520 252 Q 520 242 512 242 L 475 242" class="' + ((config#id#.load.additional_loads >= 4) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10" pointer-events="stroke"></path>'
           html += '<circle id="es-dot4-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.additional_loads >= 4 && config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="' + ((config#id#.load.load4.power == 0) ? 'transparent' : 'var(--load_colour#id#)') + '"><animateMotion id="anim_load4-#id#" dur="3" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-load4path#id#"></mpath></animateMotion></circle>'
-          ///////////////////////////////////////////////////////
+
+          html += '<circle id="esneg-dot4-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.additional_loads >= 1 && config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="' + ((config#id#.load.load4.power == 0) ? 'transparent' : 'var(--load_colour#id#)') + '"><animateMotion id="anim_load4-#id#" dur="3" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-load4path#id#"></mpath></animateMotion></circle>'
+
+		  ///////////////////////////////////////////////////////
           /////////////////////  Grid ///////////////////////////
           ///////////////////////////////////////////////////////
           html += '<!-- Grid -->'
@@ -2513,7 +2560,7 @@
           ///////////////////// Other ////////////////////////
           ///////////////////////////////////////////////////////
           html += '<!-- Other -->'
-          // html += '<circle id="standby#id#" cx="220" cy="260" r="3.5" fill="var(--inverterStateColour#id#)"/>' /////////////// Todo
+          html += '<circle id="standby#id#" cx="220" cy="260" r="3.5" fill="var(--inverter_state_colour#id#)"/>' /////////////// Todo
           
           //html += '<rect id="es-load5#id#" x="448" y="170" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--load_colour#id#)" pointer-events="all" display="'
           //html += ((config#id#.load.additional_loads >= 5) && config#id#.show_solar !== false) ? '' : 'none'
@@ -2632,14 +2679,14 @@
         
         if (debug#id#) console.log('| total_load = ' + config#id#.load.power);
         
-        if(config#id#.load.power > 0) {
-          document.getElementById("es-dot1#id#").setAttribute("fill", "var(--load_colour#id#)");
-          document.getElementById("es-dot#id#").setAttribute("fill", "var(--load_colour#id#)");
-        }
-        else {
-          document.getElementById("es-dot1#id#").setAttribute("fill", "transparent");
-          document.getElementById("es-dot#id#").setAttribute("fill", "transparent");
-        }
+        if(config#id#.load.power > 0) { 
+          document.getElementById("es-dot1#id#").setAttribute("fill", "var(--load_colour#id#)"); 
+          document.getElementById("es-dot#id#").setAttribute("fill", "var(--load_colour#id#)"); 
+        } 
+        else { 
+          document.getElementById("es-dot1#id#").setAttribute("fill", "transparent"); 
+          document.getElementById("es-dot#id#").setAttribute("fill", "transparent"); 
+        } 
         if (debug#id#) console.log('| animation_speed = ' + config#id#.load.animation_speed)
         if (debug#id#) console.log('| max_power = ' + config#id#.load.max_power)
 		if (debug#id#) console.log('| load_power = ' + config#id#.load.power)

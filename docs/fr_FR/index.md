@@ -4,7 +4,7 @@ Présentation
 ===
 Le plugin Solarman permet de récupérer les informations de votre onduleur monitoré par le site https://home.solarmanpv.com/ , comme par exemple les Sofar Solar HYD de 3 à 6K ES. 
 
-Fichiers de configuration auto pour: Afore_BNTxxxKTL-2mppt, deye_2mppt, deye_4mppt, deye_hybrid, deye_sg04lp3, deye_string, hyd-zss-hp-3k-6k, kstar_hybrid, sofar_g3hyd, sofar_hyd3k-6k-es, sofar_lsw3, sofar_wifikit, sofar_XXTL-G3.yaml, solis_1p8k-5g, solis_3p-4g, solis_hybrid, solis_s6-gr1p, zcs_azzurro-ktl-v3.
+Fichiers de configuration auto pour: Afore_BNTxxxKTL-2mppt, deye_2mppt, deye_4mppt, deye_hybrid, deye_sg04lp3, deye_string, hyd-zss-hp-3k-6k, kstar_hybrid, sofar_g3hyd, sofar_hyd3k-6k-es, sofar_lsw3, sofar_wifikit, sofar_XXTL-G3.yaml, solis_1p8k-5g, solis_3p-4g, solis_hybrid, solis_s6-EH1P6K-L-PLUS, solis_s6-gr1p, zcs_azzurro-ktl-v3.
 <br>
 
 Liste (non exhaustives) des onduleurs pris en compte à l'heure actuelle et le fichier de configuration associé:  
@@ -32,6 +32,7 @@ LLes docs des onduleurs peuvent se trouver dans [ce répertoire](docs_onduleurs/
 | solid_1p8k-5g.yaml         | SOLIS 1P8K-5G                            |                                                                                                                               |
 | solid_3p-4g.yaml           | SOLIS 3P-4G                              |                                                                                                                               |
 | solis_hybrid.yaml          | SOLIS Hybrid inverter                    |                                                                                                                               |
+| solis_s6-EH1P6K-L-PLUS.yaml| SOLIS Hybrid inverter single phase       |                                                                                                                               |
 | solid_s6-grip.yaml         | SOLIS S6-GRIP                            |                                                                                                                               |
 | zcs_azzurro-ktl-v3.yaml    | ZCS Azzurro KTL-V3 inverters             | ZCS Azzurro 3.3/4.4/5.5/6.6 KTL-V3 (rebranded Sofar KTLX-G3)                                                                  |
 
