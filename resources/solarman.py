@@ -150,6 +150,7 @@ def lire():
 		current_val = {}
 		try:
 			_SendData = current_val
+			_SendData['connection'] = 2
 			_SendData['PID'] = str(pid)
 			logging.debug(_SendData)
 			globals.JEEDOM_COM.add_changes('device::' + globals.ideqpmnt, _SendData)
