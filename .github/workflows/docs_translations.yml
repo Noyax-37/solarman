@@ -26,7 +26,7 @@ jobs:
   translate: 
     runs-on: ubuntu-latest 
     steps: 
-      - uses: Mips2648/docs-translations@main 
+      - uses: Mips2648/plugins-translations@feat/validate-i18n
         with: 
             deepl_api_key: ${{ secrets.DEEPL_API_KEY }} 
             target_languages: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.target_languages || 'en_US,es_ES,de_DE' }} 
